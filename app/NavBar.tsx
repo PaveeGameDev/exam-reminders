@@ -14,6 +14,12 @@ const NavBar = () => {
         <Image src={logo} alt="Logo" height={80} priority />
       </Link>
       {status === "loading" && <Loading />}
+      <Link href="/write" className="mr-5 flex-none">
+        Write
+      </Link>
+      <Link href="/settings" className="mr-5 flex-none">
+        Settings
+      </Link>
       {status === "authenticated" && (
         <div>
           {session.user!.name}
