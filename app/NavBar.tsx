@@ -13,20 +13,18 @@ const NavBar = () => {
       <Link href="/" className="mr-5 flex-none">
         <Image src={logo} alt="Logo" height={80} priority />
       </Link>
+
       {status === "loading" && <Loading />}
-      <Link href="/write" className="mr-5 flex-none">
-        Write
-      </Link>
-      <Link href="/settings" className="mr-5 flex-none">
-        Settings
-      </Link>
+
       {status === "authenticated" && (
-        <div>
-          {session.user!.name}
-          <Link href="/api/auth/signout" className="ml-3">
-            Sign Out
+        <>
+          <Link href="/write" className="mr-5 flex-none">
+            Write
           </Link>
-        </div>
+          <Link href="/settings" className="mr-5 flex-none">
+            Settings
+          </Link>
+        </>
       )}
       {status === "unauthenticated" && (
         <Link href="/api/auth/signin">Login</Link>

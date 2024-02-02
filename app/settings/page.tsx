@@ -12,9 +12,11 @@ export default async function Settings() {
   if (!user) return "An error occurred";
 
   return (
-    <main className="relative h-screen">
-      <UserInfo user={user} />
-      <JoinClass />
+    <main className="flex justify-center p-6">
+      <div className="space-y-11 w-full max-w-md mx-auto">
+        <UserInfo user={user} />
+        <JoinClass />
+      </div>
     </main>
   );
 }

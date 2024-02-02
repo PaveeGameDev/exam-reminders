@@ -17,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" data-theme="winter">
+    <html lang="en">
       <body>
         <AuthProvider>
           <NavBar />
