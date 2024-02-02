@@ -12,18 +12,17 @@ export async function joinClass(formData: FormData) {
   });
 
   const session = await getServerSession(authOptions);
-  if (!session) return "Login to continue";
+  if (!session) return { error: "Login to continue" };
   const user = await prisma.user.findUnique({
     where: { email: session.user!.email! },
   });
-  if (!user) return "An error occurred";
+  if (!user) return { error: "No user" };
 
   const classExists = await prisma.class.findUnique({
     where: { id: Number(classId) },
   });
   if (!classExists) {
-    console.error(`Class with ID ${classId} does not exist.`);
-    return "Class does not exist.";
+    return { error: `Class with ID ${classId} does not exist.` };
   }
 
   const updatedUser = await prisma.user.update({
@@ -33,7 +32,7 @@ export async function joinClass(formData: FormData) {
 
   revalidatePath("/settings");
 
-  console.log(updatedUser);
+  return { success: "Class successfully joined" };
 }
 
 export async function writeExam(formData: FormData) {
@@ -44,12 +43,12 @@ export async function writeExam(formData: FormData) {
   });
 
   const session = await getServerSession(authOptions);
-  if (!session) return "Login to continue";
+  if (!session) return { error: "Login to continue" };
   const user = await prisma.user.findUnique({
     where: { email: session.user!.email! },
   });
-  if (!user) return "An error occurred";
-  if (!user.classId) return "No class id";
+  if (!user) return { error: "No user" };
+  if (!user.classId) return { error: "No class" };
 
   const createdExam = await prisma.exam.create({
     data: {
@@ -63,5 +62,5 @@ export async function writeExam(formData: FormData) {
 
   revalidatePath("/write");
 
-  console.log(createdExam);
+  return { success: "Exam successfully added" };
 }
