@@ -6,7 +6,7 @@ type Props = {
 export default function DisplayExam({ exam }: Props) {
   return (
     <div>
-      <p>Exam info</p>
+      <p>Exam info:</p>
       <p>{exam.subjectId}</p>
       <p>{exam.content}</p>
       <p>{exam.date.toString()}</p>
