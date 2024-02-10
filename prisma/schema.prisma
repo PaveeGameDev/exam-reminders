@@ -39,16 +39,18 @@ model Session {
 }
 
 model User {
-  id             String    @id @default(cuid())
-  name           String?
-  email          String?   @unique
-  emailVerified  DateTime?
-  hashedPassword String?
-  image          String?
-  accounts       Account[]
-  sessions       Session[]
-  classId        Int?
-  class          Class?    @relation(fields: [classId], references: [id])
+  id                       String                     @id @default(cuid())
+  name                     String?
+  email                    String?                    @unique
+  emailVerified            DateTime?
+  hashedPassword           String?
+  image                    String?
+  accounts                 Account[]
+  sessions                 Session[]
+  classId                  Int?
+  class                    Class?                     @relation(fields: [classId], references: [id])
+  ExamNote                 ExamNote[]
+  UserExamNotesPreferences UserExamNotesPreferences[]
 }
 
 model VerificationToken {
@@ -66,18 +68,36 @@ model Class {
 }
 
 model Exam {
-  id          Int      @id @default(autoincrement())
-  classId     Int
-  content     String
-  date        DateTime
-  dateCreated DateTime
-  subject     Subject  @relation(fields: [subjectId], references: [id])
-  subjectId   Int
-  class       Class    @relation(fields: [classId], references: [id])
+  id        Int        @id @default(autoincrement())
+  classId   Int
+  date      DateTime
+  subject   Subject    @relation(fields: [subjectId], references: [id])
+  subjectId Int
+  class     Class      @relation(fields: [classId], references: [id])
+  examNotes ExamNote[]
+}
+
+model ExamNote {
+  id                       Int                        @id @default(autoincrement())
+  userId                   String
+  user                     User                       @relation(fields: [userId], references: [id])
+  dateCreated              DateTime
+  content                  String
+  examId                   Int
+  exam                     Exam                       @relation(fields: [examId], references: [id])
+  UserExamNotesPreferences UserExamNotesPreferences[]
 }
 
 model Subject {
   id   Int    @id @default(autoincrement())
   name String
   Exam Exam[]
+}
+
+model UserExamNotesPreferences {
+  id         Int      @id @default(autoincrement())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  examNoteId Int
+  examNote   ExamNote @relation(fields: [examNoteId], references: [id])
 }

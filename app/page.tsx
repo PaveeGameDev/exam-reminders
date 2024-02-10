@@ -1,7 +1,7 @@
 import { authOptions } from "@/app/api/auth/authOptions";
 import { getServerSession } from "next-auth";
 import prisma from "@/prisma/client";
-import DisplayExam from "@/app/components/DisplayExam";
+import DayView from "@/app/components/DayView";
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
@@ -13,14 +13,19 @@ export default async function Home() {
   if (!user.classId) return "User needs to be in a class";
 
   const exams = await prisma.exam.findMany({
-    where: { classId: user.classId },
+    where: { classId: user.classId! },
   });
 
-  return (
-    <main className="relative h-screen">
-      {exams.map((exam) => (
-        <DisplayExam key={exam.id} exam={exam} />
-      ))}
-    </main>
-  );
+  const days = [];
+
+  for (let i = 0; i < 10; i++) {
+    const date = new Date();
+    date.setDate(date.getDate() + i);
+    const filteredExams = exams.filter(
+      (exam) => exam.date.getDate() === date.getDate(),
+    );
+    days.push(<DayView day={date} exams={filteredExams} key={i} user={user} />);
+  }
+
+  return <main className="relative h-screen">{days}</main>;
 }

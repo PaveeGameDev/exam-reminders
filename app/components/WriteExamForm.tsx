@@ -1,13 +1,14 @@
 "use client";
 import { writeExam } from "@/app/actions/actions";
-import { Subject } from "@prisma/client";
+import { Subject, User } from "@prisma/client";
 import { useRef, useState } from "react";
 import { FormResponse } from "@/app/types/types";
 type Props = {
   subjects: Subject[];
+  user: User;
 };
 
-export default function WriteExamForm({ subjects }: Props) {
+export default function WriteExamForm({ subjects, user }: Props) {
   const ref = useRef<HTMLFormElement>(null);
   const [afterSubmit, setAfterSubmit] = useState<FormResponse | null>(null);
   return (
@@ -15,7 +16,7 @@ export default function WriteExamForm({ subjects }: Props) {
       ref={ref}
       action={async (formData) => {
         ref.current?.reset();
-        setAfterSubmit(await writeExam(formData));
+        setAfterSubmit(await writeExam(formData, user));
       }}
       className="flex flex-col space-y-4 bg-base-200 shadow-xl border border-gray-300 p-6 rounded-lg max-w-md w-full"
     >
