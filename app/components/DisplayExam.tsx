@@ -1,7 +1,9 @@
 import { Exam, User } from "@prisma/client";
 import prisma from "@/prisma/client";
 import { getBestExamNote } from "@/functions/getBestExamNote";
-import ChangeNoteButtonContainer from "@/app/components/ChangeNoteButtonContainer";
+import ChangeNoteButton from "@/app/components/ChangeNoteButton";
+import { ExamHeader } from "@/app/components/ExamHeader";
+import { ExpandableText } from "@/app/components/ExpandableText";
 
 type Props = {
   exam: Exam;
@@ -9,13 +11,6 @@ type Props = {
 };
 export default async function DisplayExam({ exam, user }: Props) {
   if (!exam) return;
-  const subjects = await prisma.subject.findMany({ where: {} });
-
-  const getSubjectNameById = (subjectId: number): string => {
-    const subject = subjects.find((subject) => subject.id === subjectId);
-    if (subject) return subject.name;
-    return "";
-  };
 
   const examNotes = await prisma.exam
     .findUnique({ where: { id: exam.id } })
@@ -24,17 +19,14 @@ export default async function DisplayExam({ exam, user }: Props) {
   const bestExamNote = await getBestExamNote(examNotes!, user);
 
   return (
-    <div>
-      <h3 className="inline font-semibold text-xl">
-        {getSubjectNameById(exam.subjectId)}
-      </h3>
-      <p className="inline"> - </p>
-      <p className="inline">{bestExamNote.content}</p>
-      <ChangeNoteButtonContainer
-        user={user}
-        exam={exam}
-        activeNote={bestExamNote}
-      />
+    <div className="mx-2">
+      <ExamHeader exam={exam} />
+      <ExpandableText showLess={false} length={40}>
+        {bestExamNote.content}
+      </ExpandableText>
+      <div className="flex flex-row justify-end">
+        <ChangeNoteButton examId={exam.id} />
+      </div>
     </div>
   );
 }

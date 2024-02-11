@@ -37,10 +37,11 @@ export async function joinClass(formData: FormData) {
 }
 
 export async function writeExam(formData: FormData, user: User) {
-  const { date, content, subjectId } = writeExamSchema.parse({
+  const { date, content, subjectId, examTypeId } = writeExamSchema.parse({
     content: formData.get("content"),
     date: formData.get("date"),
     subjectId: formData.get("subjectId"),
+    examTypeId: formData.get("typeId"),
   });
 
   const existingExam = await prisma.exam.findFirst({
@@ -48,6 +49,7 @@ export async function writeExam(formData: FormData, user: User) {
       classId: user.classId!,
       date: date,
       subjectId: subjectId,
+      examTypeId: examTypeId,
     },
   });
 
@@ -71,6 +73,7 @@ export async function writeExam(formData: FormData, user: User) {
       classId: user.classId!,
       date: date,
       subjectId: subjectId,
+      examTypeId: examTypeId,
     },
   });
 

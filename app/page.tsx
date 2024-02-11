@@ -18,13 +18,16 @@ export default async function Home() {
 
   const days = [];
 
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 30; i++) {
     const date = new Date();
     date.setDate(date.getDate() + i);
     const filteredExams = exams.filter(
       (exam) => exam.date.getDate() === date.getDate(),
     );
-    days.push(<DayView day={date} exams={filteredExams} key={i} user={user} />);
+    if (filteredExams[0])
+      days.push(
+        <DayView day={date} exams={filteredExams} key={i} user={user} />,
+      );
   }
 
   return <main className="relative h-screen">{days}</main>;

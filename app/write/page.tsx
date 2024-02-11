@@ -12,10 +12,11 @@ export default async function Write() {
   if (!user) return <p>An error occurred</p>;
   if (!user.classId) return "User needs to be in a class";
   const subjects = await prisma.subject.findMany({ where: {} });
+  const examTypes = await prisma.examType.findMany({ where: {} });
 
   return (
     <main className="flex justify-center p-6">
-      <WriteExamForm subjects={subjects} user={user} />
+      <WriteExamForm subjects={subjects} user={user} examTypes={examTypes} />
     </main>
   );
 }
