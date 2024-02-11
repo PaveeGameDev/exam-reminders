@@ -2,6 +2,7 @@ import { authOptions } from "@/app/api/auth/authOptions";
 import { getServerSession } from "next-auth";
 import prisma from "@/prisma/client";
 import DayView from "@/app/components/DayView";
+import Link from "next/link";
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
@@ -24,10 +25,24 @@ export default async function Home() {
     const filteredExams = exams.filter(
       (exam) => exam.date.getDate() === date.getDate(),
     );
-    if (filteredExams[0])
-      days.push(
-        <DayView day={date} exams={filteredExams} key={i} user={user} />,
-      );
+    if (filteredExams.length > 0) {
+      if (filteredExams.length === 1) {
+        days.push(
+          <Link href={`/${filteredExams[0].id}`} key={i}>
+            <DayView
+              day={date}
+              exams={filteredExams}
+              user={user}
+              clickableAll={true}
+            />
+          </Link>,
+        );
+      } else {
+        days.push(
+          <DayView day={date} exams={filteredExams} key={i} user={user} />,
+        );
+      }
+    }
   }
 
   return <main className="relative h-screen">{days}</main>;
