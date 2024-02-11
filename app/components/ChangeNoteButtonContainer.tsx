@@ -16,7 +16,7 @@ export default async function ChangeNoteButtonContainer({
     <div className="flex flex-row justify-end">
       <div className="flex flex-row items-center">
         <p className="mr-2">{await getUsersName(activeNote, user)}</p>
-        <ChangeNoteButton />
+        <ChangeNoteButton examId={exam.id} />
       </div>
     </div>
   );

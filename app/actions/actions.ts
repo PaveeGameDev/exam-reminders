@@ -5,7 +5,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/authOptions";
 import prisma from "@/prisma/client";
 import { revalidatePath } from "next/cache";
-import { User } from "@prisma/client";
+import { ExamNote, User } from "@prisma/client";
 
 export async function joinClass(formData: FormData) {
   const { classId } = joinClassSchema.parse({
@@ -86,4 +86,25 @@ export async function writeExam(formData: FormData, user: User) {
   revalidatePath("/write");
 
   return { success: "Exam successfully added" };
+}
+
+export async function updateUserNotePreference(user: User, examNote: ExamNote) {
+  const currentPreference = await prisma.userExamNotesPreferences.findFirst({
+    where: { userId: user.id, examId: examNote.examId },
+  });
+  if (currentPreference) {
+    const updatedPreference = await prisma.userExamNotesPreferences.update({
+      where: { id: currentPreference.id },
+      data: { examNoteId: examNote.id },
+    });
+  } else {
+    const createdPreference = await prisma.userExamNotesPreferences.create({
+      data: {
+        userId: user.id,
+        examId: examNote.examId,
+        examNoteId: examNote.id,
+      },
+    });
+    revalidatePath("/");
+  }
 }

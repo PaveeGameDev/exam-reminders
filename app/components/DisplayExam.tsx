@@ -21,7 +21,7 @@ export default async function DisplayExam({ exam, user }: Props) {
     .findUnique({ where: { id: exam.id } })
     .examNotes();
 
-  const bestExamNote = getBestExamNote(examNotes!, user);
+  const bestExamNote = await getBestExamNote(examNotes!, user);
 
   return (
     <div>

@@ -67,14 +67,24 @@ model Class {
   exams Exam[]
 }
 
+model ExamType {
+  id       Int    @id @default(autoincrement())
+  name     String
+  priority Int
+  Exam     Exam[]
+}
+
 model Exam {
-  id        Int        @id @default(autoincrement())
-  classId   Int
-  date      DateTime
-  subject   Subject    @relation(fields: [subjectId], references: [id])
-  subjectId Int
-  class     Class      @relation(fields: [classId], references: [id])
-  examNotes ExamNote[]
+  id                       Int                        @id @default(autoincrement())
+  classId                  Int
+  date                     DateTime
+  subject                  Subject                    @relation(fields: [subjectId], references: [id])
+  subjectId                Int
+  class                    Class                      @relation(fields: [classId], references: [id])
+  examNotes                ExamNote[]
+  UserExamNotesPreferences UserExamNotesPreferences[]
+  examTypeId               Int
+  examType                 ExamType                   @relation(fields: [examTypeId], references: [id])
 }
 
 model ExamNote {
@@ -96,6 +106,8 @@ model Subject {
 
 model UserExamNotesPreferences {
   id         Int      @id @default(autoincrement())
+  examId     Int
+  exam       Exam     @relation(fields: [examId], references: [id])
   userId     String
   user       User     @relation(fields: [userId], references: [id])
   examNoteId Int
