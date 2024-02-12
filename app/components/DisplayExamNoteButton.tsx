@@ -17,7 +17,7 @@ export default function DisplayExamNoteButton({ examNote, user }: Props) {
   return (
     <button
       onClick={afterClick}
-      className="btn btn-primary mt-5 w-full max-w-xs"
+      className="btn btn-primary mt-0 w-full max-w-xs"
     >
       Use
     </button>

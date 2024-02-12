@@ -26,10 +26,13 @@ export default async function ChooseExamNote({
 
   return (
     <main className="flex justify-center p-6">
-      <div className="space-y-11 w-full max-w-md mx-auto">
-        {examNotes.map((note) => (
-          <DisplayExamNote examNote={note} user={user} key={note.id} />
-        ))}
+      <div className="card max-w-96 bg-base-200 shadow-xl border border-gray-300 flex items-center justify-center">
+        <div className="card-body text-center justify-center items-center">
+          <h2 className="card-title justify-center w-full mb-3">Other notes</h2>
+          {examNotes.map((note) => (
+            <DisplayExamNote examNote={note} user={user} key={note.id} />
+          ))}
+        </div>
       </div>
     </main>
   );

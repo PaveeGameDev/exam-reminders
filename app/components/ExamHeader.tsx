@@ -18,33 +18,33 @@ export const ExamHeader = async ({ exam }: Props) => {
   const chooseColor = (id: number): string => {
     switch (id) {
       case 0:
-        return "neutral";
+        return "text-black-500";
       case 1:
-        return "neutral";
+        return "text-black-500";
       case 2:
-        return "blue-600";
+        return "text-blue-600";
       case 3:
-        return "blue-600";
+        return "text-blue-600";
       case 4:
-        return "error";
+        return "text-error";
       case 5:
-        return "error";
+        return "text-error";
       default:
-        return "neutral";
+        return "text-black-500";
     }
   };
 
   return (
     <div className="flex-row justify-center align-middle">
       <h3
-        className={`inline font-semibold text-3xl uppercase text-${chooseColor(
+        className={`inline font-semibold text-3xl uppercase ${chooseColor(
           examType!.priority,
         )}`}
       >
         {getSubjectNameById(exam.subjectId)}
       </h3>
       <p
-        className={`inline font-semibold text-3xl text-${chooseColor(
+        className={`inline font-semibold text-3xl ${chooseColor(
           examType!.priority,
         )}`}
       >
@@ -52,7 +52,7 @@ export const ExamHeader = async ({ exam }: Props) => {
         -{" "}
       </p>
       <h3
-        className={`inline font-semibold text-3xl uppercase text-${chooseColor(
+        className={`inline font-semibold text-3xl uppercase ${chooseColor(
           examType!.priority,
         )}`}
       >

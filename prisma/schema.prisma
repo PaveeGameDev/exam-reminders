@@ -39,18 +39,18 @@ model Session {
 }
 
 model User {
-  id                       String                     @id @default(cuid())
-  name                     String?
-  email                    String?                    @unique
-  emailVerified            DateTime?
-  hashedPassword           String?
-  image                    String?
-  accounts                 Account[]
-  sessions                 Session[]
-  classId                  Int?
-  class                    Class?                     @relation(fields: [classId], references: [id])
-  ExamNote                 ExamNote[]
-  UserExamNotesPreferences UserExamNotesPreferences[]
+  id                  String                @id @default(cuid())
+  name                String?
+  email               String?               @unique
+  emailVerified       DateTime?
+  hashedPassword      String?
+  image               String?
+  accounts            Account[]
+  sessions            Session[]
+  classId             Int?
+  class               Class?                @relation(fields: [classId], references: [id])
+  ExamNote            ExamNote[]
+  UserExamPreferences UserExamPreferences[]
 }
 
 model VerificationToken {
@@ -75,27 +75,29 @@ model ExamType {
 }
 
 model Exam {
-  id                       Int                        @id @default(autoincrement())
-  classId                  Int
-  date                     DateTime
-  subject                  Subject                    @relation(fields: [subjectId], references: [id])
-  subjectId                Int
-  class                    Class                      @relation(fields: [classId], references: [id])
-  examNotes                ExamNote[]
-  UserExamNotesPreferences UserExamNotesPreferences[]
-  examTypeId               Int
-  examType                 ExamType                   @relation(fields: [examTypeId], references: [id])
+  id                  Int                   @id @default(autoincrement())
+  classId             Int
+  date                DateTime
+  subject             Subject               @relation(fields: [subjectId], references: [id])
+  subjectId           Int
+  class               Class                 @relation(fields: [classId], references: [id])
+  examNotes           ExamNote[]
+  UserExamPreferences UserExamPreferences[]
+  examTypeId          Int
+  examType            ExamType              @relation(fields: [examTypeId], references: [id])
+  stateId             Int                   @default(1)
+  State               State                 @relation(fields: [stateId], references: [id])
 }
 
 model ExamNote {
-  id                       Int                        @id @default(autoincrement())
-  userId                   String
-  user                     User                       @relation(fields: [userId], references: [id])
-  dateCreated              DateTime
-  content                  String
-  examId                   Int
-  exam                     Exam                       @relation(fields: [examId], references: [id])
-  UserExamNotesPreferences UserExamNotesPreferences[]
+  id                  Int                   @id @default(autoincrement())
+  userId              String
+  user                User                  @relation(fields: [userId], references: [id])
+  dateCreated         DateTime
+  content             String
+  examId              Int
+  exam                Exam                  @relation(fields: [examId], references: [id])
+  UserExamPreferences UserExamPreferences[]
 }
 
 model Subject {
@@ -104,7 +106,14 @@ model Subject {
   Exam Exam[]
 }
 
-model UserExamNotesPreferences {
+model State {
+  id                  Int                   @id @default(autoincrement())
+  name                String
+  UserExamPreferences UserExamPreferences[]
+  Exam                Exam[]
+}
+
+model UserExamPreferences {
   id         Int      @id @default(autoincrement())
   examId     Int
   exam       Exam     @relation(fields: [examId], references: [id])
@@ -112,4 +121,6 @@ model UserExamNotesPreferences {
   user       User     @relation(fields: [userId], references: [id])
   examNoteId Int
   examNote   ExamNote @relation(fields: [examNoteId], references: [id])
+  stateId    Int      @default(1)
+  State      State    @relation(fields: [stateId], references: [id])
 }

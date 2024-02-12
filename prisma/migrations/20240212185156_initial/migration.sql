@@ -76,6 +76,7 @@ CREATE TABLE `Exam` (
     `date` DATETIME(3) NOT NULL,
     `subjectId` INTEGER NOT NULL,
     `examTypeId` INTEGER NOT NULL,
+    `stateId` INTEGER NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -100,11 +101,20 @@ CREATE TABLE `Subject` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `UserExamNotesPreferences` (
+CREATE TABLE `State` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(191) NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `UserExamPreferences` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `examId` INTEGER NOT NULL,
     `userId` VARCHAR(191) NOT NULL,
     `examNoteId` INTEGER NOT NULL,
+    `stateId` INTEGER NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -128,16 +138,22 @@ ALTER TABLE `Exam` ADD CONSTRAINT `Exam_classId_fkey` FOREIGN KEY (`classId`) RE
 ALTER TABLE `Exam` ADD CONSTRAINT `Exam_examTypeId_fkey` FOREIGN KEY (`examTypeId`) REFERENCES `ExamType`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE `Exam` ADD CONSTRAINT `Exam_stateId_fkey` FOREIGN KEY (`stateId`) REFERENCES `State`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE `ExamNote` ADD CONSTRAINT `ExamNote_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `ExamNote` ADD CONSTRAINT `ExamNote_examId_fkey` FOREIGN KEY (`examId`) REFERENCES `Exam`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `UserExamNotesPreferences` ADD CONSTRAINT `UserExamNotesPreferences_examId_fkey` FOREIGN KEY (`examId`) REFERENCES `Exam`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `UserExamPreferences` ADD CONSTRAINT `UserExamPreferences_examId_fkey` FOREIGN KEY (`examId`) REFERENCES `Exam`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `UserExamNotesPreferences` ADD CONSTRAINT `UserExamNotesPreferences_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `UserExamPreferences` ADD CONSTRAINT `UserExamPreferences_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `UserExamNotesPreferences` ADD CONSTRAINT `UserExamNotesPreferences_examNoteId_fkey` FOREIGN KEY (`examNoteId`) REFERENCES `ExamNote`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `UserExamPreferences` ADD CONSTRAINT `UserExamPreferences_examNoteId_fkey` FOREIGN KEY (`examNoteId`) REFERENCES `ExamNote`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `UserExamPreferences` ADD CONSTRAINT `UserExamPreferences_stateId_fkey` FOREIGN KEY (`stateId`) REFERENCES `State`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

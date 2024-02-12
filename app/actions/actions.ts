@@ -92,16 +92,16 @@ export async function writeExam(formData: FormData, user: User) {
 }
 
 export async function updateUserNotePreference(user: User, examNote: ExamNote) {
-  const currentPreference = await prisma.userExamNotesPreferences.findFirst({
+  const currentPreference = await prisma.userExamPreferences.findFirst({
     where: { userId: user.id, examId: examNote.examId },
   });
   if (currentPreference) {
-    const updatedPreference = await prisma.userExamNotesPreferences.update({
+    const updatedPreference = await prisma.userExamPreferences.update({
       where: { id: currentPreference.id },
       data: { examNoteId: examNote.id },
     });
   } else {
-    const createdPreference = await prisma.userExamNotesPreferences.create({
+    const createdPreference = await prisma.userExamPreferences.create({
       data: {
         userId: user.id,
         examId: examNote.examId,
@@ -110,4 +110,34 @@ export async function updateUserNotePreference(user: User, examNote: ExamNote) {
     });
     revalidatePath("/");
   }
+}
+
+export async function updateUserExamPreferencesStateId(
+  user: User,
+  examId: number,
+  stateId: number,
+) {
+  const currentPreference = await prisma.userExamPreferences.findFirst({
+    where: { userId: user.id, examId: examId },
+  });
+  if (currentPreference) {
+    const updatedPreference = await prisma.userExamPreferences.update({
+      where: { id: currentPreference.id },
+      data: { stateId: stateId },
+    });
+  } else {
+    const examNote = await prisma.examNote.findFirst({
+      where: { examId: examId },
+    });
+
+    const createdPreference = await prisma.userExamPreferences.create({
+      data: {
+        userId: user.id,
+        examId: examId,
+        examNoteId: examNote!.id,
+        stateId: stateId,
+      },
+    });
+  }
+  revalidatePath("/");
 }

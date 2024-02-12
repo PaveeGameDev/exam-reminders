@@ -4,7 +4,7 @@ export async function getBestExamNote(
   examNotes: ExamNote[],
   user: User,
 ): Promise<ExamNote> {
-  const preference = await prisma.userExamNotesPreferences.findFirst({
+  const preference = await prisma.userExamPreferences.findFirst({
     where: { userId: user.id, examId: examNotes[0].examId },
   });
   if (preference) {
