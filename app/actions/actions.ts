@@ -126,15 +126,10 @@ export async function updateUserExamPreferencesStateId(
       data: { stateId: stateId },
     });
   } else {
-    const examNote = await prisma.examNote.findFirst({
-      where: { examId: examId },
-    });
-
     const createdPreference = await prisma.userExamPreferences.create({
       data: {
         userId: user.id,
         examId: examId,
-        examNoteId: examNote!.id,
         stateId: stateId,
       },
     });

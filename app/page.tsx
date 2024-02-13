@@ -20,27 +20,46 @@ export default async function Home() {
   const days = [];
 
   for (let i = 0; i < 30; i++) {
+    let dayCanBeVisible = true;
     const date = new Date();
     date.setDate(date.getDate() + i);
     const filteredExams = exams.filter(
       (exam) => exam.date.getDate() === date.getDate(),
     );
     if (filteredExams.length > 0) {
-      if (filteredExams.length === 1) {
-        days.push(
-          <Link href={`/${filteredExams[0].id}`} key={i}>
-            <DayView
-              day={date}
-              exams={filteredExams}
-              user={user}
-              clickableAll={true}
-            />
-          </Link>,
-        );
-      } else {
-        days.push(
-          <DayView day={date} exams={filteredExams} key={i} user={user} />,
-        );
+      for (const filteredExam of filteredExams) {
+        const currentUserExamPreference =
+          await prisma.userExamPreferences.findFirst({
+            where: { userId: user.id, examId: filteredExam.id },
+          });
+
+        if (currentUserExamPreference?.stateId === 2) {
+        } else {
+          if (dayCanBeVisible) {
+            dayCanBeVisible = false;
+            if (filteredExams.length === 1) {
+              days.push(
+                <Link href={`/${filteredExams[0].id}`} key={i}>
+                  <DayView
+                    day={date}
+                    exams={filteredExams}
+                    user={user}
+                    clickableAll={true}
+                  />
+                </Link>,
+              );
+            } else {
+              days.push(
+                <DayView
+                  day={date}
+                  exams={filteredExams}
+                  key={i}
+                  user={user}
+                />,
+              );
+            }
+          }
+        }
       }
     }
   }

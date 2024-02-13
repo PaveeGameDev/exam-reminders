@@ -6,10 +6,15 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
-  // directUrl = env("POSTGRES_URL_NON_POOLING")
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
+
+// datasource db {
+//   provider = "mysql"
+//   url      = env("DATABASE_URL")
+// }
 
 model Account {
   id                String  @id @default(cuid())
@@ -114,13 +119,13 @@ model State {
 }
 
 model UserExamPreferences {
-  id         Int      @id @default(autoincrement())
+  id         Int       @id @default(autoincrement())
   examId     Int
-  exam       Exam     @relation(fields: [examId], references: [id])
+  exam       Exam      @relation(fields: [examId], references: [id])
   userId     String
-  user       User     @relation(fields: [userId], references: [id])
-  examNoteId Int
-  examNote   ExamNote @relation(fields: [examNoteId], references: [id])
-  stateId    Int      @default(1)
-  State      State    @relation(fields: [stateId], references: [id])
+  user       User      @relation(fields: [userId], references: [id])
+  examNoteId Int?
+  examNote   ExamNote? @relation(fields: [examNoteId], references: [id])
+  stateId    Int       @default(1)
+  State      State     @relation(fields: [stateId], references: [id])
 }

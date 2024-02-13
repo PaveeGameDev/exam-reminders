@@ -19,6 +19,12 @@ export default async function DisplayExam({ exam, user }: Props) {
 
   const bestExamNote = await getBestExamNote(examNotes!, user);
 
+  const currentUserExamPreference = await prisma.userExamPreferences.findFirst({
+    where: { userId: user.id, examId: exam.id },
+  });
+
+  if (currentUserExamPreference?.stateId === 2) return;
+
   return (
     <div className="mx-2 mb-4">
       <div className="flex justify-center">
