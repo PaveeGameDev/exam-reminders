@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE `exam` MODIFY `stateId` INTEGER NOT NULL DEFAULT 1;
