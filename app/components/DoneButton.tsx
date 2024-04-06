@@ -11,7 +11,7 @@ export default function DoneButton({ examId, user }: Props) {
   const onClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     event.stopPropagation();
-    updateUserExamPreferencesStateId(user, examId, 3);
+    updateUserExamPreferencesStateId(user, examId, 1);
     router.push("/");
   };
 

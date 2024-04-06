@@ -24,7 +24,10 @@ export default async function Home() {
     const date = new Date();
     date.setDate(date.getDate() + i);
     const filteredExams = exams.filter(
-      (exam) => exam.date.getDate() === date.getDate(),
+      (exam) =>
+        exam.date.getDate() === date.getDate() &&
+        exam.date.getMonth() === date.getMonth() &&
+        exam.date.getFullYear() === date.getFullYear(),
     );
     if (filteredExams.length > 0) {
       for (const filteredExam of filteredExams) {
@@ -32,8 +35,7 @@ export default async function Home() {
           await prisma.userExamPreferences.findFirst({
             where: { userId: user.id, examId: filteredExam.id },
           });
-        if (currentUserExamPreference?.stateId === 2) {
-        } else {
+        if (currentUserExamPreference?.stateId === 0) {
           if (dayCanBeVisible) {
             dayCanBeVisible = false;
             if (filteredExams.length === 1) {

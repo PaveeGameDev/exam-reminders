@@ -126,6 +126,6 @@ model UserExamPreferences {
   user       User      @relation(fields: [userId], references: [id])
   examNoteId Int?
   examNote   ExamNote? @relation(fields: [examNoteId], references: [id])
-  stateId    Int       @default(1)
+  stateId    Int       @default(0)
   State      State     @relation(fields: [stateId], references: [id])
 }

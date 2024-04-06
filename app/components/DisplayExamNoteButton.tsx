@@ -11,7 +11,7 @@ export default function DisplayExamNoteButton({ examNote, user }: Props) {
   const router = useRouter();
   const afterClick = () => {
     updateUserNotePreference(user, examNote);
-    router.push("/");
+    router.refresh();
   };
 
   return (
@@ -19,7 +19,7 @@ export default function DisplayExamNoteButton({ examNote, user }: Props) {
       onClick={afterClick}
       className="btn btn-primary mt-0 w-full max-w-xs"
     >
-      Use
+      Use as the main note
     </button>
   );
 }

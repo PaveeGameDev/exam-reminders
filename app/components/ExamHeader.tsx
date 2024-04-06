@@ -48,8 +48,7 @@ export const ExamHeader = async ({ exam }: Props) => {
           examType!.priority,
         )}`}
       >
-        {" "}
-        -{" "}
+        {" \n "}
       </p>
       <h3
         className={`inline font-semibold text-3xl uppercase ${chooseColor(

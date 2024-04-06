@@ -14,7 +14,7 @@ export default async function DisplayExamNote({ examNote, user }: Props) {
           {await getUsersName(examNote, user)}
         </h2>
         <p>{examNote.content}</p>
-        <div className="card-actions justify-center mt-4 w-16">
+        <div className="card-actions justify-center mt-4 w-32">
           <DisplayExamNoteButton examNote={examNote} user={user} />
         </div>
       </div>

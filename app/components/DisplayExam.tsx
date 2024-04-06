@@ -13,11 +13,7 @@ type Props = {
 export default async function DisplayExam({ exam, user }: Props) {
   if (!exam) return;
 
-  const examNotes = await prisma.exam
-    .findUnique({ where: { id: exam.id } })
-    .examNotes();
-
-  const bestExamNote = await getBestExamNote(examNotes!, user);
+  const bestExamNote = await getBestExamNote(exam, user);
 
   const currentUserExamPreference = await prisma.userExamPreferences.findFirst({
     where: { userId: user.id, examId: exam.id },
@@ -33,10 +29,6 @@ export default async function DisplayExam({ exam, user }: Props) {
       <ExpandableText showButton={false} length={40}>
         {bestExamNote.content}
       </ExpandableText>
-      <div className="flex flex-row justify-start gap-3 mt-2">
-        <DoneButton examId={exam.id} user={user} />
-        <IrrelevantButton examId={exam.id} user={user} />
-      </div>
     </div>
   );
 }
