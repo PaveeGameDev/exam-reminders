@@ -27,7 +27,9 @@ export default async function Home() {
       (exam) =>
         exam.date.getDate() === date.getDate() &&
         exam.date.getMonth() === date.getMonth() &&
-        exam.date.getFullYear() === date.getFullYear(),
+        exam.date.getFullYear() === date.getFullYear() &&
+        exam.stateId !== 1 &&
+        exam.stateId !== 2,
     );
     if (filteredExams.length > 0) {
       for (const filteredExam of filteredExams) {

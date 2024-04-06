@@ -35,7 +35,7 @@ export const ExamHeader = async ({ exam }: Props) => {
   };
 
   return (
-    <div className="flex-row justify-center align-middle">
+    <div className="flex-row justify-center align-middle text-center">
       <h3
         className={`inline font-semibold text-3xl uppercase ${chooseColor(
           examType!.priority,

@@ -37,7 +37,7 @@ export default async function ExamOverview({
         <div className="card-body flex flex-col justify-start p-0 w-full">
           <h2 className="text-2xl text-center m-1 underline underline-offset-4">
             {getDayName(exam.date, "en-US")} - {exam.date.getDate()}.
-            {exam.date.getMonth()}
+            {exam.date.getMonth() + 1}
           </h2>
           <div className="mx-2 mb-4">
             <div className="flex justify-center text-center mb-5">
@@ -47,12 +47,12 @@ export default async function ExamOverview({
               <p className="mb-6">{bestExamNote.content}</p>
               <div className="flex justify-between gap-3">
                 <div className="flex flex-row justify-start gap-3 mt-2">
-                  <DoneButton examId={exam.id} user={user} />
+                  {/*<DoneButton examId={exam.id} user={user} />*/}
                   <IrrelevantButton examId={exam.id} user={user} />
                 </div>
                 <div className="flex gap-2 items-center border-primary border-4 rounded-xl p-2">
-                  <p>Note written by: {getUsersName(bestExamNote, user)}</p>
-                  <LikeNote />
+                  <p>By: {getUsersName(bestExamNote, user)}</p>
+                  {/*<LikeNote />*/}
                 </div>
               </div>
             </div>
