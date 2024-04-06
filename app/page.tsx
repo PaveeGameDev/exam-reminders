@@ -35,7 +35,11 @@ export default async function Home() {
           await prisma.userExamPreferences.findFirst({
             where: { userId: user.id, examId: filteredExam.id },
           });
-        if (currentUserExamPreference?.stateId === 0) {
+        if (
+          currentUserExamPreference?.stateId === 1 ||
+          currentUserExamPreference?.stateId === 2
+        ) {
+        } else {
           if (dayCanBeVisible) {
             dayCanBeVisible = false;
             if (filteredExams.length === 1) {
