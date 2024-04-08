@@ -10,7 +10,6 @@ export default async function Settings() {
     where: { email: session.user!.email! },
   });
   if (!user) return "An error occurred";
-
   return (
     <main className="flex justify-center p-6">
       <div className="space-y-11 w-full max-w-md mx-auto">

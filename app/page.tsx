@@ -3,6 +3,8 @@ import { getServerSession } from "next-auth";
 import prisma from "@/prisma/client";
 import DayView from "@/app/components/DayView";
 import Link from "next/link";
+import { getUpcomingExams } from "@/functions/getUpcomingExams";
+import { Exam } from "@prisma/client";
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
@@ -13,9 +15,21 @@ export default async function Home() {
   if (!user) return "An error occurred";
   if (!user.classId) return "User needs to be in a class";
 
-  const exams = await prisma.exam.findMany({
-    where: { classId: user.classId! },
-  });
+  const exams = await getUpcomingExams(user);
+
+  if (!exams) return;
+
+  const isWanted = async (exam: Exam) => {
+    const preference = await prisma.userExamPreferences.findFirst({
+      where: { userId: user.id, examId: exam.id },
+    });
+    return preference?.stateId === 0;
+  };
+
+  const filteredExams = await (async () => {
+    const shouldFilter = await Promise.all(exams.map(isWanted));
+    return (filtered2 = values.filter((value, index) => shouldFilter[index]));
+  })();
 
   const days = [];
 
@@ -23,15 +37,7 @@ export default async function Home() {
     let dayCanBeVisible = true;
     const date = new Date();
     date.setDate(date.getDate() + i);
-    const filteredExams = exams.filter(
-      (exam) =>
-        exam.date.getDate() === date.getDate() &&
-        exam.date.getMonth() === date.getMonth() &&
-        exam.date.getFullYear() === date.getFullYear() &&
-        exam.stateId !== 1 &&
-        exam.stateId !== 2,
-    );
-    if (filteredExams.length > 0) {
+    if (filteredExams) {
       for (const filteredExam of filteredExams) {
         const currentUserExamPreference =
           await prisma.userExamPreferences.findFirst({
@@ -70,6 +76,5 @@ export default async function Home() {
       }
     }
   }
-
   return <main className="relative h-screen">{days}</main>;
 }
