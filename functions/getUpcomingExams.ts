@@ -16,6 +16,5 @@ export const getUpcomingExams = async (user: User): Promise<Exam[] | null> => {
       },
     },
   });
-  console.log(result);
   return result;
 };
