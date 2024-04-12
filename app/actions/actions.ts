@@ -43,7 +43,6 @@ export async function writeExam(formData: FormData, user: User) {
     subjectId: formData.get("subjectId"),
     examTypeId: formData.get("typeId"),
   });
-
   const existingExam = await prisma.exam.findFirst({
     where: {
       classId: user.classId!,
@@ -52,7 +51,6 @@ export async function writeExam(formData: FormData, user: User) {
       examTypeId: examTypeId,
     },
   });
-
   if (existingExam) {
     const createdExamNote = await prisma.examNote.create({
       data: {
@@ -62,7 +60,6 @@ export async function writeExam(formData: FormData, user: User) {
         dateCreated: new Date(),
       },
     });
-
     revalidatePath("/write");
 
     return { success: "Exam successfully added" };
@@ -86,7 +83,7 @@ export async function writeExam(formData: FormData, user: User) {
     },
   });
 
-  revalidatePath("/write");
+  revalidatePath("/");
 
   return { success: "Exam successfully added" };
 }

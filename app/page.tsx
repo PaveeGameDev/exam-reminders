@@ -4,7 +4,6 @@ import prisma from "@/prisma/client";
 import { getUpcomingExams } from "@/functions/getUpcomingExams";
 import { Exam } from "@prisma/client";
 import DayViewWrap from "@/app/components/DayViewWrap";
-import { precache } from "workbox-precaching";
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
@@ -14,11 +13,8 @@ export default async function Home() {
   });
   if (!user) return "An error occurred";
   if (!user.classId) return "User needs to be in a class";
-
   const exams = await getUpcomingExams(user);
-
   if (!exams) return;
-
   const currentUserExamPreferences = await prisma.userExamPreferences.findMany({
     where: { userId: user.id },
   });
