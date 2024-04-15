@@ -68,7 +68,7 @@ export default async function ExamOverview({
                   {/*<LikeNote />*/}
                 </div>
               </div>
-              <ChangeDate examId={exam.id} />
+              <ChangeDate exam={exam} />
             </div>
           </div>
         </div>

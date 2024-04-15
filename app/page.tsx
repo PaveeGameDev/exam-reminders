@@ -52,7 +52,7 @@ export default async function Home() {
 
     if (getDayName(date, "en-US") === "Sunday") {
       dayViewWrappers.push(
-        <>
+        <div key={i}>
           <DayViewWrap
             day={new Date(date)}
             exams={examsOnTheDay}
@@ -60,7 +60,7 @@ export default async function Home() {
             key={i}
           />
           <HorizontalLine1 />
-        </>,
+        </div>,
       );
     } else {
       dayViewWrappers.push(

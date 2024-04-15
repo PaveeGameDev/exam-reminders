@@ -7,7 +7,11 @@ export const getUpcomingExams = async (user: User): Promise<Exam[] | null> => {
       classId: user.classId!,
       stateId: 0,
       date: {
-        gte: new Date(),
+        gte: new Date(
+          new Date().getFullYear(),
+          new Date().getMonth(),
+          new Date().getDate(),
+        ),
         lte: new Date(
           new Date().getFullYear(),
           new Date().getMonth() + 1,

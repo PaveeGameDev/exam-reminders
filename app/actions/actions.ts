@@ -92,11 +92,7 @@ export async function writeExam(formData: FormData, user: User) {
   return { success: "Exam successfully added" };
 }
 
-export async function changeExamDate(examId: number, formData: FormData) {
-  const { date } = updateExamDateSchema.parse({
-    date: formData.get("date"),
-  });
-
+export async function changeExamDate(examId: number, date: Date) {
   const updatedExam = await prisma.exam.update({
     where: { id: examId },
     data: { date: date },
