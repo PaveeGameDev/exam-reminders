@@ -1,6 +1,10 @@
 "use server";
 
-import { joinClassSchema, writeExamSchema } from "@/app/actions/actionsSchema";
+import {
+  joinClassSchema,
+  updateExamDateSchema,
+  writeExamSchema,
+} from "@/app/actions/actionsSchema";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/authOptions";
 import prisma from "@/prisma/client";
@@ -88,6 +92,21 @@ export async function writeExam(formData: FormData, user: User) {
   return { success: "Exam successfully added" };
 }
 
+export async function changeExamDate(examId: number, formData: FormData) {
+  const { date } = updateExamDateSchema.parse({
+    date: formData.get("date"),
+  });
+
+  const updatedExam = await prisma.exam.update({
+    where: { id: examId },
+    data: { date: date },
+  });
+
+  revalidatePath("/");
+
+  return { success: "Exams date successfully updated" };
+}
+
 export async function updateUserNotePreference(user: User, examNote: ExamNote) {
   const currentPreference = await prisma.userExamPreferences.findFirst({
     where: { userId: user.id, examId: examNote.examId },
@@ -131,5 +150,13 @@ export async function updateUserExamPreferencesStateId(
       },
     });
   }
+  revalidatePath("/");
+}
+
+export async function updateExamStateId(examId: number, stateId: number) {
+  const updatedExam = await prisma.exam.update({
+    where: { id: examId },
+    data: { stateId: stateId },
+  });
   revalidatePath("/");
 }

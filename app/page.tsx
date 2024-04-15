@@ -4,6 +4,8 @@ import prisma from "@/prisma/client";
 import { getUpcomingExams } from "@/functions/getUpcomingExams";
 import { Exam } from "@prisma/client";
 import DayViewWrap from "@/app/components/DayViewWrap";
+import { getDayName } from "@/functions/getNameDay";
+import HorizontalLine1 from "@/app/components/decorations/HorizontalLine1";
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
@@ -46,14 +48,30 @@ export default async function Home() {
         exam.date.getDate() === date.getDate() &&
         exam.date.getMonth() === date.getMonth(),
     );
-    dayViewWrappers.push(
-      <DayViewWrap
-        day={new Date(date)}
-        exams={examsOnTheDay}
-        user={user}
-        key={i}
-      />,
-    );
+
+    if (getDayName(date, "en-US") === "Sunday") {
+      dayViewWrappers.push(
+        <>
+          <DayViewWrap
+            day={new Date(date)}
+            exams={examsOnTheDay}
+            user={user}
+            key={i}
+          />
+          <HorizontalLine1 />
+        </>,
+      );
+    } else {
+      dayViewWrappers.push(
+        <DayViewWrap
+          day={new Date(date)}
+          exams={examsOnTheDay}
+          user={user}
+          key={i}
+        />,
+      );
+    }
+
     date.setDate(date.getDate() + 1);
   }
   return <main className="relative h-screen">{dayViewWrappers}</main>;

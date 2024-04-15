@@ -1,22 +1,52 @@
 "use client";
-import { User } from "@prisma/client";
-import { RxCross2 } from "react-icons/rx";
+import { Exam, User } from "@prisma/client";
 import { useRouter } from "next/navigation";
-import { updateUserExamPreferencesStateId } from "@/app/actions/actions";
+import {
+  updateExamStateId,
+  updateUserExamPreferencesStateId,
+} from "@/app/actions/actions";
+import DialogBox from "@/app/components/DialogBox";
 
-type Props = { examId: number; user: User };
-export default function IrrelevantButton({ examId, user }: Props) {
+type Props = { exam: Exam; user: User; isIndividual: boolean };
+export default function IrrelevantButton({ exam, user, isIndividual }: Props) {
   const router = useRouter();
   const onClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     event.stopPropagation();
-    updateUserExamPreferencesStateId(user, examId, 2);
-    router.push("/");
+    if (isIndividual) {
+      //@ts-ignore
+      document?.getElementById("irrelevant_modal_alone")?.showModal();
+    } else {
+      //@ts-ignore
+      document?.getElementById("irrelevant_modal_all")?.showModal();
+    }
   };
 
+  const onConfirm = () => {
+    if (isIndividual) {
+      updateUserExamPreferencesStateId(user, exam.id, 2);
+    } else {
+      updateExamStateId(exam.id, 2);
+    }
+    router.push("/");
+  };
   return (
-    <button onClick={onClick} className="btn btn-outline btn-primary">
-      <RxCross2 />
-    </button>
+    <div>
+      <button onClick={onClick} className="btn btn-outline btn-primary">
+        <p className="text-black">
+          {isIndividual ? "Odstranit pro mě" : "Odstranit pro všechny"}
+        </p>
+      </button>
+      <DialogBox
+        header={isIndividual ? "Odstranit pro mě" : "Odstranit pro všechny"}
+        text={`Opravdu chceš odstranit toto dne ${exam.date.getDate()}.${
+          exam.date.getMonth() + 1
+        } ${isIndividual ? "pro sebe" : "pro všechny"}?`}
+        confirmAction={onConfirm}
+        id={isIndividual ? "irrelevant_modal_alone" : "irrelevant_modal_all"}
+        cancelText="Ponechat"
+        confirmText={isIndividual ? "Odstranit" : "Odstranit pro všechny"}
+      />
+    </div>
   );
 }

@@ -9,6 +9,7 @@ import IrrelevantButton from "@/app/components/IrrelevantButton";
 import LikeNote from "@/app/components/LikeNote";
 import { getUsersName } from "@/functions/getUsersName";
 import DisplayExamNote from "@/app/components/DisplayExamNote";
+import ChangeDate from "@/app/components/ChangeDate";
 
 export default async function ExamOverview({
   params,
@@ -28,6 +29,9 @@ export default async function ExamOverview({
   if (exam.classId !== user.classId) return "Trying to access not your exam";
 
   const bestExamNote = await getBestExamNote(exam, user);
+
+  if (!bestExamNote) return;
+
   const examNotes = await prisma.examNote.findMany({
     where: { examId: parseInt(params.examId) },
   });
@@ -43,18 +47,28 @@ export default async function ExamOverview({
             <div className="flex justify-center text-center mb-5">
               <ExamHeader exam={exam} />
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col gap-3">
               <p className="mb-6">{bestExamNote.content}</p>
               <div className="flex justify-between gap-3">
-                <div className="flex flex-row justify-start gap-3 mt-2">
+                <div className="flex flex-col justify-start gap-3 mt-2">
                   {/*<DoneButton examId={exam.id} user={user} />*/}
-                  <IrrelevantButton examId={exam.id} user={user} />
+                  <IrrelevantButton
+                    isIndividual={true}
+                    exam={exam}
+                    user={user}
+                  />
+                  <IrrelevantButton
+                    isIndividual={false}
+                    exam={exam}
+                    user={user}
+                  />
                 </div>
-                <div className="flex gap-2 items-center border-primary border-4 rounded-xl p-2">
+                <div className="flex gap-2 items-center border-primary border-4 rounded-xl p-2 h-min">
                   <p>By: {getUsersName(bestExamNote, user)}</p>
                   {/*<LikeNote />*/}
                 </div>
               </div>
+              <ChangeDate examId={exam.id} />
             </div>
           </div>
         </div>

@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/authOptions";
 import UserInfo from "@/app/components/UserInfo";
 import JoinClass from "@/app/components/JoinClass";
+import MyClass from "@/app/components/MyClass";
 export default async function Settings() {
   const session = await getServerSession(authOptions);
   if (!session) return "Login to continue";
@@ -15,6 +16,7 @@ export default async function Settings() {
       <div className="space-y-11 w-full max-w-md mx-auto">
         <UserInfo user={user} />
         <JoinClass />
+        <MyClass myClassId={user.classId || null} />
       </div>
     </main>
   );

@@ -1,9 +1,10 @@
 "use client";
 import { writeExam } from "@/app/actions/actions";
 import { ExamType, Subject, User } from "@prisma/client";
-import { useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { FormResponse } from "@/app/types/types";
 import Select from "@/app/components/Select";
+import { useRouter } from "next/navigation";
 type Props = {
   subjects: Subject[];
   user: User;
@@ -11,13 +12,16 @@ type Props = {
 };
 
 export default function WriteExamForm({ subjects, user, examTypes }: Props) {
-  const ref = useRef<HTMLFormElement>(null);
+  const router = useRouter();
   const [afterSubmit, setAfterSubmit] = useState<FormResponse | null>(null);
+
+  useEffect(() => {
+    if (afterSubmit?.success) router.push("/");
+  }, [afterSubmit]);
+
   return (
     <form
-      ref={ref}
       action={async (formData) => {
-        ref.current?.reset();
         setAfterSubmit(await writeExam(formData, user));
       }}
       className="flex flex-col space-y-4 bg-base-200 shadow-xl border border-gray-300 p-6 rounded-lg max-w-md w-full"

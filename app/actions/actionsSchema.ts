@@ -10,3 +10,7 @@ export const writeExamSchema = z.object({
   subjectId: z.coerce.number(),
   examTypeId: z.coerce.number(),
 });
+
+export const updateExamDateSchema = z.object({
+  date: z.string().transform((arg) => new Date(arg)),
+});
