@@ -28,7 +28,7 @@ export default function ChangeDate({ examId }: Props) {
         id="date"
         name="date"
         required
-        className="input input-bordered w-full"
+        className="input input-bordered w-full text-black"
       />
 
       <button type="submit" className="btn btn-primary btn-outline">

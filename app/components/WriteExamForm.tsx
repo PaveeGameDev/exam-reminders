@@ -36,9 +36,8 @@ export default function WriteExamForm({ subjects, user, examTypes }: Props) {
         id="date"
         name="date"
         required
-        className="input input-bordered w-full"
+        className="input input-bordered w-full text-black"
       />
-
       <label htmlFor="content" className="font-semibold">
         Info about the exam
       </label>
@@ -48,7 +47,7 @@ export default function WriteExamForm({ subjects, user, examTypes }: Props) {
         name="content"
         placeholder="What is the exam about?"
         required
-        className="textarea input-bordered w-full"
+        className="textarea input-bordered w-full text-lg"
       />
 
       <button type="submit" className="btn btn-primary mt-2">
