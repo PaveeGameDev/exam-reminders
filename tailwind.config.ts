@@ -11,7 +11,8 @@ const config: Config = {
     themes: [
       {
         myYellowTheme: {
-          primary: "#fde047", // Bright yellow
+          // primary: "#fde047", // Bright yellow
+          primary: "#FFC836", // Bright yellow
           "primary-focus": "#facc15", // A slightly deeper yellow for focus states
           "primary-content": "#1f2937", // Dark gray for text on primary background
           secondary: "#fdba74", // Soft orange as a complementary color

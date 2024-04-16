@@ -55,7 +55,7 @@ export default function ChangeDate({ exam }: Props) {
         header="Přesunout datum testu"
         text={`Opravdu chceš přesunout toto ze dne ${exam.date.getDate()}.${
           exam.date.getMonth() + 1
-        } na datum ${newDate?.getDate()}.${exam.date.getMonth() + 1}?`}
+        } na den ${newDate?.getDate()}.${exam.date.getMonth() + 1}?`}
         confirmAction={onConfirm}
         id="change_date_modal"
         cancelText="Ponechat"

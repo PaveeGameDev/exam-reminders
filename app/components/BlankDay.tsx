@@ -6,13 +6,23 @@ type Props = {
 
 export default function BlankDay({ day }: Props) {
   return (
-    <div className="card max-w-96 bg-base-200 shadow-xl border border-gray-300 flex items-center justify-center mb-4">
-      <div className="card-body flex flex-col justify-start p-0 w-full">
-        <h2 className="text-2xl text-center m-1 underline underline-offset-4">
-          {getDayName(day, "en-US")} - {day.getDate()}.{day.getMonth() + 1}
-        </h2>
-        <div className="h-16"></div>
+    <div className="card bg-base-200 shadow-md border border-primary flex flex-row items-start justify-start mb-3 min-h-20">
+      <div className="w-1/3 m-0">
+        <div className="flex flex-col h-24 justify-center">
+          <div className="flex justify-center items-center h-full">
+            <p className="capitalize text-2xl text-center h-fit">
+              {getDayName(day, "cs-CZ")}
+            </p>
+          </div>
+          <hr className="w-full h-0.5 bg-primary border-primary" />
+          <div className="flex justify-center items-center h-full">
+            <p className="capitalize text-2xl text-center h-fit">
+              {day.getDate()}.{day.getMonth() + 1}
+            </p>
+          </div>
+        </div>
       </div>
+      <hr className="h-24 w-0.5 bg-primary border-primary" />
     </div>
   );
 }
