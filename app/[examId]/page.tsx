@@ -4,12 +4,11 @@ import prisma from "@/prisma/client";
 import { getBestExamNote } from "@/functions/getBestExamNote";
 import { getDayName } from "@/functions/getNameDay";
 import { ExamHeader } from "@/app/components/ExamHeader";
-import DoneButton from "@/app/components/DoneButton";
 import IrrelevantButton from "@/app/components/IrrelevantButton";
-import LikeNote from "@/app/components/LikeNote";
 import { getUsersName } from "@/functions/getUsersName";
 import DisplayExamNote from "@/app/components/DisplayExamNote";
 import ChangeDate from "@/app/components/ChangeDate";
+import ExamIcon from "@/app/components/ExamIcon";
 
 export default async function ExamOverview({
   params,
@@ -46,6 +45,7 @@ export default async function ExamOverview({
           <div className="mx-2 mb-4">
             <div className="flex justify-center text-center mb-5">
               <ExamHeader exam={exam} />
+              <ExamIcon examType={exam.examTypeId} />
             </div>
             <div className="flex flex-col gap-3">
               <p className="mb-6">{bestExamNote.content}</p>

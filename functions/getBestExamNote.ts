@@ -12,6 +12,7 @@ export async function getBestExamNote(
     where: { userId: user.id, examId: examNotes![0].examId },
   });
 
+  if (!examNotes) console.error("No examNotes", exam, user);
   if (preference)
     return examNotes!.find((note) => note.id === preference.examNoteId)!;
 

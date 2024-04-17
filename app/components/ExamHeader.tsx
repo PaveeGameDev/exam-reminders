@@ -35,27 +35,9 @@ export const ExamHeader = async ({ exam }: Props) => {
   };
 
   return (
-    <div className="flex-row justify-center align-middle text-center">
-      <h3
-        className={`inline font-semibold text-3xl uppercase ${chooseColor(
-          examType!.priority,
-        )}`}
-      >
+    <div className="flex-row w-full">
+      <h3 className="inline font-semibold text-3xl ">
         {getSubjectNameById(exam.subjectId)}
-      </h3>
-      <p
-        className={`inline font-semibold text-3xl ${chooseColor(
-          examType!.priority,
-        )}`}
-      >
-        {" \n "}
-      </p>
-      <h3
-        className={`inline font-semibold text-3xl uppercase ${chooseColor(
-          examType!.priority,
-        )}`}
-      >
-        {examType!.name}
       </h3>
     </div>
   );
