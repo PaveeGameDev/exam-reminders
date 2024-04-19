@@ -8,7 +8,7 @@ export default function MyClassId({ myClassId }: Props) {
       navigator
         .share({
           title: document.title,
-          url: window.location.href,
+          url: "https://exam-reminders.vercel.app/",
         })
         .then(() => {
           console.log("Shared successfully");

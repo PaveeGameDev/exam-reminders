@@ -2,6 +2,7 @@ import { Exam, User } from "@prisma/client";
 import { getDayName } from "@/functions/getNameDay";
 import DisplayExam from "@/app/components/DisplayExam";
 import Link from "next/link";
+import DayViewContent from "@/app/components/DayViewContent";
 
 type Props = {
   day: Date;
@@ -9,7 +10,7 @@ type Props = {
   user: User;
   clickableAll?: boolean;
 };
-export default async function DayView({
+export default function DayView({
   day,
   exams,
   user,
@@ -18,14 +19,14 @@ export default async function DayView({
   let displayExams;
 
   if (!clickableAll) {
-    displayExams = exams.map((exam) => (
+    displayExams = exams.map((exam, index) => (
       <Link href={`/${exam.id}`} key={exam.id}>
-        <DisplayExam exam={exam} user={user} />
+        <DisplayExam exam={exam} user={user} isFirst={index === 0} />
       </Link>
     ));
   } else {
     displayExams = exams.map((exam) => (
-      <DisplayExam exam={exam} user={user} key={exam.id} />
+      <DisplayExam exam={exam} user={user} key={exam.id} isFirst={true} />
     ));
   }
 
@@ -46,13 +47,7 @@ export default async function DayView({
           </div>
         </div>
       </div>
-      <hr
-        className="w-0.5 min-w-0.5 bg-primary border-primary"
-        style={{
-          height: exams.length === 1 ? 98 : 160 + 84 * (exams.length - 2),
-        }}
-      />
-      <div className="w-full h-full">{displayExams}</div>
+      <DayViewContent>{displayExams}</DayViewContent>
     </div>
   );
 }

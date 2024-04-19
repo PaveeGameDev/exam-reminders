@@ -1,30 +1,27 @@
 import { FaRegPenToSquare, FaTriangleExclamation } from "react-icons/fa6";
 import { MdOutlineTaskAlt } from "react-icons/md";
+import { RiUserVoiceFill } from "react-icons/ri";
 
 type Props = {
   examType: number;
 };
 export default function ExamIcon({ examType }: Props) {
+  let content = null;
+
   switch (examType) {
     case 1:
-      return (
-        <div className="w-[40px] mr-3">
-          <MdOutlineTaskAlt style={{ color: "#FFC836" }} size={40} />
-        </div>
-      );
+      content = <MdOutlineTaskAlt style={{ color: "#FFC836" }} size={40} />;
+      break;
     case 2:
-      return (
-        <div className="w-[40px] mr-3">
-          <FaRegPenToSquare style={{ color: "#FFC836" }} size={40} />
-        </div>
-      );
-
+      content = <FaRegPenToSquare style={{ color: "#FFC836" }} size={40} />;
+      break;
     case 3:
-    case 4:
-      return (
-        <div className="w-[40px] mr-3">
-          <FaTriangleExclamation style={{ color: "#FFC836" }} size={40} />
-        </div>
+      content = (
+        <FaTriangleExclamation style={{ color: "#FFC836" }} size={40} />
       );
+      break;
+    case 4:
+      content = <RiUserVoiceFill style={{ color: "#FFC836" }} size={40} />;
   }
+  return <div className="w-[40px] mr-3">{content}</div>;
 }
