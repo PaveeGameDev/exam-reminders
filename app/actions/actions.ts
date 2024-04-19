@@ -9,7 +9,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/authOptions";
 import prisma from "@/prisma/client";
 import { revalidatePath } from "next/cache";
-import { ExamNote, User } from "@prisma/client";
+import { Exam, ExamNote, User } from "@prisma/client";
 
 export async function joinClass(formData: FormData) {
   const { classId } = joinClassSchema.parse({
@@ -41,21 +41,83 @@ export async function joinClass(formData: FormData) {
 }
 
 export async function writeExam(formData: FormData, user: User) {
-  const { date, content, subjectId, examTypeId } = writeExamSchema.parse({
-    content: formData.get("content"),
-    date: formData.get("date"),
-    subjectId: formData.get("subjectId"),
-    examTypeId: formData.get("typeId"),
-  });
-  const existingExam = await prisma.exam.findFirst({
-    where: {
-      classId: user.classId!,
-      date: date,
-      subjectId: subjectId,
-      examTypeId: examTypeId,
-    },
-  });
-  if (existingExam) {
+  const { date, content, subjectId, examTypeId, isPublic } =
+    writeExamSchema.parse({
+      content: formData.get("content"),
+      date: formData.get("date"),
+      subjectId: formData.get("subjectId"),
+      examTypeId: formData.get("typeId"),
+      isPublic: Boolean(formData.get("isPublic")),
+    });
+
+  let existingExam: Exam | null = null;
+
+  if (isPublic) {
+    existingExam = await prisma.exam.findFirst({
+      where: {
+        classId: user.classId!,
+        date: date,
+        subjectId: subjectId,
+        examTypeId: examTypeId,
+        followerId: null,
+      },
+    });
+  } else {
+    existingExam = await prisma.exam.findFirst({
+      where: {
+        classId: user.classId!,
+        date: date,
+        subjectId: subjectId,
+        examTypeId: examTypeId,
+        followerId: user.id,
+      },
+    });
+  }
+
+  if (!existingExam) {
+    if (isPublic) {
+      const createdExam = await prisma.exam.create({
+        data: {
+          classId: user.classId!,
+          date: date,
+          subjectId: subjectId,
+          examTypeId: examTypeId,
+        },
+      });
+
+      const createdExamNote = await prisma.examNote.create({
+        data: {
+          examId: createdExam.id,
+          content: content,
+          userId: user.id,
+          dateCreated: new Date(),
+        },
+      });
+    } else {
+      const createdExam = await prisma.exam.create({
+        data: {
+          classId: user.classId!,
+          date: date,
+          subjectId: subjectId,
+          examTypeId: examTypeId,
+          followerId: user.id,
+        },
+      });
+
+      const createdExamNote = await prisma.examNote.create({
+        data: {
+          examId: createdExam.id,
+          content: content,
+          userId: user.id,
+          dateCreated: new Date(),
+        },
+      });
+    }
+    revalidatePath("/write");
+    return { success: "Exam successfully added" };
+  }
+
+  if (isPublic) {
     const createdExamNote = await prisma.examNote.create({
       data: {
         examId: existingExam.id,
@@ -65,8 +127,20 @@ export async function writeExam(formData: FormData, user: User) {
       },
     });
     revalidatePath("/write");
+    return { success: "Exam note successfully added" };
+  }
 
-    return { success: "Exam successfully added" };
+  if (existingExam.followerId === user.id) {
+    const createdExamNote = await prisma.examNote.create({
+      data: {
+        examId: existingExam.id,
+        content: content,
+        userId: user.id,
+        dateCreated: new Date(),
+      },
+    });
+    revalidatePath("/write");
+    return { success: "Exam note successfully added" };
   }
 
   const createdExam = await prisma.exam.create({
@@ -75,6 +149,7 @@ export async function writeExam(formData: FormData, user: User) {
       date: date,
       subjectId: subjectId,
       examTypeId: examTypeId,
+      followerId: user.id,
     },
   });
 
@@ -87,8 +162,7 @@ export async function writeExam(formData: FormData, user: User) {
     },
   });
 
-  revalidatePath("/");
-
+  revalidatePath("/write");
   return { success: "Exam successfully added" };
 }
 

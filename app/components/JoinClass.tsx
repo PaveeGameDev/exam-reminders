@@ -7,7 +7,7 @@ export default function JoinClass() {
   const [afterSubmit, setAfterSubmit] = useState<FormResponse | null>(null);
 
   return (
-    <div className="card max-w-96 bg-base-200 shadow-xl border border-gray-300 flex items-center justify-center p-6">
+    <div className="card bg-base-200 shadow-xl border border-gray-300 flex items-center justify-center p-6">
       <div className="card-body">
         <form
           ref={ref}

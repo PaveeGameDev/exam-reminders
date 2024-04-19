@@ -16,7 +16,7 @@ export default function Select({ header, id, options }: Props) {
         id={id}
         name={id}
         required
-        className="select select-accent w-full max-w-xs"
+        className="select select-accent w-full"
       >
         {options.map((option) => (
           <option

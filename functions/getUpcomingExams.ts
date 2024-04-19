@@ -2,7 +2,7 @@ import prisma from "@/prisma/client";
 import { Exam, User } from "@prisma/client";
 
 export const getUpcomingExams = async (user: User): Promise<Exam[] | null> => {
-  const result = await prisma.exam.findMany({
+  return await prisma.exam.findMany({
     where: {
       classId: user.classId!,
       stateId: 0,
@@ -20,5 +20,4 @@ export const getUpcomingExams = async (user: User): Promise<Exam[] | null> => {
       },
     },
   });
-  return result;
 };

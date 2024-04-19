@@ -28,16 +28,32 @@ export default function WriteExamForm({ subjects, user, examTypes }: Props) {
     >
       <Select options={subjects} id="subjectId" header="Subjects" />
       <Select options={examTypes} id="typeId" header="Type" />
-      <label htmlFor="date" className="font-semibold">
-        Date
-      </label>
-      <input
-        type="date"
-        id="date"
-        name="date"
-        required
-        className="input input-bordered w-full text-black"
-      />
+      <div className="flex flex-row space-x-3 justify-between">
+        <div className="">
+          <label htmlFor="date" className="font-semibold">
+            Date
+          </label>
+          <input
+            type="date"
+            id="date"
+            name="date"
+            required
+            className="input input-bordered w-full text-black"
+          />
+        </div>
+        <div className="flex flex-col items-end">
+          <label htmlFor="isPublic" className="font-semibold">
+            Pro všechny
+          </label>
+          <input
+            type="checkbox"
+            id="isPublic"
+            name="isPublic"
+            defaultChecked
+            className="checkbox checkbox-primary block w-10 h-10"
+          />
+        </div>
+      </div>
       <label htmlFor="content" className="font-semibold">
         Info about the exam
       </label>

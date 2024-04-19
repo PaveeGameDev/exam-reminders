@@ -12,8 +12,8 @@ export default async function Settings() {
   });
   if (!user) return "An error occurred";
   return (
-    <main className="flex justify-center p-6">
-      <div className="space-y-11 w-full max-w-md mx-auto">
+    <main className="flex justify-center">
+      <div className="space-y-5 w-full max-w-md mx-auto">
         <UserInfo user={user} />
         <JoinClass />
         <MyClass myClassId={user.classId || null} />

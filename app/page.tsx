@@ -16,7 +16,7 @@ export default async function Home() {
   });
   if (!user) return "An error occurred";
   if (!user.classId) return "User needs to be in a class";
-  const exams = await getUpcomingExams(user);
+  const exams = await getUpcomingExams(user).then();
   if (!exams) return;
   const currentUserExamPreferences = await prisma.userExamPreferences.findMany({
     where: { userId: user.id },
@@ -41,6 +41,10 @@ export default async function Home() {
   }
 
   const dayViewWrappers = [];
+
+  filteredExams = filteredExams.filter(
+    (exam) => !exam.followerId || exam.followerId === user.id,
+  );
 
   const date = new Date();
   for (let i = 0; i < 30; i++) {

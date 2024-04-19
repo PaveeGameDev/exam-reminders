@@ -14,7 +14,7 @@ export default async function Write() {
   const subjects = await prisma.subject.findMany({ where: {} });
   const examTypes = await prisma.examType.findMany({ where: {} });
   return (
-    <main className="flex justify-center p-6">
+    <main className="flex justify-center">
       <WriteExamForm subjects={subjects} user={user} examTypes={examTypes} />
     </main>
   );
