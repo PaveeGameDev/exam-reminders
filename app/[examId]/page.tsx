@@ -64,7 +64,7 @@ export default async function ExamOverview({
                   />
                 </div>
                 <div className="flex gap-2 items-center border-primary border-4 rounded-xl p-2 h-min">
-                  <p>By: {getUsersName(bestExamNote, user)}</p>
+                  <p>Napsal: {getUsersName(bestExamNote, user)}</p>
                   {/*<LikeNote />*/}
                 </div>
               </div>
@@ -76,7 +76,7 @@ export default async function ExamOverview({
       <div className="card max-w-96 bg-base-200 shadow-xl border border-gray-300 flex items-center justify-center">
         <div className="card-body text-center justify-center items-center">
           <h2 className="card-title justify-center w-full mb-3">
-            Notes written by other people
+            Další poznámky k testu
           </h2>
           {examNotes.map((note) => (
             <DisplayExamNote examNote={note} user={user} key={note.id} />

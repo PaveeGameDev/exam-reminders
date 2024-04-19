@@ -4,7 +4,7 @@ export default function SignoutHandler() {
   return (
     <div>
       <Link href="/api/auth/signout" className="ml-3 btn btn-secondary">
-        Sign Out
+        Odhlásit se
       </Link>
     </div>
   );

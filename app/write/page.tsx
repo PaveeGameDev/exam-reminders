@@ -11,8 +11,10 @@ export default async function Write() {
   });
   if (!user) return <p>An error occurred</p>;
   if (!user.classId) return "User needs to be in a class";
-  const subjects = await prisma.subject.findMany({ where: {} });
-  const examTypes = await prisma.examType.findMany({ where: {} });
+  const subjects = await prisma.subject.findMany({});
+  const examTypes = await prisma.examType.findMany({
+    orderBy: { priority: "desc" },
+  });
   return (
     <main className="flex justify-center">
       <WriteExamForm subjects={subjects} user={user} examTypes={examTypes} />

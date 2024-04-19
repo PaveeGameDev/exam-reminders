@@ -10,13 +10,13 @@ import GoToWriteButton from "@/app/components/GoToWriteButton";
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
-  if (!session) return "Login to continue";
+  if (!session) return "Přihlaste se, abyste mohli pokračovat";
   const user = await prisma.user.findUnique({
     where: { email: session.user!.email! },
   });
   if (!user) return "An error occurred";
-  if (!user.classId) return "User needs to be in a class";
-  const exams = await getUpcomingExams(user).then();
+  if (!user.classId) return "Musíte se přihlásit do třídy";
+  const exams = await getUpcomingExams(user);
   if (!exams) return;
   const currentUserExamPreferences = await prisma.userExamPreferences.findMany({
     where: { userId: user.id },

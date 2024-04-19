@@ -19,7 +19,7 @@ export default function DisplayExamNoteButton({ examNote, user }: Props) {
       onClick={afterClick}
       className="btn btn-primary mt-0 w-full max-w-xs"
     >
-      Use as the main note
+      Použít jako náhledovou poznámku
     </button>
   );
 }

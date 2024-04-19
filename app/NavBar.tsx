@@ -77,7 +77,7 @@ const NavBar = () => {
           href="/api/auth/signin"
           className="mx-5 flex items-center justify-end w-screen"
         >
-          Login
+          Přihlásit se
         </Link>
       )}
     </div>

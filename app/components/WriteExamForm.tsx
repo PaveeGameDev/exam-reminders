@@ -26,12 +26,12 @@ export default function WriteExamForm({ subjects, user, examTypes }: Props) {
       }}
       className="flex flex-col space-y-4 bg-base-200 shadow-xl border border-gray-300 p-6 rounded-lg max-w-md w-full"
     >
-      <Select options={subjects} id="subjectId" header="Subjects" />
-      <Select options={examTypes} id="typeId" header="Type" />
+      <Select options={subjects} id="subjectId" header="Předmět" />
+      <Select options={examTypes} id="typeId" header="Typ" />
       <div className="flex flex-row space-x-3 justify-between">
         <div className="">
           <label htmlFor="date" className="font-semibold">
-            Date
+            Datum
           </label>
           <input
             type="date"
@@ -42,7 +42,7 @@ export default function WriteExamForm({ subjects, user, examTypes }: Props) {
           />
         </div>
         <div className="flex flex-col items-end">
-          <label htmlFor="isPublic" className="font-semibold">
+          <label htmlFor="isPublic" className="font-semibold text-right">
             Pro všechny
           </label>
           <input
@@ -55,19 +55,19 @@ export default function WriteExamForm({ subjects, user, examTypes }: Props) {
         </div>
       </div>
       <label htmlFor="content" className="font-semibold">
-        Info about the exam
+        Info ohledně testu
       </label>
       <textarea
         rows={4}
         id="content"
         name="content"
-        placeholder="What is the exam about?"
+        placeholder="Co bude v testu?"
         required
         className="textarea input-bordered w-full text-lg"
       />
 
       <button type="submit" className="btn btn-primary mt-2">
-        Write it down
+        Zapsat
       </button>
       {afterSubmit && afterSubmit.success && (
         <p className="text-success text-center">{afterSubmit.success}</p>
