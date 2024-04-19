@@ -63,7 +63,7 @@ export default function RootLayout({
       <body>
         <AuthProvider>
           <NavBar />
-          <main className="m-5">{children}</main>
+          <main className="m-3 mt-5">{children}</main>
           <SpeedInsights />
           <Analytics />
         </AuthProvider>
