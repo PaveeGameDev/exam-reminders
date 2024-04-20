@@ -2,7 +2,7 @@ import { authOptions } from "@/app/api/auth/authOptions";
 import { getServerSession } from "next-auth";
 import prisma from "@/prisma/client";
 import { getBestExamNote } from "@/functions/getBestExamNote";
-import { getDayName } from "@/functions/getNameDay";
+import { getDayName } from "@/functions/getDayName";
 import { ExamHeader } from "@/app/components/ExamHeader";
 import IrrelevantButton from "@/app/components/IrrelevantButton";
 import { getDisplayName } from "@/functions/getDisplayName";
@@ -14,6 +14,7 @@ import { getSubjectById } from "@/functions/getSubjectById";
 import { getExamTypeById } from "@/functions/getExamTypeById";
 import { getUser } from "@/functions/getUser";
 import { shortenName } from "@/functions/shortenName";
+import { capitalizeFirstLetter } from "@/functions/capitalizeFirstLetter";
 
 export default async function ExamOverview({
   params,
@@ -80,11 +81,15 @@ export default async function ExamOverview({
 
                   <Share
                     btnText="Sdílej tento test"
-                    text={`${subject?.name} ${examType?.name}\n${
-                      bestExamNote.content
-                    }\nNapsal/a: ${shortenName(
+                    text={`${subject?.name} ${examType?.name} ${new Date(
+                      exam.date,
+                    ).getDate()}.${new Date(
+                      exam.date,
+                    ).getMonth()} ${capitalizeFirstLetter(
+                      getDayName(exam.date, "cs-CZ"),
+                    )}\n${bestExamNote.content}\nNapsal/a: ${shortenName(
                       examNoteAuthor?.name!,
-                    )}\nNavštivte https://exam-reminders.vercel.app/ aby jste se dozvěděli víc`}
+                    )}\nAby jste se dozvěděli víc navšticte: \n`}
                   />
                 </div>
               </div>

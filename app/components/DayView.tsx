@@ -1,5 +1,5 @@
 import { Exam, User } from "@prisma/client";
-import { getDayName } from "@/functions/getNameDay";
+import { getDayName } from "@/functions/getDayName";
 import DisplayExam from "@/app/components/DisplayExam";
 import Link from "next/link";
 import DayViewContent from "@/app/components/DayViewContent";

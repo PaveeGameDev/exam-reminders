@@ -1,4 +1,4 @@
-import { getDayName } from "@/functions/getNameDay";
+import { getDayName } from "@/functions/getDayName";
 
 type Props = {
   day: Date;

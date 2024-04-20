@@ -5,6 +5,8 @@ type Props = {
 };
 export default function Share({ btnText, text }: Props) {
   const share = () => {
+    console.log(text);
+    return;
     if (navigator.share) {
       navigator
         .share({

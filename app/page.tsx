@@ -4,7 +4,7 @@ import prisma from "@/prisma/client";
 import { getUpcomingExams } from "@/functions/getUpcomingExams";
 import { Exam } from "@prisma/client";
 import DayViewWrap from "@/app/components/DayViewWrap";
-import { getDayName } from "@/functions/getNameDay";
+import { getDayName } from "@/functions/getDayName";
 import HorizontalLine1 from "@/app/components/decorations/HorizontalLine1";
 import GoToWriteButton from "@/app/components/GoToWriteButton";
 
