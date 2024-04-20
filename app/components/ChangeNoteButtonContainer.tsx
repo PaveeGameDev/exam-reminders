@@ -1,6 +1,6 @@
 import { Exam, ExamNote, User } from "@prisma/client";
 import ChangeNoteButton from "@/app/components/ChangeNoteButton";
-import { getUsersName } from "@/functions/getUsersName";
+import { getDisplayName } from "@/functions/getDisplayName";
 
 type Props = {
   user: User;
@@ -15,7 +15,7 @@ export default async function ChangeNoteButtonContainer({
   return (
     <div className="flex flex-row justify-end">
       <div className="flex flex-row items-center">
-        <p className="mr-2">{await getUsersName(activeNote, user)}</p>
+        <p className="mr-2">{await getDisplayName(activeNote, user)}</p>
         <ChangeNoteButton examId={exam.id} />
       </div>
     </div>

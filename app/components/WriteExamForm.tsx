@@ -27,7 +27,7 @@ export default function WriteExamForm({ subjects, user, examTypes }: Props) {
       className="flex flex-col space-y-4 bg-base-200 shadow-xl border border-gray-300 p-6 rounded-lg max-w-md w-full"
     >
       <Select options={subjects} id="subjectId" header="Předmět" />
-      <Select options={examTypes} id="typeId" header="Typ" />
+      <Select options={examTypes} id="typeId" header="Typ testu" />
       <div className="flex flex-row space-x-3 justify-between">
         <div className="">
           <label htmlFor="date" className="font-semibold">
