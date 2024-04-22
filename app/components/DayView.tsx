@@ -1,8 +1,8 @@
 import { Exam, User } from "@prisma/client";
-import { getDayName } from "@/functions/getDayName";
 import DisplayExam from "@/app/components/DisplayExam";
 import Link from "next/link";
 import DayViewContent from "@/app/components/DayViewContent";
+import { getFancyDayName } from "@/functions/getFancyDayName";
 
 type Props = {
   day: Date;
@@ -36,7 +36,7 @@ export default function DayView({
         <div className="flex flex-col h-24 justify-center">
           <div className="flex justify-center items-center h-full">
             <p className="capitalize text-2xl text-center h-fit">
-              {getDayName(day, "cs-CZ")}
+              {getFancyDayName(day, "cs-CZ")}
             </p>
           </div>
           <hr className="w-full h-0.5 bg-primary border-primary" />

@@ -19,19 +19,20 @@ export const ExpandableText = ({
   const toggleSum = () => {
     setExpanded(!expanded);
   };
-  if (children.length <= length) return <p>{children}</p>;
+  if (children.length <= length)
+    return <p className="my-2 break-words">{children}</p>;
   const text = expanded ? children : children.substring(0, length);
 
   if (!showButton)
     return (
-      <p className="my-2">
+      <p className="my-2 break-words">
         {text}
         {!expanded ? "..." : ""}
       </p>
     );
 
   return (
-    <p className="my-2">
+    <p className="my-2 break-words">
       {text}
       {!expanded ? "..." : ""}
       {showLess && (

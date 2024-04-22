@@ -13,7 +13,7 @@ export default async function DisplayExamNote({ examNote, user }: Props) {
         <h2 className="card-title justify-center w-full">
           {await getDisplayName(examNote, user)}
         </h2>
-        <p>{examNote.content}</p>
+        <p className="break-words">{examNote.content}</p>
         <div className="card-actions justify-center mt-4 w-32">
           <DisplayExamNoteButton examNote={examNote} user={user} />
         </div>

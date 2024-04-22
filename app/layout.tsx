@@ -25,11 +25,12 @@ export const metadata: Metadata = {
     capable: true,
     statusBarStyle: "default",
     title: APP_DEFAULT_TITLE,
-    // startUpImage: [],
+    startupImage: "/icon-512x512.png",
   },
   formatDetection: {
     telephone: false,
   },
+  authors: { url: "paveegamedev@gmail.com", name: "Patrik Holba" },
   // openGraph: {
   //   type: "website",
   //   siteName: APP_NAME,
@@ -59,7 +60,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="cs">
       <body>
         <AuthProvider>
           <NavBar />

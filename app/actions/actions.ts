@@ -3,6 +3,7 @@
 import {
   joinClassSchema,
   updateExamDateSchema,
+  writeExamNoteSchema,
   writeExamSchema,
 } from "@/app/actions/actionsSchema";
 import { getServerSession } from "next-auth";
@@ -229,4 +230,29 @@ export async function updateExamStateId(examId: number, stateId: number) {
     data: { stateId: stateId },
   });
   revalidatePath("/");
+}
+
+export async function writeExamNote(
+  formData: FormData,
+  user: User,
+  examId: number,
+) {
+  const { content } = writeExamNoteSchema.parse({
+    content: formData.get("content"),
+  });
+
+  const createdExamNote = await prisma.examNote.create({
+    data: {
+      examId: examId,
+      content: content,
+      userId: user.id,
+      dateCreated: new Date(),
+    },
+  });
+  revalidatePath(`/${examId}`);
+  if (createdExamNote) {
+    return { success: "Exam note successfully added" };
+  } else {
+    return { error: "Exam note cannot be added" };
+  }
 }

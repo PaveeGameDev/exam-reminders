@@ -4,7 +4,6 @@ import prisma from "@/prisma/client";
 import { getUpcomingExams } from "@/functions/getUpcomingExams";
 import { Exam } from "@prisma/client";
 import DayViewWrap from "@/app/components/DayViewWrap";
-import { getDayName } from "@/functions/getDayName";
 import HorizontalLine1 from "@/app/components/decorations/HorizontalLine1";
 import GoToWriteButton from "@/app/components/GoToWriteButton";
 
@@ -54,27 +53,54 @@ export default async function Home() {
         exam.date.getMonth() === date.getMonth(),
     );
 
-    if (getDayName(date, "en-US") === "Sunday") {
-      dayViewWrappers.push(
-        <div key={i}>
+    if (examsOnTheDay.length > 0) {
+      if (date.getDay() == 5) {
+        dayViewWrappers.push(
+          <div key={i}>
+            <DayViewWrap
+              day={new Date(date)}
+              exams={examsOnTheDay}
+              user={user}
+              key={i}
+            />
+            <HorizontalLine1 />
+          </div>,
+        );
+      } else {
+        dayViewWrappers.push(
           <DayViewWrap
             day={new Date(date)}
             exams={examsOnTheDay}
             user={user}
             key={i}
-          />
-          <HorizontalLine1 />
-        </div>,
-      );
+          />,
+        );
+      }
     } else {
-      dayViewWrappers.push(
-        <DayViewWrap
-          day={new Date(date)}
-          exams={examsOnTheDay}
-          user={user}
-          key={i}
-        />,
-      );
+      if (date.getDay() == 5) {
+        dayViewWrappers.push(
+          <div key={i}>
+            <DayViewWrap
+              day={new Date(date)}
+              exams={examsOnTheDay}
+              user={user}
+              key={i}
+            />
+            <HorizontalLine1 />
+          </div>,
+        );
+      } else if (date.getDay() == 6) {
+      } else if (date.getDay() == 0) {
+      } else {
+        dayViewWrappers.push(
+          <DayViewWrap
+            day={new Date(date)}
+            exams={examsOnTheDay}
+            user={user}
+            key={i}
+          />,
+        );
+      }
     }
 
     date.setDate(date.getDate() + 1);

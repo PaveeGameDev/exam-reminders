@@ -13,6 +13,7 @@ export default async function Write() {
   if (!user.classId) return "User needs to be in a class";
   const subjects = await prisma.subject.findMany({});
   const examTypes = await prisma.examType.findMany({
+    where: { NOT: { id: 1 } },
     orderBy: { priority: "desc" },
   });
   return (

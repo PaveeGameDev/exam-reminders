@@ -15,6 +15,8 @@ import { getExamTypeById } from "@/functions/getExamTypeById";
 import { getUser } from "@/functions/getUser";
 import { shortenName } from "@/functions/shortenName";
 import { capitalizeFirstLetter } from "@/functions/capitalizeFirstLetter";
+import { getFancyDayName } from "@/functions/getFancyDayName";
+import AddExamNote from "@/app/components/AddExamNote";
 
 export default async function ExamOverview({
   params,
@@ -46,11 +48,11 @@ export default async function ExamOverview({
   const examNoteAuthor = await getUser(bestExamNote.userId);
 
   return (
-    <>
-      <div className="card bg-base-200 shadow-xl border border-gray-300 flex items-center justify-center mb-4">
+    <div className="flex flex-col space-y-6">
+      <div className="card bg-base-200 shadow-xl border border-gray-300 flex items-center justify-center">
         <div className="card-body flex flex-col justify-start p-0 w-full">
           <h2 className="text-2xl text-center m-1 underline underline-offset-4">
-            {getDayName(exam.date, "en-US")} - {exam.date.getDate()}.
+            {getFancyDayName(exam.date, "cs-CZ")} - {exam.date.getDate()}.
             {exam.date.getMonth() + 1}
           </h2>
           <div className="mx-2 mb-4">
@@ -59,10 +61,9 @@ export default async function ExamOverview({
               <ExamIcon examType={exam.examTypeId} />
             </div>
             <div className="flex flex-col gap-3">
-              <p className="mb-6">{bestExamNote.content}</p>
+              <p className="mb-6 break-words">{bestExamNote.content}</p>
               <div className="flex justify-between gap-3">
                 <div className="flex flex-col justify-start gap-3 ">
-                  {/*<DoneButton examId={exam.id} user={user} />*/}
                   <IrrelevantButton
                     isIndividual={true}
                     exam={exam}
@@ -76,20 +77,22 @@ export default async function ExamOverview({
                 </div>
                 <div className="flex flex-col gap-3">
                   <div className="flex gap-2 items-center border-primary border-4 rounded-xl p-2 h-min">
-                    <p>Napsal/a: {getDisplayName(bestExamNote, user)}</p>
+                    <p className="text-center">
+                      Napsal/a: {getDisplayName(bestExamNote, user)}
+                    </p>
                   </div>
 
                   <Share
                     btnText="Sdílej tento test"
                     text={`${subject?.name} ${examType?.name} ${new Date(
                       exam.date,
-                    ).getDate()}.${new Date(
-                      exam.date,
-                    ).getMonth()} ${capitalizeFirstLetter(
+                    ).getDate()}.${
+                      new Date(exam.date).getMonth() + 1
+                    } ${capitalizeFirstLetter(
                       getDayName(exam.date, "cs-CZ"),
                     )}\n${bestExamNote.content}\nNapsal/a: ${shortenName(
                       examNoteAuthor?.name!,
-                    )}\nAby jste se dozvěděli víc navšticte: \n`}
+                    )}\nAbyste se dozvěděli víc, navštivte: \n`}
                   />
                 </div>
               </div>
@@ -108,6 +111,14 @@ export default async function ExamOverview({
           ))}
         </div>
       </div>
-    </>
+      <div className="card bg-base-200 shadow-xl border border-gray-300 flex items-center justify-center">
+        <div className="card-body text-center justify-center items-center w-full">
+          <h2 className="card-title justify-center w-full mb-3">
+            Přidat poznámku
+          </h2>
+          <AddExamNote user={user} examId={exam.id} />
+        </div>
+      </div>
+    </div>
   );
 }
