@@ -60,7 +60,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="cs">
+    <html lang="cs" className="max-w-full overflow-x-hidden">
       <body>
         <AuthProvider>
           <NavBar />

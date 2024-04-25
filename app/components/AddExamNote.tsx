@@ -34,6 +34,7 @@ export default function AddExamNote({ user, examId }: Props) {
         name="content"
         placeholder="Co tu schází?"
         required
+        maxLength={1000}
         className="textarea input-bordered w-full text-lg"
       />
 

@@ -8,6 +8,6 @@ export async function getDisplayName(activeNote: ExamNote, user: User) {
   if (activeNote.userId !== user.id) {
     return shortenName(activeNoteUser!.name!);
   } else {
-    return "You";
+    return "Ty";
   }
 }

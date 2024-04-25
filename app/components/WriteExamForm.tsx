@@ -9,11 +9,21 @@ type Props = {
   subjects: Subject[];
   user: User;
   examTypes: ExamType[];
+  date: string | null;
 };
 
-export default function WriteExamForm({ subjects, user, examTypes }: Props) {
+export default function WriteExamForm({
+  subjects,
+  user,
+  examTypes,
+  date,
+}: Props) {
   const router = useRouter();
   const [afterSubmit, setAfterSubmit] = useState<FormResponse | null>(null);
+
+  const dateValue = date
+    ? new Date(date).toISOString().substr(0, 10)
+    : undefined;
 
   useEffect(() => {
     if (afterSubmit?.success) router.push("/");
@@ -38,6 +48,8 @@ export default function WriteExamForm({ subjects, user, examTypes }: Props) {
             id="date"
             name="date"
             required
+            defaultValue={dateValue}
+            min={new Date().toISOString().substr(0, 10)}
             className="input input-bordered w-full text-black"
           />
         </div>
@@ -62,6 +74,7 @@ export default function WriteExamForm({ subjects, user, examTypes }: Props) {
         id="content"
         name="content"
         placeholder="Co bude v testu?"
+        maxLength={1000}
         required
         className="textarea input-bordered w-full text-lg"
       />
