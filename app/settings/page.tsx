@@ -4,9 +4,10 @@ import { authOptions } from "@/app/api/auth/authOptions";
 import UserInfo from "@/app/components/UserInfo";
 import JoinClass from "@/app/components/JoinClass";
 import MyClass from "@/app/components/MyClass";
+import InstallPWA from "@/app/components/InstallPWA";
 export default async function Settings() {
   const session = await getServerSession(authOptions);
-  if (!session) return "Login to continue";
+  if (!session) return "Přihlaste se, abyste mohli pokračovat";
   const user = await prisma.user.findUnique({
     where: { email: session.user!.email! },
   });
@@ -17,6 +18,7 @@ export default async function Settings() {
         <UserInfo user={user} />
         <JoinClass />
         <MyClass myClassId={user.classId || null} />
+        <InstallPWA />
       </div>
     </main>
   );
