@@ -27,7 +27,8 @@ const NavBar = () => {
   };
 
   return (
-    <div className="flex flex-row justify-between align-middle mx-3 mt-6 bg-primary rounded-full overflow-hidden h-12">
+    <div className="flex flex-row justify-between align-middle mt-6 bg-primary  overflow-hidden h-12">
+      {/*mx-3 rounded-full*/}
       {status === "loading" && (
         <div className="mx-5 flex items-center justify-end w-screen">
           <Loading />

@@ -30,7 +30,9 @@ export default async function Write({ searchParams }: Props) {
     miniDates[miniDates.length - 1] = miniDates[miniDates.length - 1] + 1;
     const internalDate = miniDates.join("-");
     new Date(internalDate).toISOString();
-    date = internalDate;
+    if (!isNaN(new Date(internalDate).getTime())) {
+      date = internalDate;
+    }
   } catch (e) {}
 
   return (
