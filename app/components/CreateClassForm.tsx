@@ -73,11 +73,6 @@ export default function CreateClassForm({ defaultSubjects, user }: Props) {
         required
         className="textarea input-bordered w-full text-lg"
       />
-      <div>
-        {activeSubjects?.map((subject, index) => (
-          <p key={index}>{subject.subject}</p>
-        ))}
-      </div>
       {activeSubjects?.map((subject, index) => (
         <FormInputSubjectPart
           key={index}
