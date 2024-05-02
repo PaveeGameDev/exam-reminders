@@ -37,6 +37,7 @@ export default function CreateClassForm({ defaultSubjects, user }: Props) {
   }, [afterSubmit]);
 
   const onDelete = (id: number): void => {
+    console.log(activeSubjects, "activeSubjects");
     setActiveSubjects(activeSubjects?.filter((subject) => subject.id !== id));
   };
   const onCreate = (content: string): void => {

@@ -13,6 +13,8 @@ export default async function CreateClass() {
   if (!user.classId) return "Musíte se přihlásit do třídy";
   const defaultSubjects = await prisma.subject.findMany({});
 
+  console.log(defaultSubjects, "default subjects");
+
   return (
     <main className="flex justify-center">
       <CreateClassForm defaultSubjects={defaultSubjects} user={user} />
