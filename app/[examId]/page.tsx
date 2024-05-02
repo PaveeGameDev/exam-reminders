@@ -29,6 +29,9 @@ export default async function ExamOverview({
     where: { email: session.user!.email! },
   });
   if (!user) return "An error occurred";
+  if (!parseInt(params.examId)) {
+    return "An error occurred with examId";
+  }
   const exam = await prisma.exam.findUnique({
     where: { id: parseInt(params.examId) },
   });

@@ -16,6 +16,10 @@ export const updateExamDateSchema = z.object({
   date: z.string().transform((arg) => new Date(arg)),
 });
 
+export const isDateObj = z.object({
+  dateZod: z.string().transform((arg) => new Date(arg)),
+});
+
 export const writeExamNoteSchema = z.object({
   content: z.string(),
 });

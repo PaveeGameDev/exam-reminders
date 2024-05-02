@@ -2,6 +2,7 @@ import { authOptions } from "@/app/api/auth/authOptions";
 import { getServerSession } from "next-auth";
 import prisma from "@/prisma/client";
 import WriteExamForm from "@/app/components/WriteExamForm";
+import { isDateObj } from "@/app/actions/actionsSchema";
 
 type Props = {
   searchParams: { [param: string]: string };
@@ -23,17 +24,21 @@ export default async function Write({ searchParams }: Props) {
 
   let date: null | string = null;
 
-  try {
+  if (searchParams.date) {
     const miniDates = searchParams.date
       .split("-")
       .map((miniDate) => parseInt(miniDate));
     miniDates[miniDates.length - 1] = miniDates[miniDates.length - 1] + 1;
     const internalDate = miniDates.join("-");
-    new Date(internalDate).toISOString();
-    if (!isNaN(new Date(internalDate).getTime())) {
-      date = internalDate;
+    const { success } = isDateObj.safeParse({
+      dateZod: internalDate,
+    });
+    if (success) {
+      if (!isNaN(new Date(internalDate).getTime())) {
+        date = internalDate;
+      }
     }
-  } catch (e) {}
+  }
 
   return (
     <main className="flex justify-center">
