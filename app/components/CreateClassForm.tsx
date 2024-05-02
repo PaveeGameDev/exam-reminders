@@ -19,7 +19,12 @@ export default function CreateClassForm({ defaultSubjects, user }: Props) {
       id: number;
       subject: string;
     }[]
-  >();
+  >(() =>
+    defaultSubjects.map((subject, index) => ({
+      id: index,
+      subject: subject.name,
+    })),
+  );
 
   useEffect(() => {
     return () => {
@@ -37,7 +42,6 @@ export default function CreateClassForm({ defaultSubjects, user }: Props) {
   }, [afterSubmit]);
 
   const onDelete = (id: number): void => {
-    console.log(activeSubjects, "activeSubjects");
     setActiveSubjects(activeSubjects?.filter((subject) => subject.id !== id));
   };
   const onCreate = (content: string): void => {
@@ -69,6 +73,11 @@ export default function CreateClassForm({ defaultSubjects, user }: Props) {
         required
         className="textarea input-bordered w-full text-lg"
       />
+      <div>
+        {activeSubjects?.map((subject, index) => (
+          <p key={index}>{subject.subject}</p>
+        ))}
+      </div>
       {activeSubjects?.map((subject, index) => (
         <FormInputSubjectPart
           key={index}
