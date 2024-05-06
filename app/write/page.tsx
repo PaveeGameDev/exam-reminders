@@ -22,7 +22,7 @@ export default async function Write({ searchParams }: Props) {
     orderBy: { priority: "desc" },
   });
 
-  let date: null | string = null;
+  /*let date: null | string = null;
 
   if (searchParams.date) {
     const miniDates = searchParams.date
@@ -38,7 +38,7 @@ export default async function Write({ searchParams }: Props) {
         date = internalDate;
       }
     }
-  }
+  }*/
 
   return (
     <main className="flex justify-center">
@@ -46,7 +46,7 @@ export default async function Write({ searchParams }: Props) {
         subjects={subjects}
         user={user}
         examTypes={examTypes}
-        date={date}
+        date={null}
       />
     </main>
   );
