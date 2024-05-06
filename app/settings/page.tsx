@@ -5,6 +5,7 @@ import UserInfo from "@/app/components/UserInfo";
 import JoinClass from "@/app/components/JoinClass";
 import MyClass from "@/app/components/MyClass";
 import InstallPWA from "@/app/components/InstallPWA";
+import SubjectPreferenceWrapper from "@/app/components/settings/SubjectPreferenceWrapper";
 export default async function Settings() {
   const session = await getServerSession(authOptions);
   if (!session) return "Přihlaste se, abyste mohli pokračovat";
@@ -19,6 +20,7 @@ export default async function Settings() {
         <JoinClass />
         <MyClass myClassId={user.classId || null} />
         <InstallPWA />
+        <SubjectPreferenceWrapper user={user} />
       </div>
     </main>
   );

@@ -1,5 +1,5 @@
 "use client";
-import { joinClass } from "@/app/actions/actions";
+import { joinClassForm } from "@/app/actions/actions";
 import { useRef, useState } from "react";
 import { FormResponse } from "@/app/types/types";
 export default function JoinClass() {
@@ -13,7 +13,7 @@ export default function JoinClass() {
           ref={ref}
           action={async (formData) => {
             ref.current?.reset();
-            setAfterSubmit(await joinClass(formData));
+            setAfterSubmit(await joinClassForm(formData));
           }}
           className="flex flex-col items-center"
         >

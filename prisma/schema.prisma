@@ -5,16 +5,16 @@ generator client {
   provider = "prisma-client-js"
 }
 
-datasource db {
-  provider  = "postgresql"
-  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
-  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
-}
-
 // datasource db {
-//   provider = "mysql"
-//   url      = env("DATABASE_URL")
+//   provider  = "postgresql"
+//   url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+//   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 // }
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
 
 model Account {
   id                String  @id @default(cuid())
@@ -44,19 +44,20 @@ model Session {
 }
 
 model User {
-  id                  String                @id @default(cuid())
-  name                String?
-  email               String?               @unique
-  emailVerified       DateTime?
-  hashedPassword      String?
-  image               String?
-  accounts            Account[]
-  sessions            Session[]
-  classId             Int?
-  class               Class?                @relation(fields: [classId], references: [id])
-  ExamNote            ExamNote[]
-  UserExamPreferences UserExamPreferences[]
-  Exam                Exam[]
+  id                         String                       @id @default(cuid())
+  name                       String?
+  email                      String?                      @unique
+  emailVerified              DateTime?
+  hashedPassword             String?
+  image                      String?
+  accounts                   Account[]
+  sessions                   Session[]
+  classId                    Int?
+  class                      Class?                       @relation(fields: [classId], references: [id])
+  ExamNote                   ExamNote[]
+  UserExamPreferences        UserExamPreferences[]
+  Exam                       Exam[]
+  ClassSubjectUserPreference ClassSubjectUserPreference[]
 }
 
 model VerificationToken {
@@ -68,9 +69,12 @@ model VerificationToken {
 }
 
 model Class {
-  id    Int    @id @unique
-  users User[]
-  exams Exam[]
+  id                         Int                          @id @unique
+  name                       String
+  users                      User[]
+  exams                      Exam[]
+  ClassSubjects              ClassSubjects[]
+  ClassSubjectUserPreference ClassSubjectUserPreference[]
 }
 
 model ExamType {
@@ -131,4 +135,24 @@ model UserExamPreferences {
   examNote   ExamNote? @relation(fields: [examNoteId], references: [id])
   stateId    Int       @default(0)
   State      State     @relation(fields: [stateId], references: [id])
+}
+
+model ClassSubjects {
+  id                         Int                          @id @default(autoincrement())
+  classId                    Int
+  Class                      Class                        @relation(fields: [classId], references: [id])
+  name                       String
+  stateId                    Int                          @default(0)
+  ClassSubjectUserPreference ClassSubjectUserPreference[]
+}
+
+model ClassSubjectUserPreference {
+  id              Int           @id @default(autoincrement())
+  userId          String
+  User            User          @relation(fields: [userId], references: [id])
+  classSubjectsId Int
+  Subject         ClassSubjects @relation(fields: [classSubjectsId], references: [id])
+  classId         Int?
+  Class           Class?        @relation(fields: [classId], references: [id])
+  stateId         Int           @default(0)
 }

@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import prisma from "@/prisma/client";
 import WriteExamForm from "@/app/components/WriteExamForm";
 import { isDateObj } from "@/app/actions/actionsSchema";
+import { getUserActiveSubject } from "@/functions/getUserActiveSubject";
 
 type Props = {
   searchParams: { [param: string]: string };
@@ -16,9 +17,8 @@ export default async function Write({ searchParams }: Props) {
   });
   if (!user) return <p>An error occurred</p>;
   if (!user.classId) return "Musíte se přihlásit do třídy";
-  const subjects = await prisma.subject.findMany({});
+  const subjects = await getUserActiveSubject(user);
   const examTypes = await prisma.examType.findMany({
-    where: { NOT: { id: 1 } },
     orderBy: { priority: "desc" },
   });
 

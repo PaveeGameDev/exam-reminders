@@ -1,5 +1,5 @@
 "use client";
-import { writeExam } from "@/app/actions/actions";
+import { createClass } from "@/app/actions/actions";
 import { Subject, User } from "@prisma/client";
 import { useEffect, useState } from "react";
 import { FormResponse } from "@/app/types/types";
@@ -38,7 +38,7 @@ export default function CreateClassForm({ defaultSubjects, user }: Props) {
   }, []);
 
   useEffect(() => {
-    if (afterSubmit?.success) router.push("/");
+    if (afterSubmit?.success) router.push("/settings");
   }, [afterSubmit]);
 
   const onDelete = (id: number): void => {
@@ -58,16 +58,22 @@ export default function CreateClassForm({ defaultSubjects, user }: Props) {
   return (
     <form
       action={async (formData) => {
-        setAfterSubmit(await writeExam(formData, user));
+        setAfterSubmit(
+          await createClass(
+            formData,
+            user,
+            activeSubjects.map((subject) => subject.subject),
+          ),
+        );
       }}
       className="flex flex-col space-y-4 bg-base-200 shadow-xl border border-gray-300 p-6 rounded-lg max-w-md w-full"
     >
-      <label htmlFor="content" className="font-semibold">
+      <label htmlFor="className" className="font-semibold">
         Jméno třídy
       </label>
       <input
-        id="content"
-        name="content"
+        id="className"
+        name="className"
         placeholder="Třída U - Gymnázium Opatov"
         maxLength={100}
         required
@@ -83,6 +89,14 @@ export default function CreateClassForm({ defaultSubjects, user }: Props) {
           isCreational={false}
         />
       ))}
+      <FormInputSubjectPart
+        key={999}
+        id={999}
+        content="Add new subject"
+        onDelete={(id: number) => onDelete(id)}
+        onCreate={(content: string) => onCreate(content)}
+        isCreational={true}
+      />
 
       <button type="submit" className="btn btn-primary mt-2">
         Vytvořit

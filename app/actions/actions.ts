@@ -1,6 +1,7 @@
 "use server";
 
 import {
+  createClassSchema,
   joinClassSchema,
   updateExamDateSchema,
   writeExamNoteSchema,
@@ -10,13 +11,19 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/authOptions";
 import prisma from "@/prisma/client";
 import { revalidatePath } from "next/cache";
-import { Exam, ExamNote, User } from "@prisma/client";
+import { ClassSubjects, Exam, ExamNote, Prisma, User } from "@prisma/client";
+import generateClassIdCode from "@/functions/generateClassIdCode";
+import ClassSubjectsCreateManyInput = Prisma.ClassSubjectsCreateManyInput;
 
-export async function joinClass(formData: FormData) {
+export async function joinClassForm(formData: FormData) {
   const { classId } = joinClassSchema.parse({
     classId: formData.get("classId"),
   });
 
+  return joinClass(classId);
+}
+
+export async function joinClass(classId: number) {
   const session = await getServerSession(authOptions);
   if (!session) return { error: "Login to continue" };
   const user = await prisma.user.findUnique({
@@ -255,4 +262,100 @@ export async function writeExamNote(
   } else {
     return { error: "Exam note cannot be added" };
   }
+}
+
+export async function createClass(
+  formData: FormData,
+  user: User,
+  subjects: string[],
+) {
+  const { className } = createClassSchema.parse({
+    className: formData.get("className"),
+  });
+
+  const classCode = await generateClassIdCode();
+
+  const createdClass = await prisma.class.create({
+    data: { id: classCode, name: className },
+  });
+
+  if (!createdClass) {
+    return { error: "Cannot create class" };
+  }
+
+  const classSubjects = subjects.map((subject) => ({
+    classId: classCode,
+    name: subject,
+  }));
+
+  const createdClassSubjects = await prisma.classSubjects.createMany({
+    data: classSubjects,
+  });
+
+  if (!createdClassSubjects) {
+    return { error: "Cannot create subjects" };
+  }
+
+  const joinClassResponse = await joinClass(createdClass.id);
+
+  if (joinClassResponse?.error) {
+    return joinClassResponse;
+  }
+
+  return { success: "Class successfully created" };
+}
+
+export async function changeClassSubjectUserPreference(
+  user: User,
+  activeSubjectsId: number[],
+  disabledSubjectsId: number[],
+) {
+  for (let i = 0; i < activeSubjectsId.length; i++) {
+    const subjectId = activeSubjectsId[i];
+
+    const currentClassSubjectUserPreference =
+      await prisma.classSubjectUserPreference.findFirst({
+        where: {
+          classId: user.classId,
+          userId: user.id,
+          classSubjectsId: subjectId,
+        },
+      });
+    if (currentClassSubjectUserPreference) {
+      await prisma.classSubjectUserPreference.update({
+        where: { id: currentClassSubjectUserPreference.id },
+        data: { stateId: 0 },
+      });
+    }
+  }
+
+  for (let i = 0; i < disabledSubjectsId.length; i++) {
+    const subjectId = disabledSubjectsId[i];
+
+    const currentClassSubjectUserPreference =
+      await prisma.classSubjectUserPreference.findFirst({
+        where: {
+          classId: user.classId,
+          userId: user.id,
+          classSubjectsId: subjectId,
+        },
+      });
+    if (currentClassSubjectUserPreference) {
+      await prisma.classSubjectUserPreference.update({
+        where: { id: currentClassSubjectUserPreference.id },
+        data: { stateId: 2 },
+      });
+    } else {
+      await prisma.classSubjectUserPreference.create({
+        data: {
+          userId: user.id,
+          classSubjectsId: subjectId,
+          classId: user.classId,
+          stateId: 2,
+        },
+      });
+    }
+  }
+  revalidatePath(`/`);
+  return { success: "Preferences successfully updated" };
 }
