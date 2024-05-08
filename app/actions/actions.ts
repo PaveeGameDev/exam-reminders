@@ -357,5 +357,5 @@ export async function changeClassSubjectUserPreference(
     }
   }
   revalidatePath(`/`);
-  return { success: "Preferences successfully updated" };
+  return { success: "Tvoje předměty byly uloženy" };
 }

@@ -64,28 +64,33 @@ export default function SubjectPreference({
       }}
       className="flex flex-col space-y-4 bg-base-200 shadow-xl border border-gray-300 p-6 rounded-lg max-w-md w-full"
     >
-      <p>Active subjects</p>
-      {activeSubjectsAfter?.map((subject, index) => (
-        <FormInputSubjectPart
-          key={index}
-          id={subject.id}
-          content={subject.name}
-          onDelete={(id: number) => onDelete(id)}
-          isCreational={false}
-        />
-      ))}
-      <p>Disabled subjects</p>
-      {disabledSubjectsAfter?.map((subject, index) => (
-        <FormInputSubjectPart
-          key={index}
-          id={subject.id}
-          content={subject.name}
-          onDelete={(id: number) => onAdd(id)}
-          isCreational={false}
-        />
-      ))}
-
-      <button type="submit" className="btn btn-primary mt-2">
+      <h2 className="card-title justify-center w-full">Tvoje předměty</h2>
+      <p>Tvoje předměty</p>
+      <div className="w-full grid grid-cols-2 gap-x-2 gap-y-1">
+        {activeSubjectsAfter?.map((subject, index) => (
+          <FormInputSubjectPart
+            key={index}
+            id={subject.id}
+            content={subject.name}
+            onDelete={(id: number) => onDelete(id)}
+            isCreational={false}
+          />
+        ))}
+      </div>
+      <p>Neaktivní předměty</p>
+      <div className="w-full grid grid-cols-2 gap-x-2 gap-y-1">
+        {disabledSubjectsAfter?.map((subject, index) => (
+          <FormInputSubjectPart
+            key={index}
+            id={subject.id}
+            content={subject.name}
+            onDelete={(id: number) => onAdd(id)}
+            isCreational={false}
+            showCheck={true}
+          />
+        ))}
+      </div>
+      <button type="submit" className="btn btn-primary mt-5 w-full">
         Uložit
       </button>
       {afterSubmit && afterSubmit.success && (

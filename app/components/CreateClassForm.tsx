@@ -80,25 +80,28 @@ export default function CreateClassForm({ defaultSubjects, user }: Props) {
         required
         className="textarea input-bordered w-full text-lg"
       />
-      {activeSubjects?.map((subject, index) => (
+      <p className="font-semibold mb-2">Předměty</p>
+      <div className="w-full grid grid-cols-2 gap-x-2 gap-y-1">
+        {activeSubjects?.map((subject, index) => (
+          <FormInputSubjectPart
+            key={index}
+            id={subject.id}
+            content={subject.subject}
+            onDelete={(id: number) => onDelete(id)}
+            onCreate={(content: string) => onCreate(content)}
+            isCreational={false}
+          />
+        ))}
         <FormInputSubjectPart
-          key={index}
-          id={subject.id}
-          content={subject.subject}
+          key={999}
+          id={999}
+          content="Add new subject"
           onDelete={(id: number) => onDelete(id)}
           onCreate={(content: string) => onCreate(content)}
-          isCreational={false}
+          isCreational={true}
+          showCheck={true}
         />
-      ))}
-      <FormInputSubjectPart
-        key={999}
-        id={999}
-        content="Add new subject"
-        onDelete={(id: number) => onDelete(id)}
-        onCreate={(content: string) => onCreate(content)}
-        isCreational={true}
-      />
-
+      </div>
       <button type="submit" className="btn btn-primary mt-2">
         Vytvořit
       </button>

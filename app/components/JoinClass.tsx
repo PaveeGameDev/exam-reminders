@@ -2,6 +2,7 @@
 import { joinClassForm } from "@/app/actions/actions";
 import { useRef, useState } from "react";
 import { FormResponse } from "@/app/types/types";
+import Link from "next/link";
 export default function JoinClass() {
   const ref = useRef<HTMLFormElement>(null);
   const [afterSubmit, setAfterSubmit] = useState<FormResponse | null>(null);
@@ -18,7 +19,7 @@ export default function JoinClass() {
           className="flex flex-col items-center"
         >
           <label htmlFor="classId" className="mb-2 text-xl font-semibold">
-            Přihlásit se do třídy
+            Zapsat se / Vytvořit třídu
           </label>
           <input
             className="input input-bordered input-primary w-full max-w-xs text-center text-lg"
@@ -29,8 +30,14 @@ export default function JoinClass() {
             required
           />
           <button className="btn btn-primary mt-5 w-full max-w-xs">
-            Přihlásit se
+            Zapsat se
           </button>
+          <Link
+            href="/createclass"
+            className="btn btn-primary mt-5 w-full max-w-xs"
+          >
+            Vytvořit třídu
+          </Link>
           {afterSubmit && afterSubmit.success && (
             <p className="text-success text-center">{afterSubmit.success}</p>
           )}
