@@ -42,6 +42,7 @@ export default function CreateClassForm({ defaultSubjects, user }: Props) {
   }, [afterSubmit]);
 
   const onDelete = (id: number): void => {
+    if (activeSubjects.length === 1) return; //ToDo - add a popup screen or remove the functionality totally. Now it break if there is no subject active
     setActiveSubjects(activeSubjects?.filter((subject) => subject.id !== id));
   };
   const onCreate = (content: string): void => {

@@ -13,13 +13,20 @@ export default async function Settings() {
     where: { email: session.user!.email! },
   });
   if (!user) return "An error occurred";
+  let usersClass = null;
+  if (user.classId) {
+    usersClass = await prisma.class.findUnique({
+      where: { id: user.classId },
+    });
+  }
+
   return (
     <main className="flex justify-center">
       <div className="space-y-5 w-full max-w-md mx-auto">
+        <InstallPWA />
         <UserInfo user={user} />
         <JoinClass />
-        <MyClass myClassId={user.classId || null} />
-        <InstallPWA />
+        <MyClass myClass={usersClass} />
         <SubjectPreferenceWrapper user={user} />
       </div>
     </main>

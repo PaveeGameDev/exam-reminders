@@ -18,6 +18,7 @@ export default function FormInputSubjectPart({
 }: Props) {
   const [input, setInput] = useState("");
   const onClick = (e: any) => {
+    console.log(content, id);
     e?.preventDefault();
     if (isCreational && onCreate) {
       onCreate(input);

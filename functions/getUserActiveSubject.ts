@@ -9,7 +9,6 @@ export async function getUserActiveSubject(
     where: { classId: user.classId },
   });
   const subjectPreference = await getUserClassSubjectPreference(user.id);
-
   const possibleSubjects = subjects.filter((subject) => subject.stateId !== 2);
 
   const isWanted = (subject: ClassSubjects) =>

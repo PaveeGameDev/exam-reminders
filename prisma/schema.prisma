@@ -88,7 +88,7 @@ model Exam {
   id                  Int                   @id @default(autoincrement())
   classId             Int
   date                DateTime
-  subject             Subject               @relation(fields: [subjectId], references: [id])
+  subject             ClassSubjects         @relation(fields: [subjectId], references: [id])
   subjectId           Int
   class               Class                 @relation(fields: [classId], references: [id])
   examNotes           ExamNote[]
@@ -115,7 +115,6 @@ model ExamNote {
 model Subject {
   id   Int    @id @default(autoincrement())
   name String
-  Exam Exam[]
 }
 
 model State {
@@ -144,6 +143,7 @@ model ClassSubjects {
   name                       String
   stateId                    Int                          @default(0)
   ClassSubjectUserPreference ClassSubjectUserPreference[]
+  Exam                       Exam[]
 }
 
 model ClassSubjectUserPreference {
