@@ -357,5 +357,5 @@ export async function changeClassSubjectUserPreference(
     }
   }
   revalidatePath(`/`);
-  return { success: "Tvoje předměty byly uloženy" };
+  return { success: "Tvoje aktivní předměty byly uloženy" };
 }
