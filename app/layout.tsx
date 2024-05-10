@@ -63,17 +63,17 @@ export default function RootLayout({
   return (
     <html lang="cs" className="max-w-full overflow-x-hidden">
       <body>
-        {/*<UpdateUnderway*/}
-        {/*  text="Rozdělení A1 a A2"*/}
-        {/*  image="/images/UpcomingWeek1.png"*/}
-        {/*  backOn="Pátek"*/}
-        {/*/>*/}
-        <AuthProvider>
-          <NavBar />
-          <main className="m-3 mt-5">{children}</main>
-          <SpeedInsights />
-          <Analytics />
-        </AuthProvider>
+        <UpdateUnderway
+          text="Rozdělení A1 a A2"
+          image="/images/UpcomingWeek1.png"
+          backOn="Pátek"
+        />
+        {/*<AuthProvider>*/}
+        {/*  <NavBar />*/}
+        {/*  <main className="m-3 mt-5">{children}</main>*/}
+        {/*  <SpeedInsights />*/}
+        {/*  <Analytics />*/}
+        {/*</AuthProvider>*/}
       </body>
     </html>
   );
