@@ -5,16 +5,16 @@ generator client {
   provider = "prisma-client-js"
 }
 
-// datasource db {
-//   provider  = "postgresql"
-//   url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
-//   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
-// }
-
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
+
+// datasource db {
+//   provider = "mysql"
+//   url      = env("DATABASE_URL")
+// }
 
 model Account {
   id                String  @id @default(cuid())
@@ -70,7 +70,7 @@ model VerificationToken {
 
 model Class {
   id                         Int                          @id @unique
-  name                       String
+  name                       String?
   users                      User[]
   exams                      Exam[]
   ClassSubjects              ClassSubjects[]
@@ -88,7 +88,6 @@ model Exam {
   id                  Int                   @id @default(autoincrement())
   classId             Int
   date                DateTime
-  subject             ClassSubjects         @relation(fields: [subjectId], references: [id])
   subjectId           Int
   class               Class                 @relation(fields: [classId], references: [id])
   examNotes           ExamNote[]
@@ -143,7 +142,6 @@ model ClassSubjects {
   name                       String
   stateId                    Int                          @default(0)
   ClassSubjectUserPreference ClassSubjectUserPreference[]
-  Exam                       Exam[]
 }
 
 model ClassSubjectUserPreference {

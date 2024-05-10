@@ -8,11 +8,11 @@
       <jdbc-url>jdbc:mysql://localhost:3306</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="verceldb@ep-odd-surf-a21fre1a-pooler.eu-central-1.aws.neon.tech" uuid="4a0c84ce-791c-41f2-bf34-9ca6a70e7901">
+    <data-source source="LOCAL" name="postgres@ep-odd-surf-a21fre1a-pooler.eu-central-1.aws.neon.tech" uuid="dbdf69e4-ca26-43fc-b492-ea48f404c83a">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://ep-odd-surf-a21fre1a-pooler.eu-central-1.aws.neon.tech:5432/verceldb</jdbc-url>
+      <jdbc-url>jdbc:postgresql://ep-odd-surf-a21fre1a-pooler.eu-central-1.aws.neon.tech:5432/postgres</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

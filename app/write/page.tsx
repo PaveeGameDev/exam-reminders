@@ -19,6 +19,7 @@ export default async function Write({ searchParams }: Props) {
   if (!user.classId) return "Musíte se přihlásit do třídy";
   const subjects = await getUserActiveSubject(user);
   const examTypes = await prisma.examType.findMany({
+    where: { NOT: { id: 1 } },
     orderBy: { priority: "desc" },
   });
 
