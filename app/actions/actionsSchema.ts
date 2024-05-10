@@ -23,3 +23,5 @@ export const isDateObj = z.object({
 export const writeExamNoteSchema = z.object({
   content: z.string(),
 });
+
+export const createClassSchema = z.object({ className: z.string() });

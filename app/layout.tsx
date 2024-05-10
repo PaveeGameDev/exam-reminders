@@ -5,6 +5,7 @@ import AuthProvider from "@/auth/Provider";
 import NavBar from "@/app/NavBar";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
+import UpdateUnderway from "@/app/components/seasonal/UpdateUnderway";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -62,12 +63,17 @@ export default function RootLayout({
   return (
     <html lang="cs" className="max-w-full overflow-x-hidden">
       <body>
-        <AuthProvider>
-          <NavBar />
-          <main className="m-3 mt-5">{children}</main>
-          <SpeedInsights />
-          <Analytics />
-        </AuthProvider>
+        <UpdateUnderway
+          text="Rozdělení A1 a A2"
+          image="/images/UpcomingWeek1.png"
+          backOn="Pátek"
+        />
+        {/*<AuthProvider>*/}
+        {/*  <NavBar />*/}
+        {/*  <main className="m-3 mt-5">{children}</main>*/}
+        {/*  <SpeedInsights />*/}
+        {/*  <Analytics />*/}
+        {/*</AuthProvider>*/}
       </body>
     </html>
   );

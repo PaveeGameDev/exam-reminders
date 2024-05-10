@@ -1,8 +1,10 @@
 import prisma from "@/prisma/client";
 import { Exam, User } from "@prisma/client";
+import { getUserActiveSubject } from "@/functions/getUserActiveSubject";
 
 export const getUpcomingExams = async (user: User): Promise<Exam[] | null> => {
-  return await prisma.exam.findMany({
+  const activeSubjects = await getUserActiveSubject(user);
+  const allExams = await prisma.exam.findMany({
     where: {
       classId: user.classId!,
       stateId: 0,
@@ -20,4 +22,8 @@ export const getUpcomingExams = async (user: User): Promise<Exam[] | null> => {
       },
     },
   });
+
+  return allExams.filter((exam) =>
+    activeSubjects.find((subject) => exam.subjectId === subject.id),
+  );
 };
