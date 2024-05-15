@@ -1,6 +1,17 @@
+"use client";
+import { useEffect, useState } from "react";
 import Image from "next/image";
+import { isPWA } from "@/functions/isPWA";
 
 export default function InstallPWA() {
+  const [isPwa, setIsPwa] = useState(false);
+
+  useEffect(() => {
+    setIsPwa(isPWA());
+  }, []);
+
+  if (isPwa) return null;
+
   return (
     <div className="card bg-base-200 shadow-xl border border-gray-300 flex items-center justify-center">
       <div className="card-body text-center">
