@@ -23,13 +23,15 @@ export default async function Write({ searchParams }: Props) {
     orderBy: { priority: "desc" },
   });
 
-  const defaultDate = new Date(
-    new Date(searchParams.date).setDate(
-      new Date(searchParams.date).getDate() + 1,
-    ),
-  )
-    .toISOString()
-    .substr(0, 10);
+  const defaultDate: string | null = searchParams.date
+    ? new Date(
+        new Date(searchParams.date).setDate(
+          new Date(searchParams.date).getDate() + 1,
+        ),
+      )
+        .toISOString()
+        .substr(0, 10)
+    : null;
 
   return (
     <main className="flex justify-center">
