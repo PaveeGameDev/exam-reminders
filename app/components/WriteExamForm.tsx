@@ -20,21 +20,10 @@ export default function WriteExamForm({
 }: Props) {
   const router = useRouter();
   const [afterSubmit, setAfterSubmit] = useState<FormResponse | null>(null);
-  const [defaultValue, setDefaultValue] = useState<string | undefined>(
-    undefined,
-  );
-
-  useEffect(() => {
-    setDefaultValue(
-      date ? new Date(date).toISOString().substr(0, 10) : undefined,
-    );
-  }, []);
 
   useEffect(() => {
     if (afterSubmit?.success) router.push("/");
   }, [afterSubmit]);
-
-  console.log(defaultValue);
 
   return (
     <form
