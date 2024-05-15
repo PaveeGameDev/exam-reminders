@@ -23,23 +23,13 @@ export default async function Write({ searchParams }: Props) {
     orderBy: { priority: "desc" },
   });
 
-  // let date: null | string = null;
-  //
-  // if (searchParams.date) {
-  //   const miniDates = searchParams.date
-  //     .split("-")
-  //     .map((miniDate) => parseInt(miniDate));
-  //   miniDates[miniDates.length - 1] = miniDates[miniDates.length - 1] + 1;
-  //   const internalDate = miniDates.join("-");
-  //   const { success } = isDateObj.safeParse({
-  //     dateZod: internalDate,
-  //   });
-  //   if (success) {
-  //     if (!isNaN(new Date(internalDate).getTime())) {
-  //       date = internalDate;
-  //     }
-  //   }
-  // }
+  const defaultDate = new Date(
+    new Date(searchParams.date).setDate(
+      new Date(searchParams.date).getDate() + 1,
+    ),
+  )
+    .toISOString()
+    .substr(0, 10);
 
   return (
     <main className="flex justify-center">
@@ -47,7 +37,7 @@ export default async function Write({ searchParams }: Props) {
         subjects={subjects}
         user={user}
         examTypes={examTypes}
-        date={"2024-05-22"}
+        date={defaultDate}
       />
     </main>
   );
