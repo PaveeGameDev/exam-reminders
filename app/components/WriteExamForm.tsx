@@ -9,7 +9,7 @@ type Props = {
   subjects: Subject[];
   user: User;
   examTypes: ExamType[];
-  date: string | undefined;
+  date: string | null;
 };
 
 export default function WriteExamForm({
