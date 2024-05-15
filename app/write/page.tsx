@@ -18,19 +18,14 @@ export default async function Write({ searchParams }: Props) {
   if (!user) return <p>An error occurred</p>;
   if (!user.classId) return "Musíte se přihlásit do třídy";
   const subjects = await getUserActiveSubject(user);
+  //For current database configuration, does not serve different purpose other than hide one value that makes no sense for some time so it can be used later
   const examTypes = await prisma.examType.findMany({
     where: { NOT: { id: 1 } },
     orderBy: { priority: "desc" },
   });
 
   const defaultDate: string | null = searchParams.date
-    ? new Date(
-        new Date(searchParams.date).setDate(
-          new Date(searchParams.date).getDate() + 1,
-        ),
-      )
-        .toISOString()
-        .substr(0, 10)
+    ? new Date(searchParams.date).toISOString().substr(0, 10)
     : null;
 
   return (
