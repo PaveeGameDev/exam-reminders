@@ -22,7 +22,6 @@ export default function FormInputSubjectPart({
 }: Props) {
   const [input, setInput] = useState("");
   const onClick = (e: any): void => {
-    // console.log(content, id, e);
     e?.preventDefault();
     if (e?.detail === 1) {
       //Todo - take a look on how this behavior works
