@@ -9,7 +9,7 @@ type Props = {
   subjects: Subject[];
   user: User;
   examTypes: ExamType[];
-  date: string | null;
+  date: string | undefined;
 };
 
 export default function WriteExamForm({
@@ -34,6 +34,8 @@ export default function WriteExamForm({
     if (afterSubmit?.success) router.push("/");
   }, [afterSubmit]);
 
+  console.log(defaultValue);
+
   return (
     <form
       action={async (formData) => {
@@ -53,7 +55,9 @@ export default function WriteExamForm({
             id="date"
             name="date"
             required
-            defaultValue={defaultValue}
+            defaultValue={
+              date ? new Date(date).toISOString().substr(0, 10) : undefined
+            }
             min={new Date().toISOString().substr(0, 10)}
             className="input input-bordered w-full text-black"
           />
