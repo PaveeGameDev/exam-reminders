@@ -2,7 +2,6 @@ import { authOptions } from "@/app/api/auth/authOptions";
 import { getServerSession } from "next-auth";
 import prisma from "@/prisma/client";
 import WriteExamForm from "@/app/components/WriteExamForm";
-import { isDateObj } from "@/app/actions/actionsSchema";
 import { getUserActiveSubject } from "@/functions/getUserActiveSubject";
 
 type Props = {
