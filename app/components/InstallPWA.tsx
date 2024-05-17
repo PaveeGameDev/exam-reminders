@@ -16,12 +16,17 @@ export default function InstallPWA() {
     setOS(getOS());
   }, []);
 
+  const requestNotifications = () => {
+    Notification.requestPermission();
+  };
+
   //Todo - get rid of this code comment, it should not be commented out
   // if (isPwa) return null;
 
   return (
     <div className="card bg-base-200 shadow-xl border border-gray-300 flex items-center justify-center">
       <FcmTokenComp />
+      <div onClick={requestNotifications}>Enable Notifications</div>
       <div className="card-body text-center">
         <h2 className="card-title justify-center w-full">
           Přidej si Exam Reminders na plochu
