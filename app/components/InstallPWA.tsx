@@ -15,6 +15,8 @@ export default function InstallPWA() {
   const [notificationPermissionStatus, setNotificationPermissionStatus] =
     useState("");
 
+  const [permission, setPermission] = useState("no");
+
   const retrieveToken = async () => {
     try {
       if (typeof window !== "undefined" && "serviceWorker" in navigator) {
@@ -23,6 +25,7 @@ export default function InstallPWA() {
         const permission = await Notification.requestPermission();
 
         console.log(permission);
+        setPermission(permission);
 
         if (permission === "granted") {
           const currentToken = await getToken(messaging, {
@@ -86,6 +89,7 @@ export default function InstallPWA() {
           />
         )}
       </div>
+      <p className="break-all w-60">{permission}</p>
       <p className="break-all w-60">{token}</p>
     </div>
   );
