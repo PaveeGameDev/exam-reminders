@@ -3,10 +3,13 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { isPWA } from "@/functions/isPWA";
 import { getOS } from "@/functions/getOS";
+import useFcmToken from "@/hooks/useFCMToken";
+import FcmTokenComp from "@/firebaseForeground";
 
 export default function InstallPWA() {
   const [isPwa, setIsPwa] = useState(false);
   const [os, setOS] = useState<string | null>(null);
+  const fcmToken = useFcmToken();
 
   useEffect(() => {
     setIsPwa(isPWA());
@@ -14,8 +17,10 @@ export default function InstallPWA() {
   }, []);
 
   if (isPwa) return null;
+
   return (
     <div className="card bg-base-200 shadow-xl border border-gray-300 flex items-center justify-center">
+      <FcmTokenComp />
       <div className="card-body text-center">
         <h2 className="card-title justify-center w-full">
           Přidej si Exam Reminders na plochu
@@ -24,6 +29,7 @@ export default function InstallPWA() {
           Z této webovky se stane aplikace a můžeš ji používat o dost
           jednodušeji.
         </p>
+
         {os === "MacOS" ? (
           <Image
             src="/images/ShareIOS.jpg"
@@ -42,6 +48,8 @@ export default function InstallPWA() {
           />
         )}
       </div>
+      <p>{fcmToken.notificationPermissionStatus}</p>
+      <p>{fcmToken.token}</p>
     </div>
   );
 }
