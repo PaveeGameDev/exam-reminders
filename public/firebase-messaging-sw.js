@@ -1,4 +1,9 @@
-import { getMessaging } from "firebase/messaging/sw";
+importScripts(
+  "https://www.gstatic.com/firebasejs/10.5.0/firebase-app-compat.js",
+);
+importScripts(
+  "https://www.gstatic.com/firebasejs/10.5.0/firebase-messaging-compat.js",
+);
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
