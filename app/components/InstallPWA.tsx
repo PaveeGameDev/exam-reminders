@@ -15,6 +15,7 @@ export default function InstallPWA() {
   const [notificationPermissionStatus, setNotificationPermissionStatus] =
     useState("");
 
+  const [moreInfo, setMoreInfo] = useState<string>("no info yet");
   const [permission, setPermission] = useState("no");
 
   const retrieveToken = async () => {
@@ -28,13 +29,19 @@ export default function InstallPWA() {
         setPermission(permission);
 
         if (permission === "granted") {
+          setMoreInfo(moreInfo + "1");
           const currentToken = await getToken(messaging, {
             vapidKey:
               "BBFRkShoUVmOPYX7Q2d4A_z930XDqdkBSliBmd5VxqNeOK-TIIxrOpHWMagwAriRRLK41E6WrYyETBVeq0ghBHk", // Replace with your Firebase project's VAPID key
           });
+          setMoreInfo(moreInfo + "currentToken" + currentToken);
           if (currentToken) {
             setToken(currentToken);
           } else {
+            setMoreInfo(
+              moreInfo +
+                "No registration token available. Request permission to generate one.",
+            );
             console.log(
               "No registration token available. Request permission to generate one.",
             );
@@ -90,6 +97,7 @@ export default function InstallPWA() {
         )}
       </div>
       <p className="break-all w-60">{permission}</p>
+      <p className="break-all w-60">{moreInfo}</p>
       <p className="break-all w-60">{token}</p>
     </div>
   );
