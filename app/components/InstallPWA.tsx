@@ -55,7 +55,7 @@ export default function InstallPWA() {
         )}
       </div>
       <p>{fcmToken.notificationPermissionStatus}</p>
-      <p>{fcmToken.token}</p>
+      <p className="break-all w-60">{fcmToken.token}</p>
     </div>
   );
 }
