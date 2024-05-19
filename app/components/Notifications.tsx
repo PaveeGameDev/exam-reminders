@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { firebaseApp } from "@/firebase";
 import { getMessaging, getToken } from "firebase/messaging";
 import { initializeApp } from "firebase/app";
@@ -12,6 +12,23 @@ export default function Notifications() {
 
   const [moreInfo, setMoreInfo] = useState<string>("no info yet");
   const [permission, setPermission] = useState("no");
+
+  useEffect(() => {
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker
+        .register("/firebase-messaging-sw.js")
+        .then((registration) => {
+          setMoreInfo(
+            moreInfo +
+              "Firebase Service Worker registered with scope:" +
+              registration.scope,
+          );
+        })
+        .catch((err) => {
+          setMoreInfo(moreInfo + "Service Worker registration failed:" + err);
+        });
+    }
+  });
 
   const firebaseConfig = {
     apiKey: "AIzaSyBVtefQB3xj4nabuokHI3qmJl8bfLGrirQ",
@@ -66,7 +83,7 @@ export default function Notifications() {
         }
       })
       .catch((err) => {
-        setMoreInfo("An error occurred while retrieving token.");
+        setMoreInfo(`An error occurred while retrieving token. \n ${err}`);
         // ...
       });
   };
