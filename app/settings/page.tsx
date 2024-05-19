@@ -6,6 +6,7 @@ import JoinClass from "@/app/components/JoinClass";
 import MyClass from "@/app/components/MyClass";
 import InstallPWA from "@/app/components/InstallPWA";
 import SubjectPreferenceWrapper from "@/app/components/settings/SubjectPreferenceWrapper";
+import Notifications from "@/app/components/Notifications";
 export default async function Settings() {
   const session = await getServerSession(authOptions);
   if (!session) return "Přihlaste se, abyste mohli pokračovat";
@@ -22,6 +23,7 @@ export default async function Settings() {
   return (
     <main className="flex justify-center">
       <div className="space-y-5 w-full max-w-md mx-auto">
+        <Notifications />
         <InstallPWA />
         <UserInfo user={user} />
         <JoinClass />

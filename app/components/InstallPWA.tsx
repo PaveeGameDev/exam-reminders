@@ -3,72 +3,22 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { isPWA } from "@/functions/isPWA";
 import { getOS } from "@/functions/getOS";
-import useFcmToken from "@/hooks/useFCMToken";
-import FcmTokenComp from "@/firebaseForeground";
 import { getMessaging, getToken } from "firebase/messaging";
 import { firebaseApp } from "@/firebase";
 
 export default function InstallPWA() {
   const [isPwa, setIsPwa] = useState(false);
   const [os, setOS] = useState<string | null>(null);
-  const [token, setToken] = useState("");
-  const [notificationPermissionStatus, setNotificationPermissionStatus] =
-    useState("");
-
-  const [moreInfo, setMoreInfo] = useState<string>("no info yet");
-  const [permission, setPermission] = useState("no");
-
-  const retrieveToken = async () => {
-    try {
-      if (typeof window !== "undefined" && "serviceWorker" in navigator) {
-        const messaging = getMessaging(firebaseApp);
-
-        const permission = await Notification.requestPermission();
-
-        console.log(permission);
-        setPermission(permission);
-
-        if (permission === "granted") {
-          setMoreInfo(moreInfo + "1");
-          const currentToken = await getToken(messaging, {
-            vapidKey:
-              "BBFRkShoUVmOPYX7Q2d4A_z930XDqdkBSliBmd5VxqNeOK-TIIxrOpHWMagwAriRRLK41E6WrYyETBVeq0ghBHk", // Replace with your Firebase project's VAPID key
-          });
-          setMoreInfo(moreInfo + "currentToken" + currentToken);
-          if (currentToken) {
-            setToken(currentToken);
-          } else {
-            setMoreInfo(
-              moreInfo +
-                "No registration token available. Request permission to generate one.",
-            );
-            console.log(
-              "No registration token available. Request permission to generate one.",
-            );
-          }
-        }
-      }
-    } catch (error) {
-      console.log("Error retrieving token:", error);
-    }
-  };
 
   useEffect(() => {
     setIsPwa(isPWA());
     setOS(getOS());
   }, []);
 
-  const requestNotifications = async () => {
-    retrieveToken();
-  };
-
-  //Todo - get rid of this code comment, it should not be commented out
-  // if (isPwa) return null;
+  if (isPwa) return null;
 
   return (
     <div className="card bg-base-200 shadow-xl border border-gray-300 flex items-center justify-center">
-      {/*<FcmTokenComp />*/}
-      <div onClick={requestNotifications}>Enable Notifications</div>
       <div className="card-body text-center">
         <h2 className="card-title justify-center w-full">
           Přidej si Exam Reminders na plochu
@@ -96,9 +46,6 @@ export default function InstallPWA() {
           />
         )}
       </div>
-      <p className="break-all w-60">{permission}</p>
-      <p className="break-all w-60">{moreInfo}</p>
-      <p className="break-all w-60">{token}</p>
     </div>
   );
 }

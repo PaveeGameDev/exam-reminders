@@ -16,8 +16,6 @@ const firebaseConfig = {
   measurementId: "G-FLF8CZGR1R",
 };
 
-const messaging = getMessaging(firebaseConfig);
-
 onBackgroundMessage(messaging, (payload) => {
   console.log(
     "[firebase-messaging-sw.js] Received background message ",
