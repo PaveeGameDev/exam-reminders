@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { firebaseApp } from "@/firebase";
 import { getMessaging, getToken } from "firebase/messaging";
+import { initializeApp } from "firebase/app";
 
 export default function Notifications() {
   const [token, setToken] = useState("");
@@ -12,12 +13,26 @@ export default function Notifications() {
   const [moreInfo, setMoreInfo] = useState<string>("no info yet");
   const [permission, setPermission] = useState("no");
 
+  const firebaseConfig = {
+    apiKey: "AIzaSyBVtefQB3xj4nabuokHI3qmJl8bfLGrirQ",
+    authDomain: "exam-reminders.firebaseapp.com",
+    projectId: "exam-reminders",
+    storageBucket: "exam-reminders.appspot.com",
+    messagingSenderId: "40646740550",
+    appId: "1:40646740550:web:683e833259dc76cad41847",
+    measurementId: "G-FLF8CZGR1R",
+  };
+
+  // Initialize Firebase
+  const firebaseApp = initializeApp(firebaseConfig);
+
   function requestPermission() {
     console.log("Requesting permission...");
     Notification.requestPermission().then((permission) => {
       if (permission === "granted") {
         console.log("Notification permission granted.");
       }
+      setPermission(permission);
     });
   }
 
@@ -31,24 +46,27 @@ export default function Notifications() {
   const waitForToken = () => {
     const messaging = getMessaging(firebaseApp);
 
+    setMoreInfo(moreInfo + "1");
+
     getToken(messaging, {
       vapidKey:
         "BBFRkShoUVmOPYX7Q2d4A_z930XDqdkBSliBmd5VxqNeOK-TIIxrOpHWMagwAriRRLK41E6WrYyETBVeq0ghBHk",
     })
       .then((currentToken) => {
         if (currentToken) {
+          setMoreInfo(moreInfo + "currentToken" + currentToken);
           console.log(currentToken);
           setToken(currentToken);
         } else {
           // Show permission request UI
-          console.log(
+          setMoreInfo(
             "No registration token available. Request permission to generate one.",
           );
           // ...
         }
       })
       .catch((err) => {
-        console.log("An error occurred while retrieving token. ", err);
+        setMoreInfo("An error occurred while retrieving token.");
         // ...
       });
   };
