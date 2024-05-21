@@ -3,8 +3,6 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { isPWA } from "@/functions/isPWA";
 import { getOS } from "@/functions/getOS";
-import { getMessaging, getToken } from "firebase/messaging";
-import { firebaseApp } from "@/firebase";
 
 export default function InstallPWA() {
   const [isPwa, setIsPwa] = useState(false);

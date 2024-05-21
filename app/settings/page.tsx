@@ -23,7 +23,10 @@ export default async function Settings() {
   return (
     <main className="flex justify-center">
       <div className="space-y-5 w-full max-w-md mx-auto">
-        <Notifications />
+        <Notifications
+          FB_API_KEY={process.env.FIREBASE_API_KEY!}
+          FB_measurement_id={process.env.FIREBASE_MEASUREMENT_ID!}
+        />
         <InstallPWA />
         <UserInfo user={user} />
         <JoinClass />

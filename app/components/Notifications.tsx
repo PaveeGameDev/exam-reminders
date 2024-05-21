@@ -1,17 +1,20 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { firebaseApp } from "@/firebase";
 import { getMessaging, getToken } from "firebase/messaging";
 import { initializeApp } from "firebase/app";
 
-export default function Notifications() {
-  const [token, setToken] = useState("");
-  const [notificationPermissionStatus, setNotificationPermissionStatus] =
-    useState("");
+type Props = {
+  FB_API_KEY: string;
+  FB_measurement_id: string;
+};
 
-  const [moreInfo, setMoreInfo] = useState<string>("no info yet");
-  const [permission, setPermission] = useState("no");
+export default function Notifications({
+  FB_API_KEY,
+  FB_measurement_id,
+}: Props) {
+  const [token, setToken] = useState("");
+  const [moreInfo, setMoreInfo] = useState<string>("");
 
   useEffect(() => {
     if ("serviceWorker" in navigator) {
@@ -35,18 +38,23 @@ export default function Notifications() {
     }
   }, []);
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyBVtefQB3xj4nabuokHI3qmJl8bfLGrirQ",
+  // Initialize Firebase
+  const firebaseApp = initializeApp({
+    apiKey: FB_API_KEY,
     authDomain: "exam-reminders.firebaseapp.com",
     projectId: "exam-reminders",
     storageBucket: "exam-reminders.appspot.com",
     messagingSenderId: "40646740550",
-    appId: "1:40646740550:web:683e833259dc76cad41847",
-    measurementId: "G-FLF8CZGR1R",
-  };
+    appId: "1:40646740550:web:17c7e034216656f5d41847",
+    measurementId: FB_measurement_id,
+  });
 
-  // Initialize Firebase
-  const firebaseApp = initializeApp(firebaseConfig);
+  const requestNotifications = async () => {
+    requestPermission();
+    setTimeout(() => {
+      waitForToken();
+    }, 1000);
+  };
 
   function requestPermission() {
     console.log("Requesting permission...");
@@ -54,93 +62,54 @@ export default function Notifications() {
       if (permission === "granted") {
         console.log("Notification permission granted.");
       }
-      setPermission(permission);
     });
   }
 
-  const getFMSToken = () => {
-    requestPermission();
-    setTimeout(() => {
-      waitForToken();
-    }, 3000);
-  };
-
   const waitForToken = () => {
     const messaging = getMessaging(firebaseApp);
-
-    setMoreInfo(moreInfo + "1");
-
     getToken(messaging, {
-      vapidKey:
-        "BBFRkShoUVmOPYX7Q2d4A_z930XDqdkBSliBmd5VxqNeOK-TIIxrOpHWMagwAriRRLK41E6WrYyETBVeq0ghBHk",
+      vapidKey: process.env.VAPID_KEY,
     })
       .then((currentToken) => {
         if (currentToken) {
-          setMoreInfo(moreInfo + "currentToken" + currentToken);
-          console.log(currentToken);
           setToken(currentToken);
-        } else {
-          // Show permission request UI
           setMoreInfo(
+            "Vše proběhlo v pořádku, od zítřka budeš dostávat oznámení vždy den před testem",
+          );
+        } else {
+          setMoreInfo(
+            "Nepovedlo se propojit tvoje zařízení se serverem, máš povolené oznámení od této aplikace?",
+          );
+          console.log(
             "No registration token available. Request permission to generate one.",
           );
-          // ...
         }
       })
       .catch((err) => {
         setMoreInfo(
-          moreInfo + `An error occurred while retrieving token. \n ${err}`,
+          "Nepovedlo se propojit tvoje zařízení se serverem, máš povolené oznámení od této aplikace?",
         );
-        // ...
+        console.warn(`An error occurred while retrieving token. \n ${err}`);
       });
   };
 
-  const retrieveToken = async () => {
-    try {
-      if (typeof window !== "undefined" && "serviceWorker" in navigator) {
-        const messaging = getMessaging(firebaseApp);
-
-        const permission = await Notification.requestPermission();
-
-        console.log(permission);
-        setPermission(permission);
-
-        if (permission === "granted") {
-          setMoreInfo(moreInfo + "1");
-          const currentToken = await getToken(messaging, {
-            vapidKey:
-              "BBFRkShoUVmOPYX7Q2d4A_z930XDqdkBSliBmd5VxqNeOK-TIIxrOpHWMagwAriRRLK41E6WrYyETBVeq0ghBHk", // Replace with your Firebase project's VAPID key
-          });
-          setMoreInfo(moreInfo + "currentToken" + currentToken);
-          if (currentToken) {
-            setToken(currentToken);
-          } else {
-            setMoreInfo(
-              moreInfo +
-                "No registration token available. Request permission to generate one.",
-            );
-            console.log(
-              "No registration token available. Request permission to generate one.",
-            );
-          }
-        }
-      }
-    } catch (error) {
-      console.log("Error retrieving token:", error);
-    }
-  };
-
-  const requestNotifications = async () => {
-    getFMSToken();
-  };
-
   return (
-    <div>
-      <div onClick={requestNotifications}>Enable Notifications</div>
-      {/*<FcmTokenComp />*/}
-      <p className="break-all w-60">{permission}</p>
-      <p className="break-all w-60">{moreInfo}</p>
-      <p className="break-all w-60">{token}</p>
+    <div className="card bg-base-200 shadow-xl border border-gray-300 flex items-center justify-center">
+      <div className="card-body text-center flex items-center">
+        <h2 className="card-title justify-center w-full">Aktivuj notifikace</h2>
+        <p>
+          Budeš dostávat notifikace jeden den před tvým testem/úkolem a nikdy na
+          nic už nezapomeneš.
+        </p>
+        <button
+          onClick={requestNotifications}
+          className="btn btn-primary mt-5 w-full max-w-xs"
+        >
+          Aktivovat notifikace
+        </button>
+        <p className="break-all w-60">{token}</p>
+        <p className="break-words w-60">{moreInfo}</p>
+      </div>
     </div>
   );
 }
