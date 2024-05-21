@@ -6,7 +6,6 @@ const withPWA = withPWAInit({
     register: true,
     scope: "/app",
     sw: "service-worker.js",
-    customWorkerSrc: "firebase-messaging-sw",
 });
 
 export default withPWA({

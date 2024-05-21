@@ -15,20 +15,25 @@ export default function Notifications() {
 
   useEffect(() => {
     if ("serviceWorker" in navigator) {
-      navigator.serviceWorker
-        .register("/firebase-messaging-sw.js")
-        .then((registration) => {
-          setMoreInfo(
-            moreInfo +
-              "Firebase Service Worker registered with scope:" +
-              registration.scope,
-          );
-        })
-        .catch((err) => {
-          setMoreInfo(moreInfo + "Service Worker registration failed:" + err);
-        });
+      try {
+        const registration = navigator.serviceWorker.register(
+          "/firebase-messaging-sw.js",
+          {
+            scope: "/",
+          },
+        );
+        console.log(
+          "Firebase Messaging Service Worker registered with scope:",
+          registration,
+        );
+      } catch (error) {
+        console.error(
+          "Firebase Messaging Service Worker registration failed:",
+          error,
+        );
+      }
     }
-  });
+  }, []);
 
   const firebaseConfig = {
     apiKey: "AIzaSyBVtefQB3xj4nabuokHI3qmJl8bfLGrirQ",
@@ -83,7 +88,9 @@ export default function Notifications() {
         }
       })
       .catch((err) => {
-        setMoreInfo(`An error occurred while retrieving token. \n ${err}`);
+        setMoreInfo(
+          moreInfo + `An error occurred while retrieving token. \n ${err}`,
+        );
         // ...
       });
   };

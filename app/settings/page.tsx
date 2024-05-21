@@ -23,7 +23,7 @@ export default async function Settings() {
   return (
     <main className="flex justify-center">
       <div className="space-y-5 w-full max-w-md mx-auto">
-        {/*<Notifications />*/}
+        <Notifications />
         <InstallPWA />
         <UserInfo user={user} />
         <JoinClass />
