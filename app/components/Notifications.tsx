@@ -53,7 +53,7 @@ export default function Notifications({
     }
   }, []);
 
-  if (!isPwa || user.notificationToken) return null;
+  if (!isPwa) return null;
 
   // Initialize Firebase
   const firebaseApp = initializeApp({
