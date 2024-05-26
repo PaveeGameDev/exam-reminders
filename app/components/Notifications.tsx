@@ -3,40 +3,57 @@
 import { useEffect, useState } from "react";
 import { getMessaging, getToken } from "firebase/messaging";
 import { initializeApp } from "firebase/app";
+import { writeTokenToDatabase } from "@/functions/notifications/writeTokenToDatabase";
+import { isPWA } from "@/functions/isPWA";
+import { getOS } from "@/functions/getOS";
+import { User } from "@prisma/client";
 
 type Props = {
   FB_API_KEY: string;
   FB_measurement_id: string;
+  user: User;
 };
 
 export default function Notifications({
   FB_API_KEY,
   FB_measurement_id,
+  user,
 }: Props) {
-  const [token, setToken] = useState("");
+  const [isPwa, setIsPwa] = useState(false);
+  const [os, setOS] = useState<string | null>(null);
+
+  useEffect(() => {
+    setIsPwa(isPWA());
+    setOS(getOS());
+  }, []);
+
   const [moreInfo, setMoreInfo] = useState<string>("");
 
   useEffect(() => {
-    if ("serviceWorker" in navigator) {
-      try {
-        const registration = navigator.serviceWorker.register(
-          "/firebase-messaging-sw.js",
-          {
-            scope: "/",
-          },
-        );
-        console.log(
-          "Firebase Messaging Service Worker registered with scope:",
-          registration,
-        );
-      } catch (error) {
-        console.error(
-          "Firebase Messaging Service Worker registration failed:",
-          error,
-        );
+    if (isPwa) {
+      if ("serviceWorker" in navigator) {
+        try {
+          const registration = navigator.serviceWorker.register(
+            "/firebase-messaging-sw.js",
+            {
+              scope: "/",
+            },
+          );
+          console.log(
+            "Firebase Messaging Service Worker registered with scope:",
+            registration,
+          );
+        } catch (error) {
+          console.error(
+            "Firebase Messaging Service Worker registration failed:",
+            error,
+          );
+        }
       }
     }
   }, []);
+
+  if (!isPwa || user.notificationToken) return null;
 
   // Initialize Firebase
   const firebaseApp = initializeApp({
@@ -72,7 +89,7 @@ export default function Notifications({
     })
       .then((currentToken) => {
         if (currentToken) {
-          setToken(currentToken);
+          writeTokenToDatabase(currentToken, user.id);
           setMoreInfo(
             "Vše proběhlo v pořádku, od zítřka budeš dostávat oznámení vždy den před testem",
           );
@@ -107,7 +124,6 @@ export default function Notifications({
         >
           Aktivovat notifikace
         </button>
-        <p className="break-all w-60">{token}</p>
         <p className="break-words w-60">{moreInfo}</p>
       </div>
     </div>

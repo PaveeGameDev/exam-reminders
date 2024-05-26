@@ -3,7 +3,6 @@
 import {
   createClassSchema,
   joinClassSchema,
-  updateExamDateSchema,
   writeExamNoteSchema,
   writeExamSchema,
 } from "@/app/actions/actionsSchema";
@@ -11,9 +10,11 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/authOptions";
 import prisma from "@/prisma/client";
 import { revalidatePath } from "next/cache";
-import { ClassSubjects, Exam, ExamNote, Prisma, User } from "@prisma/client";
+import { Exam, ExamNote, User } from "@prisma/client";
 import generateClassIdCode from "@/functions/generateClassIdCode";
-import ClassSubjectsCreateManyInput = Prisma.ClassSubjectsCreateManyInput;
+import { sendNotification } from "@/functions/notifications/sendNotification";
+import { prepareNotification } from "@/functions/notifications/prepareNotification";
+import { getUser } from "@/functions/getUser";
 
 export async function joinClassForm(formData: FormData) {
   const { classId } = joinClassSchema.parse({
@@ -358,4 +359,30 @@ export async function changeClassSubjectUserPreference(
   }
   revalidatePath(`/`);
   return { success: "Tvoje aktivní předměty byly uloženy" };
+}
+
+export async function sendNotificationHandler(user: User) {
+  if (user.notificationToken === null) return;
+
+  const prepareNotificatinResponse = await prepareNotification(user!);
+
+  setTimeout(
+    () =>
+      sendNotification({
+        token: user.notificationToken!,
+        text: prepareNotificatinResponse.text,
+        title: prepareNotificatinResponse.title,
+      }),
+    5000,
+  );
+}
+
+export async function sendNotificationServer() {
+  const user = await getUser("cltbru6gn0000954pt1gn7phq");
+
+  if (user) await sendNotificationHandler(user);
+
+  revalidatePath("/");
+
+  return { success: "Notification successfully sent" };
 }

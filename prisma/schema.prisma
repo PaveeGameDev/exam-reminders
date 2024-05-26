@@ -58,6 +58,7 @@ model User {
   UserExamPreferences        UserExamPreferences[]
   Exam                       Exam[]
   ClassSubjectUserPreference ClassSubjectUserPreference[]
+  notificationToken          String?
 }
 
 model VerificationToken {
