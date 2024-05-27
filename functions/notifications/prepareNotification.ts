@@ -25,14 +25,10 @@ export async function prepareNotification(
     };
   }
 
-  console.log(tommorowDate, theDayAfterTommorowDate);
-
   const tommorowExams = await getUpcomingExams(user, {
     minDate: tommorowDate,
     maxDate: theDayAfterTommorowDate,
   });
-
-  console.log(tommorowExams);
 
   let text = "";
 

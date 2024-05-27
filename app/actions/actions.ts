@@ -365,13 +365,13 @@ export async function sendNotificationHandler(user: User) {
 
   const prepareNotificatinResponse = await prepareNotification(user!);
 
-  // setTimeout(
-  //   () =>
-  //     sendNotification({
-  //       token: user.notificationToken!,
-  //       text: prepareNotificatinResponse.text,
-  //       title: prepareNotificatinResponse.title,
-  //     }),
-  //   5000,
-  // );
+  setTimeout(
+    () =>
+      sendNotification({
+        token: user.notificationToken!,
+        text: prepareNotificatinResponse.text,
+        title: prepareNotificatinResponse.title,
+      }),
+    5000,
+  );
 }
