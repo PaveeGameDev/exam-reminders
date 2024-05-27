@@ -67,8 +67,6 @@ export async function sendNotification({ token, title, text }: Props) {
 
   const admin = require("firebase-admin");
 
-  console.log(process.env.FIREBASE_ADMIN);
-
   if (!admin.apps.length) {
     admin.initializeApp({
       credential: admin.credential.cert(
