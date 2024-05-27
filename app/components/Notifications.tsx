@@ -94,9 +94,7 @@ export default function Notifications({
             "Vše proběhlo v pořádku, od zítřka budeš dostávat oznámení vždy den před testem",
           );
         } else {
-          setMoreInfo(
-            "Nepovedlo se propojit tvoje zařízení se serverem, máš povolené oznámení od této aplikace?",
-          );
+          setMoreInfo("Máš povolené oznámení od této aplikace?");
           console.log(
             "No registration token available. Request permission to generate one.",
           );
@@ -104,9 +102,11 @@ export default function Notifications({
       })
       .catch((err) => {
         setMoreInfo(
-          "Nepovedlo se propojit tvoje zařízení se serverem, máš povolené oznámení od této aplikace?",
+          "Nepovedlo se propojit tvoje zařízení se serverem, máš povolené oznámení od této aplikace?, dole bude chybová hláška, prosím nahlaš ji co nejrychleji majiteli aplikace \n\n\n\n",
         );
-        console.warn(`An error occurred while retrieving token. \n ${err}`);
+        setMoreInfo(
+          moreInfo + `An error occurred while retrieving token. \n ${err}`,
+        );
       });
   };
 
