@@ -15,7 +15,7 @@ export async function prepareNotification(
   const theDayAfterTommorowDate = new Date(
     new Date().getFullYear(),
     new Date().getMonth(),
-    new Date().getDate() + 2,
+    new Date().getDate() + 1,
   );
 
   if (!user.classId) {
@@ -25,10 +25,14 @@ export async function prepareNotification(
     };
   }
 
+  console.log(tommorowDate, theDayAfterTommorowDate);
+
   const tommorowExams = await getUpcomingExams(user, {
     minDate: tommorowDate,
     maxDate: theDayAfterTommorowDate,
   });
+
+  console.log(tommorowExams);
 
   let text = "";
 

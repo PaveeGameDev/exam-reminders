@@ -14,7 +14,6 @@ import { Exam, ExamNote, User } from "@prisma/client";
 import generateClassIdCode from "@/functions/generateClassIdCode";
 import { sendNotification } from "@/functions/notifications/sendNotification";
 import { prepareNotification } from "@/functions/notifications/prepareNotification";
-import { getUser } from "@/functions/getUser";
 
 export async function joinClassForm(formData: FormData) {
   const { classId } = joinClassSchema.parse({
@@ -366,23 +365,13 @@ export async function sendNotificationHandler(user: User) {
 
   const prepareNotificatinResponse = await prepareNotification(user!);
 
-  setTimeout(
-    () =>
-      sendNotification({
-        token: user.notificationToken!,
-        text: prepareNotificatinResponse.text,
-        title: prepareNotificatinResponse.title,
-      }),
-    5000,
-  );
-}
-
-export async function sendNotificationServer() {
-  const user = await getUser("cltbru6gn0000954pt1gn7phq");
-
-  if (user) await sendNotificationHandler(user);
-
-  revalidatePath("/");
-
-  return { success: "Notification successfully sent" };
+  // setTimeout(
+  //   () =>
+  //     sendNotification({
+  //       token: user.notificationToken!,
+  //       text: prepareNotificatinResponse.text,
+  //       title: prepareNotificatinResponse.title,
+  //     }),
+  //   5000,
+  // );
 }
