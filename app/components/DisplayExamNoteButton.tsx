@@ -2,6 +2,7 @@
 import { ExamNote, User } from "@prisma/client";
 import { updateUserNotePreference } from "@/app/actions/actions";
 import { useRouter } from "next/navigation";
+import { AiOutlineLike } from "react-icons/ai";
 
 type Props = {
   examNote: ExamNote;
@@ -17,9 +18,9 @@ export default function DisplayExamNoteButton({ examNote, user }: Props) {
   return (
     <button
       onClick={afterClick}
-      className="btn btn-primary mt-0 w-full max-w-xs"
+      className="bg-base-300 rounded-full h-14 w-14 flex justify-center items-center"
     >
-      Použít jako náhledovou poznámku
+      <AiOutlineLike className="w-7 h-7" />
     </button>
   );
 }

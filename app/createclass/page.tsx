@@ -10,7 +10,6 @@ export default async function CreateClass() {
     where: { email: session.user!.email! },
   });
   if (!user) return <p>An error occurred</p>;
-  if (!user.classId) return "Musíte se přihlásit do třídy";
   const defaultSubjects = await prisma.subject.findMany({});
 
   return (

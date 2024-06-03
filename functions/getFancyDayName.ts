@@ -1,6 +1,7 @@
 import { getDayName } from "@/functions/getDayName";
+import { capitalizeFirstLetter } from "@/functions/capitalizeFirstLetter";
 
-export function getFancyDayName(date: Date, locale: string): string {
+export function getFancyDayName(date: Date, locale?: string): string {
   const currentDate = new Date();
   const comparedDate = new Date(date);
   if (
@@ -16,6 +17,6 @@ export function getFancyDayName(date: Date, locale: string): string {
   ) {
     return "Zítra";
   } else {
-    return getDayName(date, locale);
+    return capitalizeFirstLetter(getDayName(date, locale));
   }
 }
