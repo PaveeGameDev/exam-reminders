@@ -32,7 +32,10 @@ export default function IrrelevantButton({ exam, user, isIndividual }: Props) {
   };
   return (
     <div>
-      <button onClick={onClick} className="btn btn-outline btn-primary">
+      <button
+        onClick={onClick}
+        className="btn btn-outline btn-primary w-full bg-white"
+      >
         <p className="text-black">
           {isIndividual ? "Odstranit pro mě" : "Odstranit pro všechny"}
         </p>

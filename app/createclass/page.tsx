@@ -13,7 +13,7 @@ export default async function CreateClass() {
   const defaultSubjects = await prisma.subject.findMany({});
 
   return (
-    <main className="flex justify-center">
+    <main className="flex justify-center m-3">
       <CreateClassForm defaultSubjects={defaultSubjects} user={user} />
     </main>
   );

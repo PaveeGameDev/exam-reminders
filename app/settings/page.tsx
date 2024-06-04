@@ -21,7 +21,7 @@ export default async function Settings() {
     });
   }
   return (
-    <main className="flex justify-center">
+    <main className="flex justify-center m-3">
       <div className="space-y-5 w-full max-w-md mx-auto">
         <Notifications
           FB_API_KEY={process.env.FIREBASE_API_KEY!}

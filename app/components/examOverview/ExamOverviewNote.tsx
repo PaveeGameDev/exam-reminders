@@ -20,7 +20,7 @@ export default async function ExamOverviewNote({
         <p className="p-3 px-5 text-lg">{examNote.content}</p>
       </div>
       <div
-        className={`flex w-full flex-row space-x-3 ${
+        className={`flex w-full flex-row space-x-3 h-12 ${
           isPrimary ? "justify-end" : "justify-start"
         }`}
       >
@@ -29,7 +29,7 @@ export default async function ExamOverviewNote({
             isPrimary ? "bg-primary" : "bg-base-300"
           } rounded-3xl flex justify-center items-center`}
         >
-          <p className="p-3 px-7 text-lg text-center">
+          <p className="p-2 px-10 text-lg text-center">
             {await getDisplayName(examNote, user)}
           </p>
         </div>

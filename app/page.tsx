@@ -81,11 +81,9 @@ export default async function Home() {
     date.setDate(date.getDate() + 1);
   }
   return (
-    <main className="relative h-screen">
-      <>
-        {dayViewWrappers}
-        <GoToWriteButton />
-      </>
+    <main className="relative h-screen m-3">
+      {dayViewWrappers}
+      <GoToWriteButton />
     </main>
   );
 }

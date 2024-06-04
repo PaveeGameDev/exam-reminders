@@ -18,7 +18,7 @@ export default function DisplayExamNoteButton({ examNote, user }: Props) {
   return (
     <button
       onClick={afterClick}
-      className="bg-base-300 rounded-full h-14 w-14 flex justify-center items-center"
+      className="bg-base-300 rounded-full h-12 w-12 flex justify-center items-center"
     >
       <AiOutlineLike className="w-7 h-7" />
     </button>

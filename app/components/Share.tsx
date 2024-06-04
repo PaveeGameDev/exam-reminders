@@ -24,8 +24,8 @@ export default function Share({ btnText, text }: Props) {
   };
 
   return (
-    <button onClick={share} className="btn btn-primary">
-      {btnText}
+    <button onClick={share} className="btn btn-primary btn-outline bg-white">
+      <p className="text-black">{btnText}</p>
     </button>
   );
 }

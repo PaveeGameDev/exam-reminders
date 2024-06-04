@@ -28,7 +28,7 @@ export default async function Write({ searchParams }: Props) {
     : null;
 
   return (
-    <main className="flex justify-center">
+    <main className="flex justify-center m-3">
       <WriteExamForm
         subjects={subjects}
         user={user}
