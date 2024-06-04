@@ -36,6 +36,8 @@ export default function PopUpBoxDate({
           </form>
           <button
             onClick={() =>
+              //ToDo - fix this typescript bug or make it better
+              // @ts-ignore
               confirmAction(new Date(document?.getElementById("output")?.value))
             }
             className="bg-primary w-full"
