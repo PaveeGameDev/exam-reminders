@@ -30,7 +30,7 @@ export default function PopUpBoxDate({
         <div className="flex flex-row justify-between mr-3 h-min-8">
           <form
             method="dialog"
-            className="bg-gray-3ast00 w-full flex justify-center"
+            className="bg-gray-300 w-full flex justify-center"
           >
             <button>{cancelText}</button>
           </form>
