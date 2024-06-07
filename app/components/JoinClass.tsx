@@ -1,11 +1,17 @@
 "use client";
 import { joinClassForm } from "@/app/actions/actions";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FormResponse } from "@/app/types/types";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 export default function JoinClass() {
+  const router = useRouter();
   const ref = useRef<HTMLFormElement>(null);
   const [afterSubmit, setAfterSubmit] = useState<FormResponse | null>(null);
+
+  useEffect(() => {
+    if (afterSubmit?.success) router.push("/");
+  }, [afterSubmit]);
 
   return (
     <div className="card bg-base-200 shadow-xl border border-gray-300 flex items-center justify-center p-6">

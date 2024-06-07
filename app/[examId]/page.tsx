@@ -2,25 +2,13 @@ import { authOptions } from "@/app/api/auth/authOptions";
 import { getServerSession } from "next-auth";
 import prisma from "@/prisma/client";
 import { getBestExamNote } from "@/functions/getBestExamNote";
-import { getDayName } from "@/functions/getDayName";
-import { ExamHeader } from "@/app/components/ExamHeader";
-import IrrelevantButton from "@/app/components/IrrelevantButton";
-import { getDisplayName } from "@/functions/getDisplayName";
-import DisplayExamNote from "@/app/components/DisplayExamNote";
-import ChangeDate from "@/app/components/ChangeDate";
-import ExamIcon from "@/app/components/ExamIcon";
-import Share from "@/app/components/Share";
-import { getSubjectById } from "@/functions/getSubjectById";
-import { getExamTypeById } from "@/functions/getExamTypeById";
-import { getUser } from "@/functions/getUser";
-import { shortenName } from "@/functions/shortenName";
-import { capitalizeFirstLetter } from "@/functions/capitalizeFirstLetter";
-import { getFancyDayName } from "@/functions/getFancyDayName";
-import AddExamNote from "@/app/components/AddExamNote";
 import ExamOverviewHeader from "@/app/components/examOverview/ExamOverviewHeader";
 import ExamOverviewDisplayNotes from "@/app/components/examOverview/ExamOverviewDisplayNotes";
 import ExamOverviewAddNote from "@/app/components/examOverview/ExamOverviewAddNote";
 import ExamOverviewFooter from "@/app/components/examOverview/ExamOverviewFooter";
+import NoLogin from "@/app/components/Errors/NoLogin";
+import NoUser from "@/app/components/Errors/NoUser";
+import ErrorTemplate from "@/app/components/Errors/ErrorTemplate";
 
 export default async function ExamOverview({
   params,
@@ -28,19 +16,45 @@ export default async function ExamOverview({
   params: { examId: string };
 }) {
   const session = await getServerSession(authOptions);
-  if (!session) return "Login to continue";
+  if (!session) return <NoLogin />;
   const user = await prisma.user.findUnique({
     where: { email: session.user!.email! },
   });
-  if (!user) return "An error occurred";
+  if (!user) return <NoUser />;
   if (!parseInt(params.examId)) {
-    return "An error occurred with examId";
+    return (
+      <ErrorTemplate
+        header="Máš správnou adresu?"
+        buttonLink="/"
+        buttonText="Vrátit se domů"
+      >
+        Zkontroluj že máš správně adresu. Nemáš tam náhodou velká písmena?
+      </ErrorTemplate>
+    );
   }
   const exam = await prisma.exam.findUnique({
     where: { id: parseInt(params.examId) },
   });
-  if (!exam) return "Invalid examId";
-  if (exam.classId !== user.classId) return "Trying to access not your exam";
+  if (!exam)
+    return (
+      <ErrorTemplate
+        header="Takový test neexistuje"
+        buttonLink="/"
+        buttonText="Vrátit se domů"
+      >
+        Toto číslo úkolu neexistuje, možná překlik?
+      </ErrorTemplate>
+    );
+  if (exam.classId !== user.classId)
+    return (
+      <ErrorTemplate
+        header="Toto není tvůj test"
+        buttonLink="/"
+        buttonText="Vrátit se domů"
+      >
+        Toto není test pro tvojí třídu, jsi ve správné třídě?
+      </ErrorTemplate>
+    );
 
   const bestExamNote = await getBestExamNote(exam, user);
 

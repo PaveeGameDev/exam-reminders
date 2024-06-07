@@ -95,7 +95,7 @@ export default function CreateClassForm({ defaultSubjects, user }: Props) {
         <FormInputSubjectPart
           key={999}
           id={999}
-          content="Add new subject"
+          content="Přidej svůj předmět"
           onDelete={(id: number) => onDelete(id)}
           onCreate={(content: string) => onCreate(content)}
           isCreational={true}

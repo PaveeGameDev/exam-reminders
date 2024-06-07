@@ -7,13 +7,15 @@ import MyClass from "@/app/components/MyClass";
 import InstallPWA from "@/app/components/InstallPWA";
 import SubjectPreferenceWrapper from "@/app/components/settings/SubjectPreferenceWrapper";
 import Notifications from "@/app/components/Notifications";
+import NoLogin from "@/app/components/Errors/NoLogin";
+import NoUser from "@/app/components/Errors/NoUser";
 export default async function Settings() {
   const session = await getServerSession(authOptions);
-  if (!session) return "Přihlaste se, abyste mohli pokračovat";
+  if (!session) return <NoLogin />;
   const user = await prisma.user.findUnique({
     where: { email: session.user!.email! },
   });
-  if (!user) return "An error occurred";
+  if (!user) return <NoUser />;
   let usersClass = null;
   if (user.classId) {
     usersClass = await prisma.class.findUnique({
@@ -23,16 +25,24 @@ export default async function Settings() {
   return (
     <main className="flex justify-center m-3">
       <div className="space-y-5 w-full max-w-md mx-auto">
-        <Notifications
-          FB_API_KEY={process.env.FIREBASE_API_KEY!}
-          FB_measurement_id={process.env.FIREBASE_MEASUREMENT_ID!}
-          user={user}
-        />
-        <InstallPWA />
+        {usersClass && (
+          <>
+            <Notifications
+              FB_API_KEY={process.env.FIREBASE_API_KEY!}
+              FB_measurement_id={process.env.FIREBASE_MEASUREMENT_ID!}
+              user={user}
+            />
+            <InstallPWA />
+            <MyClass myClass={usersClass} />
+          </>
+        )}
         <UserInfo user={user} />
         <JoinClass />
-        <MyClass myClass={usersClass} />
-        <SubjectPreferenceWrapper user={user} />
+        {usersClass && (
+          <>
+            <SubjectPreferenceWrapper user={user} />
+          </>
+        )}
       </div>
     </main>
   );

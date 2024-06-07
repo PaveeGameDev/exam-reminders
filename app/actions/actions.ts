@@ -43,7 +43,7 @@ export async function joinClass(classId: number) {
     data: { classId: Number(classId) },
   });
 
-  revalidatePath("/settings");
+  revalidatePath("/");
 
   return { success: "Class successfully joined" };
 }

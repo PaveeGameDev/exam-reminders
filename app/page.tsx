@@ -6,15 +6,18 @@ import { Exam } from "@prisma/client";
 import DayViewWrap from "@/app/components/DayViewWrap";
 import HorizontalLine1 from "@/app/components/decorations/HorizontalLine1";
 import GoToWriteButton from "@/app/components/GoToWriteButton";
+import NoLogin from "@/app/components/Errors/NoLogin";
+import NoClass from "@/app/components/Errors/NoClass";
+import NoUser from "@/app/components/Errors/NoUser";
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
-  if (!session) return "Přihlaste se, abyste mohli pokračovat";
+  if (!session) return <NoLogin />;
   const user = await prisma.user.findUnique({
     where: { email: session.user!.email! },
   });
-  if (!user) return "An error occurred";
-  if (!user.classId) return "Musíte se přihlásit do třídy";
+  if (!user) return <NoUser />;
+  if (!user.classId) return <NoClass />;
   const exams = await getUpcomingExams(user);
   if (!exams) return;
 

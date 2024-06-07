@@ -3,6 +3,9 @@ import { getServerSession } from "next-auth";
 import prisma from "@/prisma/client";
 import WriteExamForm from "@/app/components/WriteExamForm";
 import { getUserActiveSubject } from "@/functions/getUserActiveSubject";
+import NoLogin from "@/app/components/Errors/NoLogin";
+import NoClass from "@/app/components/Errors/NoClass";
+import NoUser from "@/app/components/Errors/NoUser";
 
 type Props = {
   searchParams: { [param: string]: string };
@@ -10,12 +13,12 @@ type Props = {
 
 export default async function Write({ searchParams }: Props) {
   const session = await getServerSession(authOptions);
-  if (!session) return <p>Login to continue</p>;
+  if (!session) return <NoLogin />;
   const user = await prisma.user.findUnique({
     where: { email: session.user!.email! },
   });
-  if (!user) return <p>An error occurred</p>;
-  if (!user.classId) return "Musíte se přihlásit do třídy";
+  if (!user) return <NoUser />;
+  if (!user.classId) return <NoClass />;
   const subjects = await getUserActiveSubject(user);
   //For current database configuration, does not serve different purpose other than hide one value that makes no sense for some time so it can be used later
   const examTypes = await prisma.examType.findMany({

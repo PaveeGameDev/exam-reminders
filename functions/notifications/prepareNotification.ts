@@ -24,7 +24,7 @@ export async function prepareNotification(
   if (!user.classId) {
     return {
       title: title,
-      text: "Přihlaš se do třídy, aby jsi dostával oznámení",
+      text: "Přihlaš se do třídy, aby jsi dostával/a oznámení",
     };
   }
 

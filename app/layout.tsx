@@ -62,7 +62,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="cs" className="max-w-full overflow-x-hidden">
-      <body>
+      <body className="h-full">
         <AuthProvider>
           <NavBar />
           <main className="mt-5">{children}</main>
