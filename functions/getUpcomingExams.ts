@@ -1,10 +1,11 @@
 import prisma from "@/prisma/client";
 import { Exam, User } from "@prisma/client";
 import { getUserActiveSubject } from "@/functions/getUserActiveSubject";
+import { MinMaxDate } from "@/app/types/types";
 
 export const getUpcomingExams = async (
   user: User,
-  date?: { minDate: Date; maxDate: Date },
+  date?: MinMaxDate,
 ): Promise<Exam[] | null> => {
   const activeSubjects = await getUserActiveSubject(user);
   const innerDate: { minDate: Date; maxDate: Date } | undefined = date ?? {
@@ -29,6 +30,7 @@ export const getUpcomingExams = async (
         lte: innerDate.maxDate,
       },
     },
+    orderBy: { date: "asc" },
   });
 
   const currentUserExamPreferences = await prisma.userExamPreferences.findMany({
@@ -53,7 +55,9 @@ export const getUpcomingExams = async (
     }
   }
 
-  return allExams
+  // ToDo - it worked for some reason fine with just allExams, no idea why but it seems weird
+
+  return filteredExams
     .filter((exam) =>
       activeSubjects.find((subject) => exam.subjectId === subject.id),
     )

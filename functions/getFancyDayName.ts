@@ -16,6 +16,12 @@ export function getFancyDayName(date: Date, locale?: string): string {
     currentDate.getFullYear() === comparedDate.getFullYear()
   ) {
     return "Zítra";
+  } else if (
+    currentDate.getDate() - 1 === comparedDate.getDate() &&
+    currentDate.getMonth() === comparedDate.getMonth() &&
+    currentDate.getFullYear() === comparedDate.getFullYear()
+  ) {
+    return "Včera";
   } else {
     return capitalizeFirstLetter(getDayName(date, locale));
   }

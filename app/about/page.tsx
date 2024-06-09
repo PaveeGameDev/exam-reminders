@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function About() {
   return (
-    <div className="flex flex-col justify-center items-center space-y-5 mt-10">
+    <div className="flex flex-col justify-center items-center space-y-5 mt-10 m-5">
       <h1 className="text-center text-6xl font-semibold">Co Píšem?</h1>
       <p className="text-center text-2xl">
         Co Píšem je webová aplikace co ti ulehčí život. Celá třída může využít

@@ -7,3 +7,7 @@ export type PrepareNotificationResponse = {
   title: string;
   text: string;
 };
+
+export type Language = "cs-CZ" | "en";
+
+export type MinMaxDate = { minDate: Date; maxDate: Date };

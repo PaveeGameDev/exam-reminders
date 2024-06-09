@@ -2,15 +2,20 @@ import { authOptions } from "@/app/api/auth/authOptions";
 import { getServerSession } from "next-auth";
 import prisma from "@/prisma/client";
 import { getUpcomingExams } from "@/functions/getUpcomingExams";
-import { Exam } from "@prisma/client";
-import DayViewWrap from "@/app/components/DayViewWrap";
-import HorizontalLine1 from "@/app/components/decorations/HorizontalLine1";
 import GoToWriteButton from "@/app/components/GoToWriteButton";
 import NoLogin from "@/app/components/Errors/NoLogin";
 import NoClass from "@/app/components/Errors/NoClass";
 import NoUser from "@/app/components/Errors/NoUser";
+import ExamList from "@/app/components/homepage/ExamList";
+import ErrorTemplate from "@/app/components/Errors/ErrorTemplate";
+import { MinMaxDate } from "@/app/types/types";
+import { Exam } from "@prisma/client";
 
-export default async function Home() {
+type Props = {
+  searchParams: { [param: string]: string };
+};
+
+export default async function Home({ searchParams }: Props) {
   const session = await getServerSession(authOptions);
   if (!session) return <NoLogin />;
   const user = await prisma.user.findUnique({
@@ -18,74 +23,60 @@ export default async function Home() {
   });
   if (!user) return <NoUser />;
   if (!user.classId) return <NoClass />;
-  const exams = await getUpcomingExams(user);
-  if (!exams) return;
 
-  const dayViewWrappers = [];
-
-  const date = new Date();
-  for (let i = 0; i < 30; i++) {
-    const examsOnTheDay = exams.filter(
-      (exam) =>
-        exam.date.getDate() === date.getDate() &&
-        exam.date.getMonth() === date.getMonth(),
+  if (
+    (searchParams.from && !searchParams.to) ||
+    (!searchParams.from && searchParams.to)
+  )
+    return (
+      <ErrorTemplate
+        header="Máš správnou adresu?"
+        buttonLink="/"
+        buttonText="Vrátit se domů"
+      >
+        {`Zkontroluj že máš správně adresu. Možná je vyplněný políčko "to" a
+        políčko "from" není, nebo naopak?`}
+      </ErrorTemplate>
     );
 
-    if (examsOnTheDay.length > 0) {
-      if (date.getDay() == 5) {
-        dayViewWrappers.push(
-          <div key={i}>
-            <DayViewWrap
-              day={new Date(date)}
-              exams={examsOnTheDay}
-              user={user}
-              key={i}
-            />
-            <HorizontalLine1 />
-          </div>,
-        );
-      } else {
-        dayViewWrappers.push(
-          <DayViewWrap
-            day={new Date(date)}
-            exams={examsOnTheDay}
-            user={user}
-            key={i}
-          />,
-        );
-      }
-    } else {
-      if (date.getDay() == 5) {
-        dayViewWrappers.push(
-          <div key={i}>
-            <DayViewWrap
-              day={new Date(date)}
-              exams={examsOnTheDay}
-              user={user}
-              key={i}
-            />
-            <HorizontalLine1 />
-          </div>,
-        );
-      } else if (date.getDay() == 6) {
-      } else if (date.getDay() == 0) {
-      } else {
-        dayViewWrappers.push(
-          <DayViewWrap
-            day={new Date(date)}
-            exams={examsOnTheDay}
-            user={user}
-            key={i}
-          />,
-        );
-      }
-    }
+  if (searchParams.wholeHistory && searchParams.wholeHistory !== "1")
+    return (
+      <ErrorTemplate
+        header="Máš správnou adresu?"
+        buttonLink="/?wholeHistory=1"
+        buttonText="Podívat se na celou historii"
+      >
+        {`Zkontroluj že máš správně adresu. Někde došlo k chybě, klikni na tlačítko a já to za tebe spravím.`}
+      </ErrorTemplate>
+    );
 
-    date.setDate(date.getDate() + 1);
+  let datesToShow: undefined | MinMaxDate = undefined;
+
+  if (searchParams.wholeHistory && searchParams.wholeHistory === "1") {
+    const everyUsersExam = await getUpcomingExams(user, {
+      minDate: new Date("2024-01-01"),
+      maxDate: new Date(`${new Date().getFullYear() + 1}-01-01`),
+    });
+    if (everyUsersExam?.length !== undefined && everyUsersExam.length > 0) {
+      datesToShow = {
+        minDate: everyUsersExam[0].date,
+        maxDate: everyUsersExam[everyUsersExam.length - 1].date,
+      };
+    }
+  } else if (searchParams.from) {
+    datesToShow = {
+      minDate: new Date(searchParams.from),
+      maxDate: new Date(searchParams.to),
+    };
   }
+
+  const exams = await getUpcomingExams(user, datesToShow);
+
+  if (!exams) return;
+
   return (
     <main className="relative h-screen m-3">
-      {dayViewWrappers}
+      <ExamList user={user} exams={exams} datesToShow={datesToShow} />
       <GoToWriteButton />
     </main>
   );
