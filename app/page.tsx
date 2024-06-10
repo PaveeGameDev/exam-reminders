@@ -10,6 +10,7 @@ import ExamList from "@/app/components/homepage/ExamList";
 import ErrorTemplate from "@/app/components/Errors/ErrorTemplate";
 import { MinMaxDate } from "@/app/types/types";
 import { Exam } from "@prisma/client";
+import HistoryButtons from "@/app/components/homepage/HistoryButtons";
 
 type Props = {
   searchParams: { [param: string]: string };
@@ -46,7 +47,20 @@ export default async function Home({ searchParams }: Props) {
         buttonLink="/?wholeHistory=1"
         buttonText="Podívat se na celou historii"
       >
-        {`Zkontroluj že máš správně adresu. Někde došlo k chybě, klikni na tlačítko a já to za tebe spravím.`}
+        Zkontroluj že máš správně adresu. Někde došlo k chybě, klikni na
+        tlačítko a já to za tebe spravím.
+      </ErrorTemplate>
+    );
+
+  if (searchParams.wholeHistory && searchParams.from)
+    return (
+      <ErrorTemplate
+        header="Máš správnou adresu?"
+        buttonLink="/"
+        buttonText="Vrátit se domů"
+      >
+        Zkontroluj že máš správně adresu. Pokoušíš se dívat na určené dny a
+        zároveň do celé historie najednou, to tu nevedeme.
       </ErrorTemplate>
     );
 
@@ -76,6 +90,13 @@ export default async function Home({ searchParams }: Props) {
 
   return (
     <main className="relative h-screen m-3">
+      <HistoryButtons
+        relevantQueryParams={{
+          from: searchParams.from,
+          to: searchParams.to,
+          wholeHistory: searchParams.wholeHistory,
+        }}
+      />
       <ExamList user={user} exams={exams} datesToShow={datesToShow} />
       <GoToWriteButton />
     </main>

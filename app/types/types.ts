@@ -11,3 +11,9 @@ export type PrepareNotificationResponse = {
 export type Language = "cs-CZ" | "en";
 
 export type MinMaxDate = { minDate: Date; maxDate: Date };
+
+export type HistoryButtonsRelevantQueryParams = {
+  wholeHistory: string | undefined;
+  from: string | undefined;
+  to: string | undefined;
+};

@@ -9,9 +9,11 @@ export default function HistoryButton({ isActive, url, text }: Props) {
   return (
     <Link
       href={url}
-      className={`btn btn-primary ${isActive ? "" : "btn-outline"}`}
+      className={`btn btn-primary ${
+        isActive ? "" : "btn-outline"
+      } rounded-full `}
     >
-      {text}
+      <p className="text-black">{text}</p>
     </Link>
   );
 }
