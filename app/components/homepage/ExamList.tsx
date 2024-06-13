@@ -2,6 +2,7 @@ import DayViewWrap from "@/app/components/DayViewWrap";
 import HorizontalLine1 from "@/app/components/decorations/HorizontalLine1";
 import { Exam, User } from "@prisma/client";
 import { MinMaxDate } from "@/app/types/types";
+import Advertisement from "@/app/components/homepage/Advertisement";
 
 type Props = {
   user: User;
@@ -66,6 +67,16 @@ export default function ExamList({ exams, user, datesToShow }: Props) {
         );
       } else if (date.getDay() == 6) {
       } else if (date.getDay() == 0) {
+        dayViewWrappers.push(
+          <Advertisement
+            header="i"
+            actionButtonText="kjfklda"
+            actionButtonRedirect="https://burza.gymnazium-opatov.cz"
+            showDownBar={true}
+          >
+            <p>hjfkl;dahfklj</p>
+          </Advertisement>,
+        );
       } else {
         dayViewWrappers.push(
           <DayViewWrap
