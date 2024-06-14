@@ -3,6 +3,7 @@ import HorizontalLine1 from "@/app/components/decorations/HorizontalLine1";
 import { Exam, User } from "@prisma/client";
 import { MinMaxDate } from "@/app/types/types";
 import Advertisement from "@/app/components/homepage/Advertisement";
+import AdvertisementManager from "@/app/components/homepage/AdvertisementManager";
 
 type Props = {
   user: User;
@@ -21,6 +22,8 @@ export default function ExamList({ exams, user, datesToShow }: Props) {
           (1000 * 3600 * 24),
       ) + 1
     : 30;
+
+  let plantedAdvert: boolean = false;
 
   for (let i = 0; i < datesToDisplay; i++) {
     const examsOnTheDay = exams.filter(
@@ -67,16 +70,10 @@ export default function ExamList({ exams, user, datesToShow }: Props) {
         );
       } else if (date.getDay() == 6) {
       } else if (date.getDay() == 0) {
-        dayViewWrappers.push(
-          <Advertisement
-            header="i"
-            actionButtonText="kjfklda"
-            actionButtonRedirect="https://burza.gymnazium-opatov.cz"
-            showDownBar={true}
-          >
-            <p>hjfkl;dahfklj</p>
-          </Advertisement>,
-        );
+        if (!plantedAdvert && dayViewWrappers.length >= 4) {
+          dayViewWrappers.push(<AdvertisementManager user={user} />);
+          plantedAdvert = true;
+        }
       } else {
         dayViewWrappers.push(
           <DayViewWrap

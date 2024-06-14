@@ -39,7 +39,7 @@ export default function Advertisement({
 
   return (
     <>
-      <div className="card bg-white shadow-md border border-primary flex flex-col mb-3 min-h-20 items-center space-y-3">
+      <div className="card bg-white shadow-md border border-primary flex flex-col mb-3 min-h-20 items-center space-y-3 advertisement">
         <p className="text-2xl text-center text-black font-semibold w-full mt-3">
           {header}
         </p>
