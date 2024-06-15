@@ -38,7 +38,7 @@ export default function CreateClassForm({ defaultSubjects, user }: Props) {
   }, []);
 
   useEffect(() => {
-    if (afterSubmit?.success) router.push("/settings");
+    if (afterSubmit?.success) router.push("/");
   }, [afterSubmit]);
 
   const onDelete = (id: number): void => {

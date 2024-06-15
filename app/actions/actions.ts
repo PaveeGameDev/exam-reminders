@@ -35,7 +35,7 @@ export async function joinClass(classId: number) {
     where: { id: Number(classId) },
   });
   if (!classExists) {
-    return { error: `Class with ID ${classId} does not exist.` };
+    return { error: `Třída s kódem: ${classId} neexistuje, zkus jiný kód.` };
   }
 
   const updatedUser = await prisma.user.update({

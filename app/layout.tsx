@@ -9,9 +9,9 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 
 const inter = Inter({ subsets: ["latin"] });
 
-const APP_NAME = "Exam reminders";
-const APP_DEFAULT_TITLE = "Exam reminders";
-const APP_TITLE_TEMPLATE = "Exam reminders";
+const APP_NAME = "Co Píšem";
+const APP_DEFAULT_TITLE = "Co Píšem";
+const APP_TITLE_TEMPLATE = "Co Píšem";
 const APP_DESCRIPTION = "Share your exam dates easily";
 
 export const metadata: Metadata = {

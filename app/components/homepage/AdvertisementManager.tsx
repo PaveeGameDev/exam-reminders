@@ -22,6 +22,7 @@ export default function AdvertisementManager({ user }: Props) {
   const advertisements: ReactNode[] = [];
   if (!user.classId || !user.email) return;
   if (
+    //   ToDo - find a better way to differentiate between users from Opatov and from other schools
     [1, 100, 123].includes(user.classId) ||
     /^[\w.-]+@[\w.-]+\.gopat\.cz$/.test(user.email)
   ) {
@@ -34,8 +35,13 @@ export default function AdvertisementManager({ user }: Props) {
         key={1}
       >
         <ul className="list-disc">
-          <li>Nakupuj učebnice levně</li>
-          <li>Prodávej své učebnice jednoduše</li>
+          <li>
+            Nakupuj učebnice <p className="font-semibold inline">levně</p>
+          </li>
+          <li>
+            Prodávej své učebnice{" "}
+            <p className="font-semibold inline">jednoduše</p>
+          </li>
           <li>Měj vystaráno ještě před prázdninami</li>
         </ul>
       </Advertisement>,

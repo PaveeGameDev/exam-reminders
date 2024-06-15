@@ -8,7 +8,7 @@ type Props = {
 export default function UpdateUnderway({ text, image, backOn }: Props) {
   return (
     <div className="flex flex-col items-center mt-5 mx-2 space-y-2">
-      <h1>Exam reminders</h1>
+      <h1>Co Píšem</h1>
       <h2>Právě se pracuje na něčem skvělém</h2>
       <p>
         Některé vylepšení aplikace se dají dělat za pochodu, ale na ty co se

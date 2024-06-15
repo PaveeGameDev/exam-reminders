@@ -7,8 +7,9 @@ type Props = {
   header: string;
   children: ReactNode;
   actionButtonText: string;
-  actionButtonRedirect: string | undefined;
+  actionButtonRedirect?: string;
   showDownBar: boolean;
+  extras?: "share";
 };
 export default function Advertisement({
   actionButtonRedirect,
@@ -16,6 +17,7 @@ export default function Advertisement({
   children,
   showDownBar,
   header,
+  extras,
 }: Props) {
   const router = useRouter();
 
@@ -24,6 +26,22 @@ export default function Advertisement({
   const onClick = () => {
     if (actionButtonRedirect) {
       router.push(actionButtonRedirect);
+    } else if (extras === "share") {
+      if (navigator.share) {
+        navigator
+          .share({
+            title: document.title,
+            url: "https://exam-reminders.vercel.app/",
+          })
+          .then(() => {
+            console.log("Shared successfully");
+          })
+          .catch((error) => {
+            console.error("Error sharing:", error);
+          });
+      } else {
+        console.error("Web Share API not supported");
+      }
     } else {
       console.log(
         "A problem occured, both actionButtonAction and actionButtonRedirect are undefined",

@@ -94,6 +94,6 @@ export async function sendNotification({ token, title, text }: Props) {
       console.log("Successfully sent message:", response);
     })
     .catch((error: any) => {
-      console.log("Error sending message:", error);
+      console.log("Error sending message:", error, message);
     });
 }
