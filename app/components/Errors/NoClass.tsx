@@ -16,7 +16,7 @@ export default function NoClass() {
         </p>
         <Link
           href="/settings"
-          className="btn btn-primary w-3/4 h-16 text-xl text-center"
+          className="btn btn-primary w-3/4 h-16 text-xl text-center max-w-72"
         >
           Zapsat se / Vytvořit třídu
         </Link>

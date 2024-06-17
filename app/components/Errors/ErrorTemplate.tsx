@@ -21,7 +21,7 @@ export default function ErrorTemplate({
         <p className="text-center text-2xl">{children}</p>
         <Link
           href={buttonLink}
-          className="btn btn-primary w-1/2 h-16 text-xl text-center"
+          className="btn btn-primary w-1/2 h-16 text-xl text-center max-w-72"
         >
           {buttonText}
         </Link>

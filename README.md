@@ -11,10 +11,4 @@
         <br />
         Pojď do toho
       </p>
-      <Link
-        href="/api/auth/signin"
-        className="btn btn-primary w-1/2 h-16 text-xl text-center"
-      >
-        Přihlásit se
-      </Link>
     </div>

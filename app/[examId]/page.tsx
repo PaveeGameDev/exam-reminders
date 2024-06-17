@@ -65,13 +65,19 @@ export default async function ExamOverview({
   });
 
   return (
-    <div>
-      <div className="m-3">
-        <ExamOverviewHeader exam={exam} />
-        <ExamOverviewDisplayNotes exam={exam} user={user} />
-        <ExamOverviewAddNote user={user} examId={exam.id} />
+    <div className="flex justify-center">
+      <div className="w-full max-w-[50rem]">
+        <div className="m-3">
+          <ExamOverviewHeader exam={exam} />
+          <ExamOverviewDisplayNotes exam={exam} user={user} />
+          <ExamOverviewAddNote user={user} examId={exam.id} />
+        </div>
+        <ExamOverviewFooter
+          exam={exam}
+          user={user}
+          bestExamNote={bestExamNote}
+        />
       </div>
-      <ExamOverviewFooter exam={exam} user={user} bestExamNote={bestExamNote} />
     </div>
   );
 }
