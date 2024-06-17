@@ -35,7 +35,7 @@ export default function WriteExamForm({
       <Select options={subjects} id="subjectId" header="Předmět" />
       <Select options={examTypes} id="typeId" header="Typ testu" />
       <div className="flex flex-row space-x-3 justify-between">
-        <div className="">
+        <div className="w-1/2">
           <label htmlFor="date" className="font-semibold">
             Datum
           </label>

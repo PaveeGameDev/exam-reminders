@@ -27,7 +27,11 @@ export default async function ExamList({ exams, user, datesToShow }: Props) {
 
   let plantedAdvert: boolean = false;
 
-  if (exams.length === 0 && !plantedAdvert) {
+  if (
+    exams.length === 0 &&
+    !plantedAdvert &&
+    randomIntFromInterval(1, 2) === 1
+  ) {
     dayViewWrappers.push(
       <Advertisement
         header="Nic nepíšeš, je to možný?"
@@ -52,14 +56,14 @@ export default async function ExamList({ exams, user, datesToShow }: Props) {
     plantedAdvert = true;
   }
 
-  if (randomIntFromInterval(1, 1) === 1) {
+  if (randomIntFromInterval(1, 2) === 1) {
     const users = await prisma.class
       .findUnique({ where: { id: user.classId! } })
       .users();
     if (users && users.length <= 10 && !plantedAdvert) {
       dayViewWrappers.push(
         <Advertisement
-          header="Je tady málo lidí"
+          header="Je tady nějak pusto"
           actionButtonText="Sdílej Co Píšem"
           showDownBar={true}
           key="invitePeopleAdvert"
@@ -69,7 +73,7 @@ export default async function ExamList({ exams, user, datesToShow }: Props) {
             <li>Co Píšem funguje nejlépe ve více lidech.</li>
             <li>
               Celá třída se může{" "}
-              <p className="font-semibold inline">snadno připojit</p>, stačí
+              <p className="font-semibold inline">snadno připojit</p>, stačí jen
               poslat odkaz.
             </li>
             <li>
