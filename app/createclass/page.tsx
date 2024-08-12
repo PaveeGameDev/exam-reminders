@@ -12,7 +12,7 @@ export default async function CreateClass() {
     where: { email: session.user!.email! },
   });
   if (!user) return <NoUser />;
-  const defaultSubjects = await prisma.subject.findMany({});
+  const defaultSubjects = process.env.LANGUAGE === 'EN' ? await prisma.subjectEnglish.findMany({}) : await prisma.subject.findMany({});
 
   return (
     <main className="flex justify-center m-3">
