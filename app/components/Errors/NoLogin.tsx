@@ -21,6 +21,12 @@ export default function NoLogin() {
         >
           Zjistit víc
         </Link>
+        <Link
+            href="https://exam-reminders-english.vercel.app"
+            className="btn btn-accent w-1/2 h-16 text-xl text-center"
+        >
+          English version<br/>Anglická verze
+        </Link>
       </div>
     </div>
   );

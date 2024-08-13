@@ -81,6 +81,7 @@ model Class {
 model ExamType {
   id       Int    @id @default(autoincrement())
   name     String
+  englishName   String?
   priority Int
   Exam     Exam[]
 }
