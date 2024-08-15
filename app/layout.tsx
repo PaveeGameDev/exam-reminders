@@ -12,7 +12,7 @@ const inter = Inter({ subsets: ["latin"] });
 const APP_NAME = "Co Píšem";
 const APP_DEFAULT_TITLE = "Co Píšem";
 const APP_TITLE_TEMPLATE = "Co Píšem";
-const APP_DESCRIPTION = "Share your exam dates easily";
+const APP_DESCRIPTION = "Jednoduše sdílej co píšeš s tvojí třídou.";
 
 export const metadata: Metadata = {
   applicationName: APP_NAME,
