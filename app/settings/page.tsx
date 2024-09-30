@@ -9,6 +9,7 @@ import SubjectPreferenceWrapper from "@/app/components/settings/SubjectPreferenc
 import Notifications from "@/app/components/Notifications";
 import NoLogin from "@/app/components/Errors/NoLogin";
 import NoUser from "@/app/components/Errors/NoUser";
+import { Footer } from "../components/Footer";
 export default async function Settings() {
   const session = await getServerSession(authOptions);
   if (!session) return <NoLogin />;
@@ -43,6 +44,7 @@ export default async function Settings() {
             <SubjectPreferenceWrapper user={user} />
           </>
         )}
+        <Footer/>
       </div>
     </main>
   );

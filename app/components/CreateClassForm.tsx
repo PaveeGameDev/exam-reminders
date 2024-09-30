@@ -81,7 +81,7 @@ export default function CreateClassForm({ defaultSubjects, user }: Props) {
         className="textarea input-bordered w-full text-lg"
       />
       <p className="font-semibold mb-2">Předměty</p>
-      <div className="w-full grid grid-cols-2 gap-x-2 gap-y-1">
+      <div className="w-full grid grid-cols-1 gap-x-2 gap-y-1">
         {activeSubjects?.map((subject, index) => (
           <FormInputSubjectPart
             key={index}

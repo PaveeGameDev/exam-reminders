@@ -10,6 +10,7 @@ import ExamList from "@/app/components/homepage/ExamList";
 import ErrorTemplate from "@/app/components/Errors/ErrorTemplate";
 import { MinMaxDate } from "@/app/types/types";
 import HistoryButtons from "@/app/components/homepage/HistoryButtons";
+import {Footer} from "@/app/components/Footer";
 
 type Props = {
   searchParams: { [param: string]: string };
@@ -99,6 +100,7 @@ export default async function Home({ searchParams }: Props) {
         />
         <ExamList user={user} exams={exams} datesToShow={datesToShow} />
         <GoToWriteButton />
+        <Footer/>
       </div>
     </main>
   );

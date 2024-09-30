@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Footer } from "../components/Footer";
 
 export default function About() {
   return (
@@ -21,6 +22,7 @@ export default function About() {
         >
             Přihlásit se
         </Link>
+        <Footer/>
     </div>
   );
 }
