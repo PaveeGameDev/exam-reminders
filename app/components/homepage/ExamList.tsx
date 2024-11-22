@@ -27,6 +27,32 @@ export default async function ExamList({ exams, user, datesToShow }: Props) {
 
   let plantedAdvert: boolean = false;
 
+  if (user && user.classId &&
+      [1, 100, 123, 551, 680].includes(user.classId) || user && user.email &&
+      /^[\w.-]+@[\w.-]+\.gopat\.cz$/.test(user.email)
+  ){
+    dayViewWrappers.push(
+        <Advertisement
+            header="Koukni na Eknihovnu GO"
+            actionButtonText="Ukaž mi jak"
+            actionButtonRedirect="https://eknihovna.vercel.app"
+            showDownBar={true}
+            key="eknihovna"
+        >
+          <ul className="list-disc ml-10">
+            <li>Najdi oblíbenou literaturu.</li>
+            <li>
+              Připrav se na povinnou četbu.
+            </li>
+            <li>
+              Zjisti dostupnost knih v naší knihovně <p className="font-semibold inline">online</p>.
+            </li>
+          </ul>
+        </Advertisement>,
+    );
+    plantedAdvert = true;
+  }
+
   if (
     exams.length === 0 &&
     !plantedAdvert &&
