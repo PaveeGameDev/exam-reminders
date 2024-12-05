@@ -31,7 +31,7 @@ export default function Advertisement({
         navigator
           .share({
             title: document.title,
-            url: "https://exam-reminders.vercel.app/",
+            url: "https://www.copisem.cz/",
           })
           .then(() => {
             console.log("Shared successfully");
