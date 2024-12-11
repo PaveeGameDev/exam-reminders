@@ -9,7 +9,7 @@ export default function Share({ btnText, text }: Props) {
       navigator
         .share({
           title: document.title,
-          url: "https://exam-reminders.vercel.app/",
+          url: "https://www.copisem.cz/",
           text: text,
         })
         .then(() => {

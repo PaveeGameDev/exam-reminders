@@ -23,7 +23,7 @@ export default function AdvertisementManager({ user }: Props) {
   if (!user.classId || !user.email) return;
   if (
     //   ToDo - find a better way to differentiate between users from Opatov and from other schools
-    [1, 100, 123].includes(user.classId) ||
+    [1, 100, 123, 551, 680].includes(user.classId) ||
     /^[\w.-]+@[\w.-]+\.gopat\.cz$/.test(user.email)
   ) {
     advertisements.push(

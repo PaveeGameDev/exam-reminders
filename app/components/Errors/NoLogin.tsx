@@ -22,7 +22,7 @@ export default function NoLogin() {
           Zjistit víc
         </Link>
         <Link
-            href="https://exam-reminders-english.vercel.app"
+            href="https://www.copisem.cz"
             className="btn btn-accent w-1/2 h-16 text-xl text-center"
         >
           English version<br/>Anglická verze
