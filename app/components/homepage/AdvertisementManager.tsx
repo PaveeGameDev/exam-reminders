@@ -46,6 +46,25 @@ export default function AdvertisementManager({ user }: Props) {
         </ul>
       </Advertisement>,
     );
+
+    advertisements.push(
+        <Advertisement
+            header="Koukni na Eknihovnu GO"
+            actionButtonText="Ukaž mi jak"
+            actionButtonRedirect="https://eknihovna.vercel.app"
+            showDownBar={true}
+            key="eknihovna"
+        >
+          <ul className="list-disc ml-10">
+            <li>Najdi oblíbenou literaturu.</li>
+            <li>
+              Připrav se na povinnou četbu.
+            </li>
+            <li>
+              Zjisti dostupnost knih v naší knihovně <p className="font-semibold inline">online</p>.
+            </li>
+          </ul>
+        </Advertisement>);
   }
 
   if (os !== "MacOS")
