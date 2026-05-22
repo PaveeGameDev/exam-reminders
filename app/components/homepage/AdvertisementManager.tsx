@@ -92,6 +92,30 @@ export default function AdvertisementManager({ user }: Props) {
       </Advertisement>,
     );
 
+  if (os === "MacOS")
+    advertisements.push(
+        <Advertisement
+            header="Stáhni si CoPíšem?"
+            actionButtonText="Jdu na to"
+            actionButtonRedirect="https://apps.apple.com/app/cop%C3%AD%C5%A1em/id6770637118"
+            showDownBar={true}
+            key={0}
+        >
+          <ul className="list-disc ml-10">
+            <li>
+              CoPíšem? aplikace je{" "}
+              <p className="font-semibold inline">tady</p>
+            </li>
+            <li>Přidávej foto dokumenty k testům a užívej si nového designu</li>
+            <li>
+              <p className="font-semibold inline">
+                Podpoříš tím vývojáře Co Píšem
+              </p>
+            </li>
+          </ul>
+        </Advertisement>,
+    );
+
   if (!isPwa) {
     return (
       <Advertisement
