@@ -31,7 +31,7 @@ export default async function ExamOverviewFooter({
         <IrrelevantButton exam={exam} user={user} isIndividual={true} />
         <IrrelevantButton exam={exam} user={user} isIndividual={false} />
         <ExamOverviewChangeDate exam={exam} />
-        <Share
+          <Share
           btnText="Sdílej tento test"
           text={`${subject?.name} ${examType?.name} ${new Date(
             exam.date,
@@ -40,7 +40,7 @@ export default async function ExamOverviewFooter({
           } ${capitalizeFirstLetter(getDayName(exam.date, "cs-CZ"))}\n${
             bestExamNote.content
           }\nNapsal/a: ${shortenName(
-            examNoteAuthor?.name!,
+              examNoteAuthor?.name,
           )}\nAbyste se dozvěděli víc, navštivte: \n`}
         />
       </div>

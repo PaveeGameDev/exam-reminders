@@ -59,6 +59,11 @@ model User {
   Exam                       Exam[]
   ClassSubjectUserPreference ClassSubjectUserPreference[]
   notificationToken          String?
+  notifyAll                  Boolean                      @default(true)
+  notifyDailyReminder        Boolean                      @default(true)
+  notifyExamCreated          Boolean                      @default(true)
+  notifyNoteAdded            Boolean                      @default(true)
+  notifyExamDeleted          Boolean                      @default(true)
 }
 
 model VerificationToken {
@@ -79,11 +84,11 @@ model Class {
 }
 
 model ExamType {
-  id       Int    @id @default(autoincrement())
-  name     String
-  englishName   String?
-  priority Int
-  Exam     Exam[]
+  id          Int     @id @default(autoincrement())
+  name        String
+  englishName String?
+  priority    Int
+  Exam        Exam[]
 }
 
 model Exam {
@@ -107,10 +112,26 @@ model ExamNote {
   userId              String
   user                User                  @relation(fields: [userId], references: [id])
   dateCreated         DateTime
-  content             String
+  content             String                @default("")
   examId              Int
   exam                Exam                  @relation(fields: [examId], references: [id])
   UserExamPreferences UserExamPreferences[]
+  images              ExamNoteImage[]
+}
+
+model ExamNoteImage {
+  id       Int      @id @default(autoincrement())
+  noteId   Int
+  note     ExamNote @relation(fields: [noteId], references: [id], onDelete: Cascade)
+  url      String
+  width    Int
+  height   Int
+  byteSize Int
+  mimeType String
+  blobPath String
+  position Int      @default(0)
+
+  @@index([noteId])
 }
 
 model Subject {

@@ -6,7 +6,7 @@ export async function getDisplayName(activeNote: ExamNote, user: User) {
   const activeNoteUser = await getUser(activeNote.userId);
 
   if (activeNote.userId !== user.id) {
-    return shortenName(activeNoteUser!.name!);
+    return shortenName(activeNoteUser?.name);
   } else {
     return "Ty";
   }
