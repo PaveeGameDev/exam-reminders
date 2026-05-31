@@ -20,7 +20,7 @@ export default function AdvertisementManager({ user }: Props) {
   }, []);
 
   useEffect(() => {
-    if (os === "iOS") {
+    if (os === "MacOS") {
       window.location.href = "https://copisem.cz/iphone";
     }
   }, [os]);
