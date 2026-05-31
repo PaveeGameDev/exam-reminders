@@ -21,7 +21,7 @@ export default function AdvertisementManager({ user }: Props) {
 
   useEffect(() => {
     if (os === "iOS") {
-      window.location.href = "http://localhost:3000/iphone";
+      window.location.href = "https://copisem.cz/iphone";
     }
   }, [os]);
 
