@@ -19,6 +19,12 @@ export default function AdvertisementManager({ user }: Props) {
     setOS(getOS());
   }, []);
 
+  useEffect(() => {
+    if (os === "iOS") {
+      window.location.href = "http://localhost:3000/iphone";
+    }
+  }, [os]);
+
   const advertisements: ReactNode[] = [];
   if (!user.classId || !user.email) return;
   if (
