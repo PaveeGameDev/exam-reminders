@@ -1,10 +1,11 @@
 import prisma from "@/prisma/client";
 
 export const getSubjectNameById = async (
-  subjectId: number,
+    subjectId: number,
 ): Promise<string> => {
-  const subjects = await prisma.classSubjects.findMany({ where: {} });
-  const subject = subjects.find((subject) => subject.id === subjectId);
-  if (subject) return subject.name;
-  return "";
+  const subject = await prisma.classSubjects.findUnique({
+    where: { id: subjectId },
+    select: { name: true },
+  });
+  return subject?.name ?? "";
 };
